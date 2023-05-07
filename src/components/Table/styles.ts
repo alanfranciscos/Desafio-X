@@ -54,3 +54,38 @@ export const TableContainer = styled.table`
     color: white;
   }
 `;
+
+export const FooterContainer = styled.div`
+  width: 100%;
+
+  padding-top: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 5px;
+  border-top: 2px solid #cccccc;
+
+  p {
+    text-align: left;
+    font: normal normal normal SF Pro Display;
+    letter-spacing: 0px;
+    color: #686868;
+  }
+
+  svg {
+    cursor: pointer;
+  }
+`;
+
+export const SelectPage = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+
+  p {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+`;

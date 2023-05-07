@@ -1,8 +1,20 @@
 import { useState } from "react";
-import { Container, TableContainer, TableTitle } from "./styles";
+import {
+  Container,
+  FooterContainer,
+  SelectPage,
+  TableContainer,
+  TableTitle,
+} from "./styles";
 import { Button } from "./components/Button";
 
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import {
+  BsChevronCompactLeft,
+  BsChevronCompactRight,
+  BsChevronDoubleLeft,
+  BsChevronDoubleRight,
+} from "react-icons/bs";
 
 type TablePropsType = {
   data: any[];
@@ -90,6 +102,18 @@ export const Table = ({ data, dataKeys }: TablePropsType) => {
               })}
             </tbody>
           </TableContainer>
+          <FooterContainer>
+            <p>Exibindo de 1 a 10 de 51 registros</p>
+            <SelectPage>
+              <BsChevronDoubleLeft />
+              <BsChevronCompactLeft />
+              <p>1</p>
+              <p>2</p>
+              <p>3</p>
+              <BsChevronCompactRight />
+              <BsChevronDoubleRight />
+            </SelectPage>
+          </FooterContainer>
         </Container>
       ) : null}
     </>
