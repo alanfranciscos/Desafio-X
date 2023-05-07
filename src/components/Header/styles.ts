@@ -6,13 +6,13 @@ export const Container = styled.header`
   justify-content: space-between;
 
   width: 100%;
-  height: 115px;
+  height: 80px;
   background-color: #023e8a;
 
   img {
     margin-left: 27px;
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
   }
 `;
@@ -29,14 +29,14 @@ export const UserInfoContainer = styled.div`
 
   .textContainer {
     margin-left: 18px;
-    margin-right: 45px;
+    margin-right: 18px;
     h2 {
-      font: normal normal normal 24px/29px SF Pro Display;
-      margin-bottom: 13px;
+      font: normal normal normal SF Pro Display;
+      margin-bottom: 5px;
     }
 
     p {
-      font: normal normal 300 18px/22px SF Pro Display;
+      font: normal normal 300 SF Pro Display;
     }
   }
 
@@ -44,12 +44,12 @@ export const UserInfoContainer = styled.div`
     color: white;
   }
   .personIcon {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
   .exitIcon {
     cursor: pointer;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
 `;
