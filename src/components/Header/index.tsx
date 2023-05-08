@@ -3,11 +3,21 @@ import { Container, UserInfoContainer } from "./styles";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { MdOutlineExitToApp } from "react-icons/md";
 
-export const Header = () => {
+export const Header = ({
+  setsideBarIsOpen,
+}: {
+  setsideBarIsOpen: Function;
+}) => {
   return (
     <Container>
       <div>
-        <img src={logo} alt="logo" />
+        <img
+          src={logo}
+          alt="logo"
+          onClick={() =>
+            setsideBarIsOpen((prevSidebarIsOpen: boolean) => !prevSidebarIsOpen)
+          }
+        />
       </div>
       <UserInfoContainer>
         <div>

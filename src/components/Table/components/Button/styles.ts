@@ -13,4 +13,8 @@ export const ButtonContainer = styled.button`
   letter-spacing: 0px;
   color: #ffffff;
   cursor: pointer;
+
+  svg {
+    margin-left: 5px;
+  }
 `;
