@@ -9,9 +9,10 @@ export const Header = ({
   setsideBarIsOpen: Function;
 }) => {
   return (
-    <Container>
+    <Container data-testid="header">
       <div>
         <img
+          data-testid="header-logo"
           src={logo}
           alt="logo"
           onClick={() =>
@@ -19,16 +20,22 @@ export const Header = ({
           }
         />
       </div>
-      <UserInfoContainer>
+      <UserInfoContainer data-testid="header-user">
         <div>
-          <IoPersonCircleOutline className="personIcon" />
+          <IoPersonCircleOutline
+            className="personIcon"
+            data-testid="header-user-person-icon"
+          />
         </div>
-        <div className="textContainer">
+        <div className="textContainer" data-testid="header-user-info">
           <h2>João Da Silva</h2>
           <p>Admnistador</p>
         </div>
         <div>
-          <MdOutlineExitToApp className="exitIcon" />
+          <MdOutlineExitToApp
+            className="exitIcon"
+            data-testid="header-user-logout-icon"
+          />
         </div>
       </UserInfoContainer>
     </Container>
