@@ -6,7 +6,7 @@ export const SideBar = ({
   sideBarIsOpen: boolean | undefined;
 }) => {
   return (
-    <Container closed={!sideBarIsOpen} data-testid="sidebar">
+    <Container notClosed={sideBarIsOpen} data-testid="sidebar">
       <h2>GESTÃO DE CLIENTES</h2>
       <ul>
         <li>Lista de clientes</li>

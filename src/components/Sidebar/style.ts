@@ -1,7 +1,7 @@
 import styled, { css, keyframes } from "styled-components";
 
 type ContainerProps = {
-  closed?: boolean;
+  notClosed?: boolean;
 };
 
 const open = keyframes`
@@ -41,14 +41,19 @@ const dontHover = keyframes`
 `;
 
 export const Container = styled.aside<ContainerProps>`
-  ${({ closed }) =>
-    closed
+  ${({ notClosed }) =>
+    notClosed === undefined
       ? css`
-          animation: ${close} 1s;
+          width: 0% !important;
+          animation: none;
+        `
+      : notClosed
+      ? css`
+          animation: ${open} ${notClosed === undefined ? "0s" : "1s"};
           animation-fill-mode: forwards;
         `
       : css`
-          animation: ${open} ${closed === undefined ? "0s" : "1s"};
+          animation: ${close} 1s;
           animation-fill-mode: forwards;
         `};
   position: fixed;
