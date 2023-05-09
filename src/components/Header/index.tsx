@@ -16,6 +16,10 @@ export const Header = ({
           src={logo}
           alt="logo"
           onClick={() =>
+            /* 
+            Aqui, pegamos o estado anterior e dizemos que ele vale o inverso.
+            Pegamos por prevState pra que não precisassemos passar por parâmetro também o estado atual.
+            */
             setsideBarIsOpen((prevSidebarIsOpen: boolean) => !prevSidebarIsOpen)
           }
         />
