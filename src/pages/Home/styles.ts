@@ -26,13 +26,13 @@ export const InputContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 3px;
 
     white-space: nowrap;
     padding-left: 10px;
     padding-right: 10px;
 
     height: 40px;
-    /* UI Properties */
     background: #023e8a 0% 0% no-repeat padding-box;
     opacity: 1;
     color: #ffffff;

@@ -1,11 +1,18 @@
+import { useState } from "react";
 import { Header } from "../Header";
-import { Content } from "./styles";
+import { SideBar } from "../Sidebar";
+import { Container, Content, PageContainer } from "./styles";
 
 export const Layout = ({ children }: { children: any }) => {
+  const [sideBarIsOpen, setsideBarIsOpen] = useState(false);
+
   return (
-    <>
-      <Header />
-      <Content>{children}</Content>
-    </>
+    <Container>
+      <Header setsideBarIsOpen={setsideBarIsOpen} />
+      <PageContainer>
+        <SideBar sideBarIsOpen={sideBarIsOpen} />
+        <Content>{children}</Content>
+      </PageContainer>
+    </Container>
   );
 };
