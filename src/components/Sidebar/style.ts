@@ -1,4 +1,22 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const hover = keyframes`
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const dontHover = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.5;
+  }
+`;
 
 export const Container = styled.aside`
   position: fixed;
@@ -24,6 +42,12 @@ export const Container = styled.aside`
     font: normal normal medium SF Pro Display;
     letter-spacing: 0px;
     color: #ffffff;
+    animation: ${dontHover} 0.5s;
     opacity: 0.5;
+
+    :hover {
+      animation: ${hover} 0.5s;
+      opacity: 1;
+    }
   }
 `;
