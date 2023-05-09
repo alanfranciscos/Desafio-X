@@ -1,8 +1,12 @@
 import { Container } from "./style";
 
-export const SideBar = () => {
+export const SideBar = ({
+  sideBarIsOpen,
+}: {
+  sideBarIsOpen: boolean | undefined;
+}) => {
   return (
-    <Container>
+    <Container closed={!sideBarIsOpen} data-testid="sidebar">
       <h2>GESTÃO DE CLIENTES</h2>
       <ul>
         <li>Lista de clientes</li>
@@ -15,7 +19,7 @@ export const SideBar = () => {
         <li>Cadastrar venda</li>
       </ul>
 
-      <h2>Relatórios</h2>
+      <h2>RELATÓRIOS</h2>
       <ul>
         <li>Relatórios</li>
       </ul>

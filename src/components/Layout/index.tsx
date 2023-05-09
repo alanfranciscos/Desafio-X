@@ -10,7 +10,7 @@ export const Layout = ({ children }: { children: any }) => {
     <Container>
       <Header setsideBarIsOpen={setsideBarIsOpen} />
       <PageContainer>
-        {sideBarIsOpen ? <SideBar /> : null}
+        <SideBar sideBarIsOpen={sideBarIsOpen} />
         <Content>{children}</Content>
       </PageContainer>
     </Container>

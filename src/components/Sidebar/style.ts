@@ -1,4 +1,26 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
+
+type ContainerProps = {
+  closed?: boolean;
+};
+
+const open = keyframes`
+  from {
+    width: 0px;
+  }
+  to {
+    width: 15.625rem;
+  }
+`;
+
+const close = keyframes`
+  from {
+    width: 15.625rem;
+  }
+  to {
+    width: 0px;
+  }
+`;
 
 const hover = keyframes`
   from {
@@ -18,9 +40,18 @@ const dontHover = keyframes`
   }
 `;
 
-export const Container = styled.aside`
+export const Container = styled.aside<ContainerProps>`
+  ${({ closed }) =>
+    closed
+      ? css`
+          animation: ${close} 1s;
+          animation-fill-mode: forwards;
+        `
+      : css`
+          animation: ${open} ${closed === undefined ? "0s" : "1s"};
+          animation-fill-mode: forwards;
+        `};
   position: fixed;
-  width: 280px;
   height: 100%;
   background-color: #023e8a;
   z-index: 1 !important;
