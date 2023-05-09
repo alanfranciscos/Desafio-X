@@ -56,6 +56,7 @@ export const Container = styled.aside<ContainerProps>`
   background-color: #023e8a;
   z-index: 1 !important;
   border-top: #ffffff 3px solid;
+  overflow: hidden;
 
   h2 {
     margin-left: 32px;
@@ -64,14 +65,7 @@ export const Container = styled.aside<ContainerProps>`
     letter-spacing: 0px;
     color: #ffffff;
 
-    ${({ closed }) =>
-      closed
-        ? css`
-            display: none;
-          `
-        : css`
-            display: block;
-          `};
+    white-space: nowrap;
   }
   li {
     margin-left: 32px;
@@ -89,14 +83,6 @@ export const Container = styled.aside<ContainerProps>`
       animation: ${hover} 0.5s;
       opacity: 1;
     }
-
-    ${({ closed }) =>
-      closed
-        ? css`
-            display: none;
-          `
-        : css`
-            display: block;
-          `};
+    white-space: nowrap;
   }
 `;
