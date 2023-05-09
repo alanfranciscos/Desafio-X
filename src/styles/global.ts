@@ -24,4 +24,7 @@ export default createGlobalStyle`
     h6{
         font-size: .67em;
     }
+    button {
+        border: none;
+    }
 `;

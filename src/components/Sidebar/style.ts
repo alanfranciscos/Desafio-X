@@ -63,6 +63,15 @@ export const Container = styled.aside<ContainerProps>`
     font: normal normal medium SF Pro Display;
     letter-spacing: 0px;
     color: #ffffff;
+
+    ${({ closed }) =>
+      closed
+        ? css`
+            display: none;
+          `
+        : css`
+            display: block;
+          `};
   }
   li {
     margin-left: 32px;
@@ -80,5 +89,14 @@ export const Container = styled.aside<ContainerProps>`
       animation: ${hover} 0.5s;
       opacity: 1;
     }
+
+    ${({ closed }) =>
+      closed
+        ? css`
+            display: none;
+          `
+        : css`
+            display: block;
+          `};
   }
 `;
