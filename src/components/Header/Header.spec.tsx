@@ -1,4 +1,4 @@
-import { screen, render } from "@testing-library/react";
+import { screen, render, fireEvent } from "@testing-library/react";
 import { Header } from ".";
 
 describe("Header test", () => {
@@ -27,5 +27,22 @@ describe("Header test", () => {
     expect(userIcon).toBeInTheDocument();
     expect(userInfo).toBeInTheDocument();
     expect(logoutIcon).toBeInTheDocument();
+  });
+
+  it("should handle sidebar open variable", () => {
+    let sidebarIsOpen = false;
+
+    const handleSideBarIsOpen = () => {
+      sidebarIsOpen = !sidebarIsOpen;
+    };
+
+    render(<Header setsideBarIsOpen={handleSideBarIsOpen} />);
+
+    expect(sidebarIsOpen).toBe(false);
+
+    const logo = screen.getByTestId("header-logo");
+    fireEvent.click(logo);
+
+    expect(sidebarIsOpen).toBe(true);
   });
 });
