@@ -22,9 +22,9 @@ export const InputGroup = styled.div`
 `;
 
 export const Container = styled.div`
+  display: flex;
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -61,4 +61,28 @@ export const MapContainer = styled.div`
   width: 95%;
   height: 200px;
   margin-top: 10px;
+`;
+
+export const ConfirmationContainer = styled.div`
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+
+  button {
+    padding: 5px;
+    width: 100px;
+  }
+
+  .button-cancel {
+    background: #cccccc;
+    border-radius: 3px;
+    letter-spacing: 0px;
+    color: #263238;
+  }
+
+  .button-confirm {
+    background: #407bff;
+    border-radius: 3px;
+  }
 `;

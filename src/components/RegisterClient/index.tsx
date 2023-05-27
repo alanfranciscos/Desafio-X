@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import { Input } from "../Form/Input";
 import {
+  ConfirmationContainer,
   Container,
   Form,
   InputGroup,
@@ -15,7 +16,6 @@ import { IBGE_API } from "../../services/api";
 import { LatLngTuple } from "leaflet";
 import { SelectInput } from "../Form/SelectInput";
 import { MapStatus } from "../Map/MapStauts";
-import { error } from "console";
 
 export const RegisterCliet = ({
   modalIsOpen,
@@ -24,14 +24,14 @@ export const RegisterCliet = ({
   modalIsOpen: boolean;
   setModalIsOpen: Function;
 }) => {
-  const [inputName, setInputName] = useState("");
-  const [inputCNPJ, setInputCNPJ] = useState("");
-  const [inputPhone, setInputPhone] = useState("");
-  const [inputUF, setInputUF] = useState("");
-  const [inputEMAIL, setInputEMAIL] = useState("");
   const [formInputs, setFormInputs] = useState({
-    inputLocation: [0, 0] as LatLngTuple,
+    name: "",
+    cnpj: "",
+    phone: "",
+    email: "",
   });
+  const [location, setInputLocation] = useState([0, 0] as LatLngTuple);
+  const [inputUF, setInputUF] = useState("");
   const [locationsIsSetted, setLocationsIsSetted] = useState(false);
 
   const { data, isLoading, isFetching, isError } = useQuery(
@@ -65,13 +65,10 @@ export const RegisterCliet = ({
       const { data } = await IBGE_API.getMetadata(inputUF);
 
       const coordinates = data?.[0]?.centroide;
-      setFormInputs({
-        ...formInputs,
-        inputLocation: [
-          coordinates?.latitude,
-          coordinates?.longitude,
-        ] as LatLngTuple,
-      });
+      setInputLocation([
+        coordinates?.latitude,
+        coordinates?.longitude,
+      ] as LatLngTuple);
 
       setLocationsIsSetted(true);
 
@@ -111,23 +108,38 @@ export const RegisterCliet = ({
                 isRequired
                 placeholder=""
                 title="Nome"
-                content={(value: string) => setInputName(value)}
-                value={inputName}
+                content={(value: string) =>
+                  setFormInputs({
+                    ...formInputs,
+                    name: value,
+                  })
+                }
+                value={formInputs.name}
               />
               <InputGroup>
                 <Input
                   isRequired
                   placeholder=""
                   title="CNPJ"
-                  content={(value: string) => setInputCNPJ(value)}
-                  value={inputCNPJ}
+                  content={(value: string) =>
+                    setFormInputs({
+                      ...formInputs,
+                      cnpj: value,
+                    })
+                  }
+                  value={formInputs?.cnpj}
                 />
                 <Input
                   isRequired
                   placeholder=""
                   title="Telefone"
-                  content={(value: string) => setInputPhone(value)}
-                  value={inputPhone}
+                  content={(value: string) =>
+                    setFormInputs({
+                      ...formInputs,
+                      phone: value,
+                    })
+                  }
+                  value={formInputs?.phone}
                 />
               </InputGroup>
               <InputGroup>
@@ -136,14 +148,19 @@ export const RegisterCliet = ({
                   isRequired
                   placeholder=""
                   title="E-mail"
-                  content={(value: string) => setInputEMAIL(value)}
-                  value={inputEMAIL}
+                  content={(value: string) =>
+                    setFormInputs({
+                      ...formInputs,
+                      email: value,
+                    })
+                  }
+                  value={formInputs?.email}
                 />
               </InputGroup>
               {inputUF !== "" ? (
                 <span>Arraste o ponteiro para a localização desejada</span>
               ) : (
-                <span>Selecione um UF</span>
+                <span>Selecione um inputUF</span>
               )}
               <MapContainer>
                 {!isLoadingMetaData &&
@@ -157,9 +174,7 @@ export const RegisterCliet = ({
                       center={metaData ? metaData : [0, 0]}
                       zoom={6}
                       setPosition={(value: LatLngTuple) =>
-                        setFormInputs({
-                          inputLocation: value,
-                        })
+                        setInputLocation(value)
                       }
                     />
                   </>
@@ -175,6 +190,10 @@ export const RegisterCliet = ({
                   />
                 )}
               </MapContainer>
+              <ConfirmationContainer>
+                <button className="button-cancel">Cancelar</button>
+                <button className="button-confirm">Salvar</button>
+              </ConfirmationContainer>
             </Form>
           </ModalContent>
         </Container>

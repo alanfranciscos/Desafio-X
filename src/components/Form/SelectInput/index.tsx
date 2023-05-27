@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { SelectContainer } from "./styles";
 
@@ -28,7 +28,6 @@ export const SelectInput = ({
           </select>
         ) : (
           <select disabled className="select-disable" placeholder="Sem dados">
-            {" "}
             <option selected={false} value="">
               Sem dados
             </option>
