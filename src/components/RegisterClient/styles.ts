@@ -84,5 +84,6 @@ export const ConfirmationContainer = styled.div`
   .button-confirm {
     background: #407bff;
     border-radius: 3px;
+    color: #ffffff;
   }
 `;
