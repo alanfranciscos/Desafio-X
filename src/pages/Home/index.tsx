@@ -1,39 +1,90 @@
+import { useState } from "react";
+import { useQuery } from "react-query";
 import { Table } from "../../components/Table";
 import { Container, InputContainer, SearchContainer } from "./styles";
 
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsPlusLg } from "react-icons/bs";
+import { CLIENTS_API } from "../../services/api";
+import { RegisterCliet } from "../../components/RegisterClient";
+
+type returnDataProps = {
+  location?: object;
+  nome?: String;
+  cnpj?: String;
+  telefone?: String;
+  estado?: String;
+};
 
 export const Home = () => {
-  const data = [
-    {
-      nome: "Comércio de Livros LTDA",
-      cnpj: "85.681.832/0001-73",
-      email: "comerciodelivros@email.com",
-      telefone: "(35) 99487-1548",
-    },
-    {
-      nome: "Aomércio de Livros LTDA",
-      cnpj: "85.681.832/0001-73",
-      email: "comerciodelivros@email.com",
-      telefone: "(35) 99487-1548",
-    },
-    {
-      nome: "Comércio de Livros LTDA",
-      cnpj: "85.681.832/0001-73",
-      email: "comerciodelivros@email.com",
-      telefone: "(35) 99487-1548",
-    },
-    {
-      nome: "Comércio de Livros LTDA",
-      cnpj: "85.681.832/0001-73",
-      email: "comerciodelivros@email.com",
-      telefone: "(35) 99487-1548",
-    },
-  ];
+  const [modalIsOpen, setModalIsOpen] = useState({
+    registerClient: false,
+  });
+
+  const [chartData, setChartData] = useState({
+    data: [],
+    totalPages: null,
+  });
+
+  const [chartFilter, setChartFilter] = useState({
+    atualPage: 0,
+    sorted: "nome",
+  });
+
+  const { data, isLoading, isFetching, isError } = useQuery(
+    ["clients", chartFilter],
+    async () => {
+      const { data } = await CLIENTS_API.get(0, "nome");
+      data?.content?.map((element: returnDataProps) => {
+        delete element?.location;
+        delete element?.estado;
+      });
+      delete data?.content?.location;
+      setChartData({
+        ...chartData,
+        data: data?.content,
+        totalPages: data?.totalPages,
+      });
+      return data;
+    }
+  );
+
+  // const data = [
+  //   {
+  //     nome: "Comércio de Livros LTDA",
+  //     cnpj: "85.681.832/0001-73",
+  //     email: "comerciodelivros@email.com",
+  //     telefone: "(35) 99487-1548",
+  //   },
+  //   {
+  //     nome: "Aomércio de Livros LTDA",
+  //     cnpj: "85.681.832/0001-73",
+  //     email: "comerciodelivros@email.com",
+  //     telefone: "(35) 99487-1548",
+  //   },
+  //   {
+  //     nome: "Comércio de Livros LTDA",
+  //     cnpj: "85.681.832/0001-73",
+  //     email: "comerciodelivros@email.com",
+  //     telefone: "(35) 99487-1548",
+  //   },
+  //   {
+  //     nome: "Comércio de Livros LTDA",
+  //     cnpj: "85.681.832/0001-73",
+  //     email: "comerciodelivros@email.com",
+  //     telefone: "(35) 99487-1548",
+  //   },
+  // ];
 
   return (
     <Container>
+      {/* modals */}
+      <RegisterCliet
+        modalIsOpen={modalIsOpen?.registerClient}
+        setModalIsOpen={setModalIsOpen}
+      />
+      {/* end modals */}
+
       <h1>Lista de Clientes</h1>
       <InputContainer>
         <SearchContainer>
@@ -42,12 +93,22 @@ export const Home = () => {
             <AiOutlineSearch />
           </button>
         </SearchContainer>
-        <button className="register">
+        <button
+          className="register"
+          onClick={() =>
+            setModalIsOpen({
+              registerClient: !modalIsOpen?.registerClient,
+            })
+          }
+        >
           <BsPlusLg />
           &nbsp; Cadastrar cliente
         </button>
       </InputContainer>
-      <Table data={data} dataKeys={["Nome", "CNPJ", "Email", "Telefone"]} />
+      <Table
+        data={chartData?.data}
+        dataKeys={["Nome", "CNPJ", "Email", "Telefone"]}
+      />
     </Container>
   );
 };

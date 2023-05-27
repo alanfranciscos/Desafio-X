@@ -4,7 +4,7 @@ import { SideBar } from "../Sidebar";
 import { Container, Content, PageContainer } from "./styles";
 
 export const Layout = ({ children }: { children: any }) => {
-  const [sideBarIsOpen, setsideBarIsOpen] = useState(false);
+  const [sideBarIsOpen, setsideBarIsOpen] = useState(undefined);
 
   return (
     <Container>
