@@ -12,10 +12,11 @@ import {
 } from "./styles";
 import { Map } from "../Map";
 import { useQuery } from "react-query";
-import { IBGE_API } from "../../services/api";
+import { CLIENTS_API, IBGE_API } from "../../services/api";
 import { LatLngTuple } from "leaflet";
 import { SelectInput } from "../Form/SelectInput";
 import { MapStatus } from "../Map/MapStauts";
+import { ModalStatus } from "./Components/ModalStatus";
 
 export const RegisterCliet = ({
   modalIsOpen,
@@ -33,6 +34,21 @@ export const RegisterCliet = ({
   const [location, setInputLocation] = useState([0, 0] as LatLngTuple);
   const [inputUF, setInputUF] = useState("");
   const [locationsIsSetted, setLocationsIsSetted] = useState(false);
+  const [status, setStatus] = useState<undefined | boolean>(undefined);
+
+  const reestoreFilters = () => {
+    setFormInputs({
+      name: "",
+      cnpj: "",
+      phone: "",
+      email: "",
+    });
+    setInputLocation([0, 0]);
+    setInputUF("");
+    setLocationsIsSetted(false);
+    setStatus(undefined);
+    setModalIsOpen(false);
+  };
 
   const { data, isLoading, isFetching, isError } = useQuery(
     ["ibge - states"],
@@ -80,6 +96,34 @@ export const RegisterCliet = ({
       enabled: !!inputUF,
     }
   );
+
+  const createClient = async () => {
+    if (
+      formInputs?.name?.length &&
+      formInputs?.cnpj?.length &&
+      inputUF?.length &&
+      formInputs?.phone &&
+      locationsIsSetted
+    ) {
+      CLIENTS_API.create({
+        nome: formInputs?.name,
+        cnpj: formInputs?.cnpj,
+        estado: inputUF,
+        telefone: formInputs?.phone,
+        email: formInputs?.email,
+        location: {
+          x: location?.[0],
+          y: location?.[1],
+        },
+      })
+        .then(function () {
+          setStatus(true);
+        })
+        .catch(function () {
+          setStatus(false);
+        });
+    }
+  };
 
   const [modal, setModal] = useState(document?.getElementById("modal"));
 
@@ -166,6 +210,7 @@ export const RegisterCliet = ({
                 {!isLoadingMetaData &&
                 locationsIsSetted &&
                 !isFetchingMetaData &&
+                status === undefined &&
                 inputUF !== "" ? (
                   <>
                     <Map
@@ -191,10 +236,27 @@ export const RegisterCliet = ({
                 )}
               </MapContainer>
               <ConfirmationContainer>
-                <button className="button-cancel">Cancelar</button>
-                <button className="button-confirm">Salvar</button>
+                <button
+                  className="button-cancel"
+                  onClick={() => {
+                    setModalIsOpen(false);
+                  }}
+                >
+                  Cancelar
+                </button>
+                <button className="button-confirm" onClick={createClient}>
+                  Salvar
+                </button>
               </ConfirmationContainer>
             </Form>
+            {status !== undefined ? (
+              <ModalStatus
+                status={status}
+                confirm={function () {
+                  reestoreFilters();
+                }}
+              />
+            ) : null}
           </ModalContent>
         </Container>
       ) : null}

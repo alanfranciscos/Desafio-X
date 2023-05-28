@@ -72,6 +72,7 @@ export const ConfirmationContainer = styled.div`
   button {
     padding: 5px;
     width: 100px;
+    cursor: pointer;
   }
 
   .button-cancel {
