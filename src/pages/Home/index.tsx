@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { Table } from "../../components/Table";
+import { Table } from "../../components/NewTable";
 import { Container, InputContainer, SearchContainer } from "./styles";
 
 import { AiOutlineSearch } from "react-icons/ai";
@@ -26,15 +26,19 @@ export const Home = () => {
     totalPages: null,
   });
 
-  const [chartFilter, setChartFilter] = useState({
+  const [tableFilter, setTableFilter] = useState({
     atualPage: 0,
     sorted: "nome",
+    sortedDefault: "nome",
   });
 
   const { data, isLoading, isFetching, isError } = useQuery(
-    ["clients", chartFilter],
+    ["clients", tableFilter],
     async () => {
-      const { data } = await CLIENTS_API.get(0, "nome");
+      const { data } = await CLIENTS_API.get(
+        0,
+        tableFilter?.sorted.toLowerCase()
+      );
       data?.content?.map((element: returnDataProps) => {
         delete element?.location;
         delete element?.estado;
@@ -108,6 +112,8 @@ export const Home = () => {
       <Table
         data={chartData?.data}
         dataKeys={["Nome", "CNPJ", "Email", "Telefone"]}
+        filter={tableFilter}
+        setFilter={setTableFilter}
       />
     </Container>
   );
