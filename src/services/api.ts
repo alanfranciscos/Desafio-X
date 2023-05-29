@@ -21,8 +21,10 @@ export const api = axios.create({
 });
 
 export const CLIENTS_API = {
-  get: (page: number, sortColumn: String) =>
-    api.get(`/clients?page=${page}&sortColumn=${sortColumn}`),
+  get: (page: number, sortColumn: String, sortOrder: string) =>
+    api.get(
+      `/clients?page=${page}&sortColumn=${sortColumn}&sortOrder=${sortOrder}`
+    ),
   create: (data: ClientProps) => api.post("/clients", data),
 };
 

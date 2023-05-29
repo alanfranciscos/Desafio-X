@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   FooterContainer,
@@ -19,7 +19,7 @@ import { Button } from "./components/Button";
 type FilterPropsType = {
   atualPage: number;
   sorted: string;
-  sortedDefault: string;
+  sortOrder: string;
 };
 
 type TablePropsType = {
@@ -27,6 +27,8 @@ type TablePropsType = {
   dataKeys: String[];
   filter: FilterPropsType;
   setFilter: Function;
+  numberOfPages: number;
+  totalElements: number;
 };
 
 export const Table = ({
@@ -34,10 +36,22 @@ export const Table = ({
   dataKeys,
   setFilter,
   filter,
+  numberOfPages,
+  totalElements,
 }: TablePropsType) => {
   const [arrowDirection, setArrowDirection] = useState(
     new Array(...dataKeys)?.fill("Down", 0, dataKeys?.length)
   );
+
+  const [pages, setPages] = useState([0]);
+
+  useEffect(() => {
+    const pages = [];
+    for (let i = 0; i < numberOfPages; i++) {
+      pages.push(i + 1);
+    }
+    setPages(pages);
+  }, [numberOfPages]);
 
   const handleArrowDirection = (index: number, value: String) => {
     let i = 0;
@@ -60,6 +74,13 @@ export const Table = ({
     setArrowDirection(aux);
   };
 
+  const handleSortOrder = () => {
+    if (filter?.sortOrder === "asc") {
+      return "desc";
+    }
+    return "asc";
+  };
+
   return (
     <>
       {data?.length && dataKeys?.length ? (
@@ -75,12 +96,14 @@ export const Table = ({
                       if (value === filter?.sorted) {
                         setFilter((prevState: any) => ({
                           ...prevState,
-                          sorted: filter?.sortedDefault,
+                          sorted: value,
+                          sortOrder: handleSortOrder(),
                         }));
-                        handleArrowDirection(0, filter?.sortedDefault);
+                        handleArrowDirection(index, value);
                       } else {
                         setFilter((prevState: any) => ({
                           ...prevState,
+                          sortOrder: "asc",
                           sorted: value,
                         }));
                         handleArrowDirection(index, value);
@@ -115,15 +138,59 @@ export const Table = ({
             </tbody>
           </TableContainer>
           <FooterContainer>
-            <p>Exibindo de 1 a 10 de 51 registros</p>
+            <p>{`Exibindo de ${(filter?.atualPage + 1) * 10 - 9} a ${
+              (filter?.atualPage + 1) * 10 > totalElements
+                ? totalElements
+                : (filter?.atualPage + 1) * 10
+            } de ${totalElements} registros`}</p>
             <SelectPage>
-              <BsChevronDoubleLeft />
-              <BsChevronCompactLeft />
-              <p>1</p>
-              <p>2</p>
-              <p>3</p>
-              <BsChevronCompactRight />
-              <BsChevronDoubleRight />
+              <BsChevronDoubleLeft
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    atualPage: 0,
+                  })
+                }
+              />
+              <BsChevronCompactLeft
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    atualPage: filter?.atualPage - 1,
+                  })
+                }
+              />
+              {pages?.map((i) => {
+                return (
+                  <p
+                    className={pages?.length === i ? "last-item" : "item"}
+                    onClick={() =>
+                      setFilter({
+                        ...filter,
+                        atualPage: i - 1,
+                      })
+                    }
+                  >
+                    {i}
+                  </p>
+                );
+              })}
+              <BsChevronCompactRight
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    atualPage: filter?.atualPage + 1,
+                  })
+                }
+              />
+              <BsChevronDoubleRight
+                onClick={() =>
+                  setFilter({
+                    ...filter,
+                    atualPage: numberOfPages - 1,
+                  })
+                }
+              />
             </SelectPage>
           </FooterContainer>
         </Container>

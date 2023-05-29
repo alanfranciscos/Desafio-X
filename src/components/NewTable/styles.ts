@@ -48,16 +48,10 @@ export const TableContainer = styled.table`
   tr th {
     cursor: pointer;
   }
-
-  th.active {
-    background-color: #4caf50;
-    color: white;
-  }
 `;
 
 export const FooterContainer = styled.div`
   width: 100%;
-
   padding-top: 10px;
 
   display: flex;
@@ -85,7 +79,14 @@ export const SelectPage = styled.div`
   margin-right: 30px;
 
   p {
-    margin-right: 10px;
     cursor: pointer;
+  }
+
+  .item {
+    margin-right: 10px;
+  }
+
+  .last-item {
+    margin-right: 0px;
   }
 `;

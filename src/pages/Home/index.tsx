@@ -23,32 +23,38 @@ export const Home = () => {
 
   const [chartData, setChartData] = useState({
     data: [],
-    totalPages: null,
+    totalPages: -1,
+    totalElements: -1,
   });
 
   const [tableFilter, setTableFilter] = useState({
     atualPage: 0,
-    sorted: "nome",
-    sortedDefault: "nome",
+    sorted: "Nome",
+    sortOrder: "asc", // asc | desc
   });
 
   const { data, isLoading, isFetching, isError } = useQuery(
     ["clients", tableFilter],
     async () => {
       const { data } = await CLIENTS_API.get(
-        0,
-        tableFilter?.sorted.toLowerCase()
+        tableFilter?.atualPage,
+        tableFilter?.sorted.toLowerCase(),
+        tableFilter?.sortOrder
       );
+
       data?.content?.map((element: returnDataProps) => {
         delete element?.location;
         delete element?.estado;
       });
+
       delete data?.content?.location;
       setChartData({
         ...chartData,
         data: data?.content,
         totalPages: data?.totalPages,
+        totalElements: data?.totalElements,
       });
+
       return data;
     }
   );
@@ -111,6 +117,8 @@ export const Home = () => {
       </InputContainer>
       <Table
         data={chartData?.data}
+        numberOfPages={chartData?.totalPages}
+        totalElements={chartData?.totalElements}
         dataKeys={["Nome", "CNPJ", "Email", "Telefone"]}
         filter={tableFilter}
         setFilter={setTableFilter}
