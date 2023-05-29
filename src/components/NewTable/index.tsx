@@ -15,6 +15,7 @@ import {
   BsChevronDoubleRight,
 } from "react-icons/bs";
 import { Button } from "./components/Button";
+import { Modal } from "./components/Modal";
 
 type FilterPropsType = {
   atualPage: number;
@@ -42,6 +43,12 @@ export const Table = ({
   const [arrowDirection, setArrowDirection] = useState(
     new Array(...dataKeys)?.fill("Down", 0, dataKeys?.length)
   );
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [coordinatesClick, setCoordinatesClick] = useState({
+    x: 0,
+    y: 0,
+  });
 
   const [pages, setPages] = useState([0]);
 
@@ -84,7 +91,13 @@ export const Table = ({
   return (
     <>
       {data?.length && dataKeys?.length ? (
-        <Container>
+        <Container id="container">
+          {modalIsOpen ? (
+            <Modal
+              coordinates={coordinatesClick}
+              closeModal={() => setModalIsOpen(false)}
+            />
+          ) : null}
           <TableTitle>Clientes cadastrados</TableTitle>
           <TableContainer>
             <thead className="thead">
@@ -128,7 +141,15 @@ export const Table = ({
                     {Object?.keys(item)?.map((value) => (
                       <td>{item?.[value]}</td>
                     ))}
-                    <Button>
+                    <Button
+                      openModal={(event: any) => {
+                        setCoordinatesClick({
+                          x: event?.clientX,
+                          y: event?.clientY,
+                        });
+                        setModalIsOpen(true);
+                      }}
+                    >
                       Ações
                       <IoIosArrowDown />
                     </Button>

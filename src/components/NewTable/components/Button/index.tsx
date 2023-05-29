@@ -1,5 +1,13 @@
 import { ButtonContainer } from "./styles";
 
-export const Button = ({ children }: { children: any }) => {
-  return <ButtonContainer>{children}</ButtonContainer>;
+export const Button = ({
+  children,
+  openModal,
+}: {
+  children: any;
+  openModal: Function;
+}) => {
+  return (
+    <ButtonContainer onClick={(e) => openModal(e)}>{children}</ButtonContainer>
+  );
 };
