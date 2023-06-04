@@ -33,12 +33,9 @@ export const Modal = ({
     ["clients", id],
     async () => {
       const { data } = await CLIENTS_API.getPerCNPJ(cnpjToNumbers(id));
-      console.log(data);
       return data;
     }
   );
-
-  console.log(data);
 
   const verifyWidthOfModal = () => {
     const modalWidth = document?.querySelector("#modal-content")?.clientWidth;

@@ -7,6 +7,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BsPlusLg } from "react-icons/bs";
 import { CLIENTS_API } from "../../services/api";
 import { RegisterCliet } from "../../components/RegisterClient";
+import { cnpjToNumbers } from "../../utils/cnpj";
 
 type returnDataProps = {
   location?: object;
@@ -22,7 +23,7 @@ export const Home = () => {
   });
 
   const [chartData, setChartData] = useState({
-    data: [],
+    data: [{}],
     totalPages: -1,
     totalElements: -1,
   });
@@ -33,27 +34,44 @@ export const Home = () => {
     sortOrder: "asc", // asc | desc
   });
 
-  useQuery(["clients", tableFilter], async () => {
-    const { data } = await CLIENTS_API.get(
-      tableFilter?.atualPage,
-      tableFilter?.sorted.toLowerCase(),
-      tableFilter?.sortOrder
-    );
+  const [inputSearch, setInputSearch] = useState("");
+  const [idSearch, setIdSerach] = useState("");
 
-    data?.content?.forEach((element: returnDataProps) => {
-      delete element?.location;
-      delete element?.estado;
-    });
+  useQuery(["clients", tableFilter, idSearch], async () => {
+    if (!idSearch) {
+      const { data } = await CLIENTS_API.get(
+        tableFilter?.atualPage,
+        tableFilter?.sorted.toLowerCase(),
+        tableFilter?.sortOrder
+      );
 
-    delete data?.content?.location;
-    setChartData({
-      ...chartData,
-      data: data?.content,
-      totalPages: data?.totalPages,
-      totalElements: data?.totalElements,
-    });
+      data?.content?.forEach((element: returnDataProps) => {
+        delete element?.location;
+        delete element?.estado;
+      });
 
-    return data;
+      setChartData({
+        ...chartData,
+        data: data?.content,
+        totalPages: data?.totalPages,
+        totalElements: data?.totalElements,
+      });
+      return data;
+    } else {
+      const { data } = await CLIENTS_API.getPerCNPJ(cnpjToNumbers(idSearch));
+
+      delete data.location;
+      delete data.estado;
+      const newData = [data];
+
+      setChartData({
+        ...chartData,
+        data: newData,
+        totalPages: 0,
+        totalElements: 1,
+      });
+      return data;
+    }
   });
 
   // const data = [
@@ -96,8 +114,11 @@ export const Home = () => {
       <h1>Lista de Clientes</h1>
       <InputContainer>
         <SearchContainer>
-          <input placeholder="Digite o nome ou CNPJ do cliente que deseja pesquisar"></input>
-          <button>
+          <input
+            placeholder="Digite o nome ou CNPJ do cliente que deseja pesquisar"
+            onChange={(event) => setInputSearch(event?.target?.value)}
+          ></input>
+          <button onClick={() => setIdSerach(inputSearch)}>
             <AiOutlineSearch />
           </button>
         </SearchContainer>

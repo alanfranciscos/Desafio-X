@@ -1,7 +1,10 @@
 // Função para converter CNPJ para somente números
-export const cnpjToNumbers = (cnpj: string) => {
+export const cnpjToNumbers = (cnpj: string | null) => {
   // Remove todos os caracteres não numéricos
-  return cnpj.replace(/\D/g, "");
+  if (cnpj === null) {
+    return "";
+  }
+  return cnpj?.replace(/\D/g, "");
 };
 
 // Função para converter números para CNPJ
