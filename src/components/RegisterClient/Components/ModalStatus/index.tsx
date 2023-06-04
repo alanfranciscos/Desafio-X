@@ -3,18 +3,22 @@ import { GiConfirmed, GiCancel } from "react-icons/gi";
 
 export const ModalStatus = ({
   status,
+  setStatus,
   confirm,
 }: {
   status: boolean | undefined;
+  setStatus: Function;
   confirm: Function;
 }) => {
   if (status === false) {
     return (
       <Container>
         <ModalContent>
-          <span>Ops, algo deu errado</span>
+          <h3>Ops, algo deu errado!</h3>
+          <span>Certfique de não estar criando um cliente existente.</span>
+          <span>É necessário preencher todos os campos.</span>
           <GiCancel className="error-icon" />
-          <button onClick={() => confirm()} className="error-button">
+          <button onClick={() => setStatus(undefined)} className="error-button">
             Ok
           </button>
         </ModalContent>

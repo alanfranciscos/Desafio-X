@@ -17,22 +17,37 @@ import { LatLngTuple } from "leaflet";
 import { SelectInput } from "../Form/SelectInput";
 import { MapStatus } from "../Map/MapStauts";
 import { ModalStatus } from "./Components/ModalStatus";
+import { useNavigate } from "react-router-dom";
+import { cnpjToNumbers } from "../../utils/cnpj";
 
 export const RegisterCliet = ({
   modalIsOpen,
   setModalIsOpen,
+  title,
+  placeholder,
 }: {
   modalIsOpen: boolean;
   setModalIsOpen: Function;
+  title: string;
+  placeholder: {
+    name: string;
+    cnpj: string;
+    phone: string;
+    email: string;
+    state: string;
+    location: LatLngTuple | null;
+  };
 }) => {
+  const navigate = useNavigate();
+
   const [formInputs, setFormInputs] = useState({
-    name: "",
-    cnpj: "",
-    phone: "",
-    email: "",
+    name: placeholder?.name,
+    cnpj: placeholder?.cnpj,
+    phone: placeholder?.phone,
+    email: placeholder?.email,
   });
   const [location, setInputLocation] = useState([0, 0] as LatLngTuple);
-  const [inputUF, setInputUF] = useState("");
+  const [inputUF, setInputUF] = useState(placeholder?.state);
   const [locationsIsSetted, setLocationsIsSetted] = useState(false);
   const [status, setStatus] = useState<undefined | boolean>(undefined);
 
@@ -100,12 +115,50 @@ export const RegisterCliet = ({
   const createClient = async () => {
     if (
       formInputs?.name?.length &&
-      formInputs?.cnpj?.length &&
+      cnpjToNumbers(formInputs?.cnpj).length === 14 &&
+      inputUF?.length &&
+      formInputs?.phone.length &&
+      locationsIsSetted
+    ) {
+      CLIENTS_API.create({
+        nome: formInputs?.name,
+        cnpj: formInputs?.cnpj,
+        estado: inputUF,
+        telefone: formInputs?.phone,
+        email: formInputs?.email,
+        location: {
+          x: location?.[0],
+          y: location?.[1],
+        },
+      })
+        .then(function () {
+          setStatus(true);
+        })
+        .catch(function () {
+          setStatus(false);
+        });
+    } else {
+      setStatus(false);
+    }
+  };
+
+  const handleMouseCursor = (curosr: string) => {
+    document.body.style.cursor = curosr;
+    const button = document?.getElementById("button-confirm");
+    if (button !== null) {
+      button.style.cursor = curosr === "default" ? "pointer" : curosr;
+    }
+  };
+
+  const editClient = async () => {
+    if (
+      formInputs?.name?.length &&
+      cnpjToNumbers(formInputs?.cnpj).length === 14 &&
       inputUF?.length &&
       formInputs?.phone &&
       locationsIsSetted
     ) {
-      CLIENTS_API.create({
+      CLIENTS_API.edit(cnpjToNumbers(placeholder.cnpj), {
         nome: formInputs?.name,
         cnpj: formInputs?.cnpj,
         estado: inputUF,
@@ -129,8 +182,8 @@ export const RegisterCliet = ({
 
   useEffect(() => {
     setModal(document?.getElementById("modal"));
-    setInputUF("");
-  }, [modalIsOpen]);
+    setInputUF(placeholder?.state);
+  }, [modalIsOpen, placeholder?.state]);
 
   return (
     <>
@@ -145,12 +198,12 @@ export const RegisterCliet = ({
         >
           <ModalContent>
             <ModalHeader>
-              <h3>Cadastrar Cliente</h3>
+              <h3>{title}</h3>
             </ModalHeader>
             <Form>
               <Input
                 isRequired
-                placeholder=""
+                placeholder={placeholder?.name}
                 title="Nome"
                 content={(value: string) =>
                   setFormInputs({
@@ -163,7 +216,7 @@ export const RegisterCliet = ({
               <InputGroup>
                 <Input
                   isRequired
-                  placeholder=""
+                  placeholder={placeholder?.cnpj}
                   title="CNPJ"
                   content={(value: string) =>
                     setFormInputs({
@@ -175,7 +228,7 @@ export const RegisterCliet = ({
                 />
                 <Input
                   isRequired
-                  placeholder=""
+                  placeholder={placeholder?.phone}
                   title="Telefone"
                   content={(value: string) =>
                     setFormInputs({
@@ -187,10 +240,15 @@ export const RegisterCliet = ({
                 />
               </InputGroup>
               <InputGroup>
-                <SelectInput data={data} getValue={setInputUF} label="UF *" />
+                <SelectInput
+                  data={data}
+                  getValue={setInputUF}
+                  label="UF *"
+                  valueSelected={placeholder?.state}
+                />
                 <Input
                   isRequired
-                  placeholder=""
+                  placeholder={placeholder?.email}
                   title="E-mail"
                   content={(value: string) =>
                     setFormInputs({
@@ -216,7 +274,14 @@ export const RegisterCliet = ({
                     <Map
                       width="100%"
                       height="100%"
-                      center={metaData ? metaData : [0, 0]}
+                      center={
+                        placeholder?.location !== null &&
+                        placeholder?.state === inputUF
+                          ? placeholder?.location
+                          : metaData
+                          ? metaData
+                          : [0, 0]
+                      }
                       zoom={6}
                       setPosition={(value: LatLngTuple) =>
                         setInputLocation(value)
@@ -244,7 +309,20 @@ export const RegisterCliet = ({
                 >
                   Cancelar
                 </button>
-                <button className="button-confirm" onClick={createClient}>
+                <button
+                  className="button-confirm"
+                  id="button-confirm"
+                  onClick={async () => {
+                    handleMouseCursor("wait");
+                    if (placeholder?.cnpj) {
+                      await editClient();
+                      handleMouseCursor("default");
+                    } else {
+                      await createClient();
+                      handleMouseCursor("default");
+                    }
+                  }}
+                >
                   Salvar
                 </button>
               </ConfirmationContainer>
@@ -252,8 +330,10 @@ export const RegisterCliet = ({
             {status !== undefined ? (
               <ModalStatus
                 status={status}
+                setStatus={setStatus}
                 confirm={function () {
                   reestoreFilters();
+                  navigate(0);
                 }}
               />
             ) : null}
@@ -262,4 +342,15 @@ export const RegisterCliet = ({
       ) : null}
     </>
   );
+};
+
+RegisterCliet.defaultProps = {
+  placeholder: {
+    name: "",
+    cnpj: "",
+    phone: "",
+    email: "",
+    state: "",
+    location: null,
+  },
 };

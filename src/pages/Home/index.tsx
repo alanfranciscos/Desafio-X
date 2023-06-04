@@ -33,31 +33,28 @@ export const Home = () => {
     sortOrder: "asc", // asc | desc
   });
 
-  const { data, isLoading, isFetching, isError } = useQuery(
-    ["clients", tableFilter],
-    async () => {
-      const { data } = await CLIENTS_API.get(
-        tableFilter?.atualPage,
-        tableFilter?.sorted.toLowerCase(),
-        tableFilter?.sortOrder
-      );
+  useQuery(["clients", tableFilter], async () => {
+    const { data } = await CLIENTS_API.get(
+      tableFilter?.atualPage,
+      tableFilter?.sorted.toLowerCase(),
+      tableFilter?.sortOrder
+    );
 
-      data?.content?.map((element: returnDataProps) => {
-        delete element?.location;
-        delete element?.estado;
-      });
+    data?.content?.forEach((element: returnDataProps) => {
+      delete element?.location;
+      delete element?.estado;
+    });
 
-      delete data?.content?.location;
-      setChartData({
-        ...chartData,
-        data: data?.content,
-        totalPages: data?.totalPages,
-        totalElements: data?.totalElements,
-      });
+    delete data?.content?.location;
+    setChartData({
+      ...chartData,
+      data: data?.content,
+      totalPages: data?.totalPages,
+      totalElements: data?.totalElements,
+    });
 
-      return data;
-    }
-  );
+    return data;
+  });
 
   // const data = [
   //   {
@@ -92,6 +89,7 @@ export const Home = () => {
       <RegisterCliet
         modalIsOpen={modalIsOpen?.registerClient}
         setModalIsOpen={setModalIsOpen}
+        title="Cadastrar Cliente"
       />
       {/* end modals */}
 
@@ -122,6 +120,7 @@ export const Home = () => {
         dataKeys={["Nome", "CNPJ", "Email", "Telefone"]}
         filter={tableFilter}
         setFilter={setTableFilter}
+        id="cnpj"
       />
     </Container>
   );

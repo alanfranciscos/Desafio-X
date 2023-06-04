@@ -25,14 +25,19 @@ export const ModalContent = styled.div`
   border-radius: 6px;
   overflow: hidden;
 
+  h3 {
+    margin-top: 10px;
+  }
+
   span {
-    margin: 10px 0;
+    margin-top: 10px;
+    font-size: 13px;
   }
 
   svg {
     width: 30px;
     height: 30px;
-    margin-bottom: 20px;
+    margin: 10px 0px;
   }
 
   button {

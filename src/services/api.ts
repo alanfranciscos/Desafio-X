@@ -25,7 +25,9 @@ export const CLIENTS_API = {
     api.get(
       `/clients?page=${page}&sortColumn=${sortColumn}&sortOrder=${sortOrder}`
     ),
+  getPerCNPJ: (id: string) => api.get(`/clients/${id}`),
   create: (data: ClientProps) => api.post("/clients", data),
+  edit: (id: string, data: ClientProps) => api.put(`/clients/${id}`, data),
 };
 
 export const IBGE_API = {

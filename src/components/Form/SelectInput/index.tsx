@@ -6,10 +6,12 @@ export const SelectInput = ({
   data,
   getValue,
   label,
+  valueSelected,
 }: {
   data: any;
   getValue: Function;
   label: string;
+  valueSelected: string;
 }) => {
   return (
     <SelectContainer>
@@ -21,7 +23,10 @@ export const SelectInput = ({
               Selecione um item
             </option>
             {data?.map((item: { label: string; value: string }) => (
-              <option selected={false} value={item?.value}>
+              <option
+                selected={valueSelected === item?.value}
+                value={item?.value}
+              >
                 {item?.label}
               </option>
             ))}

@@ -14,11 +14,31 @@ export const Container = styled.div`
 
 export const ModalContent = styled.div`
   position: fixed;
-  height: 99px;
   background-color: #fefefe;
   margin: auto;
   border: 1px solid #888;
-  width: 300px;
   border-radius: 6px;
   overflow: hidden;
+  padding: 15px;
+
+  button {
+    background-color: #fefefe;
+    cursor: pointer;
+    display: flex;
+  }
+
+  button:first-child {
+    margin-bottom: 10px;
+  }
+
+  svg {
+    width: 15px;
+    height: 15px;
+    margin-right: 10px;
+    color: #707070;
+  }
+
+  span {
+    color: #707070;
+  }
 `;

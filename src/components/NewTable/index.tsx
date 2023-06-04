@@ -30,6 +30,7 @@ type TablePropsType = {
   setFilter: Function;
   numberOfPages: number;
   totalElements: number;
+  id: string;
 };
 
 export const Table = ({
@@ -39,6 +40,7 @@ export const Table = ({
   filter,
   numberOfPages,
   totalElements,
+  id,
 }: TablePropsType) => {
   const [arrowDirection, setArrowDirection] = useState(
     new Array(...dataKeys)?.fill("Down", 0, dataKeys?.length)
@@ -51,6 +53,8 @@ export const Table = ({
   });
 
   const [pages, setPages] = useState([0]);
+
+  const [itemSelected, setItemSelected] = useState("");
 
   useEffect(() => {
     const pages = [];
@@ -96,6 +100,7 @@ export const Table = ({
             <Modal
               coordinates={coordinatesClick}
               closeModal={() => setModalIsOpen(false)}
+              id={itemSelected}
             />
           ) : null}
           <TableTitle>Clientes cadastrados</TableTitle>
@@ -148,6 +153,7 @@ export const Table = ({
                           y: event?.clientY,
                         });
                         setModalIsOpen(true);
+                        setItemSelected(item[id]);
                       }}
                     >
                       Ações
