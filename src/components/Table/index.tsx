@@ -63,11 +63,13 @@ export const Table = ({ data, dataKeys }: TablePropsType) => {
   return (
     <>
       {data?.length && dataKeys?.length ? (
-        <Container>
-          <TableTitle>Clientes cadastrados</TableTitle>
+        <Container data-testid="table">
+          <TableTitle data-testid="title-table">
+            Clientes cadastrados
+          </TableTitle>
           <TableContainer>
             <thead className="thead">
-              <tr>
+              <tr data-testid="title-data">
                 {dataKeys?.map((value, index) => (
                   <th
                     key={index}

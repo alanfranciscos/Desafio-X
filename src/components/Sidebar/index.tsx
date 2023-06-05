@@ -6,21 +6,21 @@ export const SideBar = ({
   sideBarIsOpen: boolean | undefined;
 }) => {
   return (
-    <Container closed={!sideBarIsOpen} data-testid="sidebar">
-      <h2>GESTÃO DE CLIENTES</h2>
-      <ul>
+    <Container notClosed={sideBarIsOpen} data-testid="sidebar">
+      <h2 data-testid="sidebar-title">GESTÃO DE CLIENTES</h2>
+      <ul data-testid="sidebar-list">
         <li>Lista de clientes</li>
         <li>Cadastrar cliente</li>
       </ul>
 
-      <h2>GESTÃO DE VENDAS</h2>
-      <ul>
+      <h2 data-testid="sidebar-title">GESTÃO DE VENDAS</h2>
+      <ul data-testid="sidebar-list">
         <li>Lista de vendas</li>
         <li>Cadastrar venda</li>
       </ul>
 
-      <h2>RELATÓRIOS</h2>
-      <ul>
+      <h2 data-testid="sidebar-title">RELATÓRIOS</h2>
+      <ul data-testid="sidebar-list">
         <li>Relatórios</li>
       </ul>
     </Container>
