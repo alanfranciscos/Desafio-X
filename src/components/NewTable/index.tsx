@@ -94,7 +94,7 @@ export const Table = ({
 
   return (
     <>
-      {data?.length && dataKeys?.length ? (
+      {data?.length && dataKeys?.length && totalElements !== -1 ? (
         <Container id="container">
           {modalIsOpen ? (
             <Modal
@@ -183,7 +183,10 @@ export const Table = ({
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    atualPage: filter?.atualPage - 1,
+                    atualPage:
+                      filter?.atualPage - 1 < 0
+                        ? filter?.atualPage
+                        : filter?.atualPage - 1,
                   })
                 }
               />
@@ -206,7 +209,10 @@ export const Table = ({
                 onClick={() =>
                   setFilter({
                     ...filter,
-                    atualPage: filter?.atualPage + 1,
+                    atualPage:
+                      filter?.atualPage + 1 >= numberOfPages
+                        ? filter?.atualPage
+                        : filter?.atualPage + 1,
                   })
                 }
               />

@@ -8,6 +8,7 @@ import { RegisterCliet } from "../../../RegisterClient";
 import { CLIENTS_API } from "../../../../services/api";
 import { useQuery } from "react-query";
 import { cnpjToNumbers } from "../../../../utils/cnpj";
+import { DeleteClient } from "../../../Client/Delete";
 
 type CoordinatesType = {
   x: number;
@@ -45,6 +46,8 @@ export const Modal = ({
 
   const [editIsOpen, setEditIsOpen] = useState(false);
 
+  const [deletIsOpen, setDeletIsOpen] = useState(false);
+
   const editClient = () => {
     if (editIsOpen) {
       return (
@@ -66,6 +69,15 @@ export const Modal = ({
     return null;
   };
 
+  const deleteClient = () => {
+    if (deletIsOpen) {
+      return (
+        <DeleteClient modalIsOpen setModalIsOpen={setDeletIsOpen} id={id} />
+      );
+    }
+    return null;
+  };
+
   return (
     <Container
       id="modal-options"
@@ -75,6 +87,7 @@ export const Modal = ({
         }
       }}
     >
+      {deleteClient()}
       {editClient()}
       <ModalContent
         id="modal-content"
@@ -88,7 +101,7 @@ export const Modal = ({
           <FaPen />
           <span>Editar</span>
         </button>
-        <button>
+        <button onClick={() => setDeletIsOpen(true)}>
           <IoMdTrash />
           <span>Excluir</span>
         </button>

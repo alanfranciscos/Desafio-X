@@ -28,6 +28,7 @@ export const CLIENTS_API = {
   getPerCNPJ: (id: string) => api.get(`/clients/${id}`),
   create: (data: ClientProps) => api.post("/clients", data),
   edit: (id: string, data: ClientProps) => api.put(`/clients/${id}`, data),
+  delete: (id: string) => api.delete(`clients/${id}`),
 };
 
 export const IBGE_API = {
