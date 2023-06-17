@@ -11,6 +11,13 @@ export const TableTitle = styled.h2`
   color: #535353;
 `;
 
+export const LoaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+`;
+
 export const TableContainer = styled.table`
   margin-top: 10px;
   border-collapse: collapse;

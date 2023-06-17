@@ -8,9 +8,12 @@ export const Layout = ({ children }: { children: any }) => {
 
   return (
     <Container data-testid="layout">
-      <Header setsideBarIsOpen={setsideBarIsOpen}/>
+      <Header setsideBarIsOpen={setsideBarIsOpen} />
       <PageContainer data-testid="layout-content">
-        <SideBar sideBarIsOpen={sideBarIsOpen}/>
+        <SideBar
+          sideBarIsOpen={sideBarIsOpen}
+          setsideBarIsOpen={setsideBarIsOpen}
+        />
         <Content data-testid="layout-content-content">{children}</Content>
       </PageContainer>
     </Container>

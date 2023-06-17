@@ -34,6 +34,13 @@ export const Container = styled.div`
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 `;
 
+export const LoaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+`;
+
 export const ModalContent = styled.div`
   background-color: #fefefe;
   margin: auto;

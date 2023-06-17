@@ -15,11 +15,3 @@ export const numbersToCnpj = (numbers: string) => {
     "$1.$2.$3/$4-$5"
   );
 };
-
-// Exemplo de uso
-const cnpj = "51.884.466/3234-75";
-const numbers = cnpjToNumbers(cnpj);
-console.log(numbers); // Saída: 51884466323475
-
-const convertedCnpj = numbersToCnpj(numbers);
-console.log(convertedCnpj); // Saída: 51.884.466/3234-75

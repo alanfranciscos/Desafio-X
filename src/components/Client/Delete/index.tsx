@@ -10,6 +10,7 @@ import {
 import { DeleteClientProps } from "./types";
 import { CLIENTS_API } from "../../../services/api";
 import { useNavigate } from "react-router-dom";
+import { cnpjToNumbers } from "../../../utils/cnpj";
 
 export const DeleteClient = ({
   modalIsOpen,
@@ -24,7 +25,7 @@ export const DeleteClient = ({
   }, [modalIsOpen]);
 
   const deleteClient = async (id: string) => {
-    CLIENTS_API.delete(id).then(() => navigate(0));
+    CLIENTS_API.delete(cnpjToNumbers(id)).then(() => navigate(0));
   };
 
   return (

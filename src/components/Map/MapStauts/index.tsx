@@ -1,3 +1,4 @@
+import { Loader } from "../../Loader";
 import { Container } from "./styles";
 
 export const MapStatus = ({
@@ -17,7 +18,7 @@ export const MapStatus = ({
   if (loading) {
     return (
       <Container>
-        <span>Carregando</span>
+        <Loader />
       </Container>
     );
   }

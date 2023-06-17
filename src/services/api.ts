@@ -26,12 +26,38 @@ export const CLIENTS_API = {
       `/clients?page=${page}&sortColumn=${sortColumn}&sortOrder=${sortOrder}`
     ),
   getPerCNPJ: (id: string) => api.get(`/clients/${id}`),
+  getClientsNames: () => api.get("clients/get-cnpj-and-names"),
   create: (data: ClientProps) => api.post("/clients", data),
   edit: (id: string, data: ClientProps) => api.put(`/clients/${id}`, data),
-  delete: (id: string) => api.delete(`clients/${id}`),
+  delete: (id: string) => api.delete(`clients?id=${id}`),
 };
 
 export const IBGE_API = {
   getStates: () => api.get("/states"),
   getMetadata: (id: string) => api.get(`states/${id}/metadados`),
+};
+
+type SaleProps = {
+  data: string;
+  status: string;
+  valor: string;
+  cliente: ClientProps;
+};
+
+export const SALES_API = {
+  get: (page: number, sortColumn: String, sortOrder: string) =>
+    api.get(
+      `/sales?page=${page}&sortColumn=${sortColumn}&sortOrder=${sortOrder}`
+    ),
+  getPossibleStatus: () => api.get("sales/status"),
+  getPerClient: (
+    page: number,
+    search: string,
+    sortColumn: string,
+    sortOrder: string
+  ) =>
+    api.get(
+      `/sales/getPerId?page=${page}&search=${search}&sortColumn=${sortColumn}&sortOrder=${sortOrder}`
+    ),
+  create: (data: SaleProps) => api.put("/sales", data),
 };

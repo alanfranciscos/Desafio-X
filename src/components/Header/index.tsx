@@ -1,4 +1,4 @@
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.svg";
 import { Container, UserInfoContainer } from "./styles";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { MdOutlineExitToApp } from "react-icons/md";

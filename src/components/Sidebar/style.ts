@@ -4,6 +4,10 @@ type ContainerProps = {
   notClosed?: boolean;
 };
 
+type ButtonProps = {
+  selected?: boolean;
+};
+
 const open = keyframes`
   from {
     width: 0px;
@@ -72,22 +76,32 @@ export const Container = styled.aside<ContainerProps>`
 
     white-space: nowrap;
   }
-  li {
-    margin-left: 32px;
-    margin-top: 15px;
+`;
 
-    cursor: pointer;
+export const Item = styled.button<ButtonProps>`
+  margin-left: 32px;
+  margin-top: 15px;
+  background-color: #023e8a;
 
-    font: normal normal medium SF Pro Display;
-    letter-spacing: 0px;
-    color: #ffffff;
-    animation: ${dontHover} 0.5s;
-    opacity: 0.5;
+  cursor: pointer;
 
-    :hover {
-      animation: ${hover} 0.5s;
-      opacity: 1;
-    }
-    white-space: nowrap;
+  font: normal normal medium SF Pro Display;
+  letter-spacing: 0px;
+  color: #ffffff;
+
+  ${({ selected }) =>
+    selected
+      ? css`
+          opacity: 1;
+        `
+      : css`
+          animation: ${dontHover} 0.5s;
+          opacity: 0.5;
+        `};
+
+  :hover {
+    animation: ${hover} 0.5s;
+    opacity: 1;
   }
+  white-space: nowrap;
 `;

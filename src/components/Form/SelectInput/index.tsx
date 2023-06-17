@@ -11,7 +11,7 @@ export const SelectInput = ({
   data: any;
   getValue: Function;
   label: string;
-  valueSelected: string;
+  valueSelected: string | null;
 }) => {
   return (
     <SelectContainer>

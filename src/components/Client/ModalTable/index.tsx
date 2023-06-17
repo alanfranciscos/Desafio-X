@@ -4,18 +4,18 @@ import { Container, ModalContent } from "./styles";
 
 import { FaPen } from "react-icons/fa";
 import { IoMdTrash } from "react-icons/io";
-import { RegisterCliet } from "../../../RegisterClient";
-import { CLIENTS_API } from "../../../../services/api";
+import { CLIENTS_API } from "../../../services/api";
 import { useQuery } from "react-query";
-import { cnpjToNumbers } from "../../../../utils/cnpj";
-import { DeleteClient } from "../../../Client/Delete";
+import { cnpjToNumbers } from "../../../utils/cnpj";
+import { DeleteClient } from "../Delete";
+import { RegisterOrEditClient } from "../RegisterOrEdit";
 
 type CoordinatesType = {
   x: number;
   y: number;
 };
 
-export const Modal = ({
+export const ModalClient = ({
   closeModal,
   coordinates,
   id,
@@ -51,9 +51,12 @@ export const Modal = ({
   const editClient = () => {
     if (editIsOpen) {
       return (
-        <RegisterCliet
+        <RegisterOrEditClient
           modalIsOpen
-          setModalIsOpen={setEditIsOpen}
+          setModalIsOpen={(value: boolean) => {
+            setEditIsOpen(value);
+            closeModal();
+          }}
           title="Editar Cliente"
           placeholder={{
             cnpj: data?.cnpj,
@@ -63,6 +66,7 @@ export const Modal = ({
             state: data?.estado,
             location: [data?.location?.x, data?.location?.y],
           }}
+          placeHolderIsLoading={isLoading || isFetching}
         />
       );
     }
@@ -72,7 +76,14 @@ export const Modal = ({
   const deleteClient = () => {
     if (deletIsOpen) {
       return (
-        <DeleteClient modalIsOpen setModalIsOpen={setDeletIsOpen} id={id} />
+        <DeleteClient
+          modalIsOpen
+          setModalIsOpen={(value: boolean) => {
+            setDeletIsOpen(value);
+            closeModal();
+          }}
+          id={id}
+        />
       );
     }
     return null;
@@ -89,23 +100,33 @@ export const Modal = ({
     >
       {deleteClient()}
       {editClient()}
-      <ModalContent
-        id="modal-content"
-        style={{
-          opacity: verifyWidthOfModal() === -15 ? "0" : "1",
-          top: coordinates?.y,
-          left: coordinates?.x - verifyWidthOfModal(),
-        }}
-      >
-        <button onClick={() => setEditIsOpen(true)}>
-          <FaPen />
-          <span>Editar</span>
-        </button>
-        <button onClick={() => setDeletIsOpen(true)}>
-          <IoMdTrash />
-          <span>Excluir</span>
-        </button>
-      </ModalContent>
+      {!editIsOpen && !deletIsOpen && (
+        <ModalContent
+          id="modal-content"
+          style={{
+            opacity: verifyWidthOfModal() === -15 ? "0" : "1",
+            top: coordinates?.y,
+            left: coordinates?.x - verifyWidthOfModal(),
+          }}
+        >
+          <button
+            onClick={() => {
+              setEditIsOpen(true);
+            }}
+          >
+            <FaPen />
+            <span>Editar</span>
+          </button>
+          <button
+            onClick={() => {
+              setDeletIsOpen(true);
+            }}
+          >
+            <IoMdTrash />
+            <span>Excluir</span>
+          </button>
+        </ModalContent>
+      )}
     </Container>
   );
 };

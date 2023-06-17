@@ -1,23 +1,22 @@
 import { useState } from "react";
-import { useQuery } from "react-query";
 import { Table } from "../../components/NewTable";
 import { Container, InputContainer, SearchContainer } from "./styles";
 
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsPlusLg } from "react-icons/bs";
-import { CLIENTS_API } from "../../services/api";
-import { RegisterCliet } from "../../components/RegisterClient";
-import { cnpjToNumbers } from "../../utils/cnpj";
+import { RegisterOrEditSales } from "../../components/Sales/RegisterOrEditSales";
+import { useQuery } from "react-query";
+import { SALES_API } from "../../services/api";
 
 type returnDataProps = {
-  location?: object;
-  nome?: String;
-  cnpj?: String;
-  telefone?: String;
-  estado?: String;
+  cliente: any;
+  data?: String;
+  id?: String;
+  status: String;
+  valor?: number;
 };
 
-export const Home = () => {
+export const Sales = () => {
   const [modalIsOpen, setModalIsOpen] = useState({
     registerClient: false,
   });
@@ -30,7 +29,7 @@ export const Home = () => {
 
   const [tableFilter, setTableFilter] = useState({
     atualPage: 0,
-    sorted: "Nome",
+    sorted: "Cliente",
     sortOrder: "asc", // asc | desc
   });
 
@@ -39,15 +38,17 @@ export const Home = () => {
 
   useQuery(["clients", tableFilter, idSearch], async () => {
     if (!idSearch) {
-      const { data } = await CLIENTS_API.get(
+      const { data } = await SALES_API.get(
         tableFilter?.atualPage,
         tableFilter?.sorted.toLowerCase(),
         tableFilter?.sortOrder
       );
 
       data?.content?.forEach((element: returnDataProps) => {
-        delete element?.location;
-        delete element?.estado;
+        element.cliente = element?.cliente?.nome;
+        const status = element.status.replace("_", " ");
+        element.status =
+          status?.charAt(0).toUpperCase() + status?.slice(1).toLowerCase();
       });
 
       setChartData({
@@ -56,66 +57,48 @@ export const Home = () => {
         totalPages: data?.totalPages,
         totalElements: data?.totalElements,
       });
-      return data;
     } else {
-      const { data } = await CLIENTS_API.getPerCNPJ(cnpjToNumbers(idSearch));
+      const { data } = await SALES_API.getPerClient(
+        tableFilter?.atualPage,
+        idSearch,
+        tableFilter?.sorted.toLowerCase(),
+        tableFilter?.sortOrder
+      );
 
-      delete data.location;
-      delete data.estado;
-      const newData = [data];
-
+      data?.content?.forEach((element: returnDataProps) => {
+        element.cliente = element?.cliente?.nome;
+        const status = element.status.replace("_", " ");
+        element.status =
+          status?.charAt(0).toUpperCase() + status?.slice(1).toLowerCase();
+      });
       setChartData({
         ...chartData,
-        data: newData,
-        totalPages: 0,
-        totalElements: 1,
+        data: data?.content,
+        totalPages: data?.totalPages,
+        totalElements: data?.totalElements,
       });
-      return data;
     }
   });
 
-  // const data = [
-  //   {
-  //     nome: "Comércio de Livros LTDA",
-  //     cnpj: "85.681.832/0001-73",
-  //     email: "comerciodelivros@email.com",
-  //     telefone: "(35) 99487-1548",
-  //   },
-  //   {
-  //     nome: "Aomércio de Livros LTDA",
-  //     cnpj: "85.681.832/0001-73",
-  //     email: "comerciodelivros@email.com",
-  //     telefone: "(35) 99487-1548",
-  //   },
-  //   {
-  //     nome: "Comércio de Livros LTDA",
-  //     cnpj: "85.681.832/0001-73",
-  //     email: "comerciodelivros@email.com",
-  //     telefone: "(35) 99487-1548",
-  //   },
-  //   {
-  //     nome: "Comércio de Livros LTDA",
-  //     cnpj: "85.681.832/0001-73",
-  //     email: "comerciodelivros@email.com",
-  //     telefone: "(35) 99487-1548",
-  //   },
-  // ];
+  const Modals = () => {
+    return (
+      <RegisterOrEditSales
+        modalIsOpen={true}
+        setModalIsOpen={() => null}
+        title="Cadastrar Venda"
+      />
+    );
+  };
 
   return (
     <Container>
-      {/* modals */}
-      <RegisterCliet
-        modalIsOpen={modalIsOpen?.registerClient}
-        setModalIsOpen={setModalIsOpen}
-        title="Cadastrar Cliente"
-      />
-      {/* end modals */}
+      {Modals()}
 
-      <h1>Lista de Clientes</h1>
+      <h1>Lista de Vendas</h1>
       <InputContainer>
         <SearchContainer>
           <input
-            placeholder="Digite o nome ou CNPJ do cliente que deseja pesquisar"
+            placeholder="Digite o nome do cliente que deseja pesquisar"
             onChange={(event) => setInputSearch(event?.target?.value)}
           ></input>
           <button onClick={() => setIdSerach(inputSearch)}>
@@ -131,17 +114,17 @@ export const Home = () => {
           }
         >
           <BsPlusLg />
-          &nbsp; Cadastrar cliente
+          &nbsp; Cadastrar venda
         </button>
       </InputContainer>
       <Table
         data={chartData?.data}
         numberOfPages={chartData?.totalPages}
         totalElements={chartData?.totalElements}
-        dataKeys={["Nome", "CNPJ", "Email", "Telefone"]}
+        dataKeys={["Cliente", "Data", "Status", "Valor"]}
         filter={tableFilter}
         setFilter={setTableFilter}
-        id="cnpj"
+        id="id"
       />
     </Container>
   );

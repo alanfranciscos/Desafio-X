@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Container,
   FooterContainer,
+  LoaderContainer,
   SelectPage,
   TableContainer,
   TableTitle,
@@ -15,7 +16,8 @@ import {
   BsChevronDoubleRight,
 } from "react-icons/bs";
 import { Button } from "./components/Button";
-import { Modal } from "./components/Modal";
+import { ModalClient } from "../Client/ModalTable";
+import { Loader } from "../Loader";
 
 type FilterPropsType = {
   atualPage: number;
@@ -92,142 +94,155 @@ export const Table = ({
     return "asc";
   };
 
+  const selectModal = () => {
+    if (id === "id") {
+      return null;
+    }
+    return (
+      <ModalClient
+        coordinates={coordinatesClick}
+        closeModal={() => setModalIsOpen(false)}
+        id={itemSelected}
+      />
+    );
+  };
+
   return (
     <>
-      {data?.length && dataKeys?.length && totalElements !== -1 ? (
-        <Container id="container">
-          {modalIsOpen ? (
-            <Modal
-              coordinates={coordinatesClick}
-              closeModal={() => setModalIsOpen(false)}
-              id={itemSelected}
-            />
-          ) : null}
-          <TableTitle>Clientes cadastrados</TableTitle>
-          <TableContainer>
-            <thead className="thead">
-              <tr>
-                {dataKeys?.map((value, index) => (
-                  <th
-                    key={index}
-                    onClick={() => {
-                      if (value === filter?.sorted) {
-                        setFilter((prevState: any) => ({
-                          ...prevState,
-                          sorted: value,
-                          sortOrder: handleSortOrder(),
-                        }));
-                        handleArrowDirection(index, value);
-                      } else {
-                        setFilter((prevState: any) => ({
-                          ...prevState,
-                          sortOrder: "asc",
-                          sorted: value,
-                        }));
-                        handleArrowDirection(index, value);
-                      }
-                    }}
-                  >
-                    {value}
-                    {arrowDirection[index] === "Down" ? (
-                      <IoIosArrowDown />
-                    ) : (
-                      <IoIosArrowUp />
-                    )}
-                  </th>
-                ))}
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    {Object?.keys(item)?.map((value) => (
-                      <td>{item?.[value]}</td>
-                    ))}
-                    <Button
-                      openModal={(event: any) => {
-                        setCoordinatesClick({
-                          x: event?.clientX,
-                          y: event?.clientY,
-                        });
-                        setModalIsOpen(true);
-                        setItemSelected(item[id]);
+      <Container id="container">
+        {modalIsOpen ? selectModal() : null}
+        <TableTitle>Clientes cadastrados</TableTitle>
+        {data?.length && dataKeys?.length && totalElements !== -1 ? (
+          <>
+            <TableContainer>
+              <thead className="thead">
+                <tr>
+                  {dataKeys?.map((value, index) => (
+                    <th
+                      key={index}
+                      onClick={() => {
+                        if (value === filter?.sorted) {
+                          setFilter((prevState: any) => ({
+                            ...prevState,
+                            sorted: value,
+                            sortOrder: handleSortOrder(),
+                          }));
+                          handleArrowDirection(index, value);
+                        } else {
+                          setFilter((prevState: any) => ({
+                            ...prevState,
+                            sortOrder: "asc",
+                            sorted: value,
+                          }));
+                          handleArrowDirection(index, value);
+                        }
                       }}
                     >
-                      Ações
-                      <IoIosArrowDown />
-                    </Button>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </TableContainer>
-          <FooterContainer>
-            <p>{`Exibindo de ${(filter?.atualPage + 1) * 10 - 9} a ${
-              (filter?.atualPage + 1) * 10 > totalElements
-                ? totalElements
-                : (filter?.atualPage + 1) * 10
-            } de ${totalElements} registros`}</p>
-            <SelectPage>
-              <BsChevronDoubleLeft
-                onClick={() =>
-                  setFilter({
-                    ...filter,
-                    atualPage: 0,
-                  })
-                }
-              />
-              <BsChevronCompactLeft
-                onClick={() =>
-                  setFilter({
-                    ...filter,
-                    atualPage:
-                      filter?.atualPage - 1 < 0
-                        ? filter?.atualPage
-                        : filter?.atualPage - 1,
-                  })
-                }
-              />
-              {pages?.map((i) => {
-                return (
-                  <p
-                    className={pages?.length === i ? "last-item" : "item"}
-                    onClick={() =>
-                      setFilter({
-                        ...filter,
-                        atualPage: i - 1,
-                      })
-                    }
-                  >
-                    {i}
-                  </p>
-                );
-              })}
-              <BsChevronCompactRight
-                onClick={() =>
-                  setFilter({
-                    ...filter,
-                    atualPage:
-                      filter?.atualPage + 1 >= numberOfPages
-                        ? filter?.atualPage
-                        : filter?.atualPage + 1,
-                  })
-                }
-              />
-              <BsChevronDoubleRight
-                onClick={() =>
-                  setFilter({
-                    ...filter,
-                    atualPage: numberOfPages - 1,
-                  })
-                }
-              />
-            </SelectPage>
-          </FooterContainer>
-        </Container>
-      ) : null}
+                      {value}
+                      {arrowDirection[index] === "Down" ? (
+                        <IoIosArrowDown />
+                      ) : (
+                        <IoIosArrowUp />
+                      )}
+                    </th>
+                  ))}
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data?.map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      {dataKeys.map((value) => (
+                        <td>{item?.[value.toLowerCase()]}</td>
+                      ))}
+                      <Button
+                        openModal={(event: any) => {
+                          setCoordinatesClick({
+                            x: event?.clientX,
+                            y: event?.clientY,
+                          });
+                          setModalIsOpen(true);
+                          setItemSelected(item[id]);
+                        }}
+                      >
+                        Ações
+                        <IoIosArrowDown />
+                      </Button>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </TableContainer>
+            <FooterContainer>
+              <p>{`Exibindo de ${(filter?.atualPage + 1) * 10 - 9} a ${
+                (filter?.atualPage + 1) * 10 > totalElements
+                  ? totalElements
+                  : (filter?.atualPage + 1) * 10
+              } de ${totalElements} registros`}</p>
+              <SelectPage>
+                <BsChevronDoubleLeft
+                  onClick={() =>
+                    setFilter({
+                      ...filter,
+                      atualPage: 0,
+                    })
+                  }
+                />
+                <BsChevronCompactLeft
+                  onClick={() =>
+                    setFilter({
+                      ...filter,
+                      atualPage:
+                        filter?.atualPage - 1 < 0
+                          ? filter?.atualPage
+                          : filter?.atualPage - 1,
+                    })
+                  }
+                />
+                {pages?.map((i) => {
+                  return (
+                    <p
+                      className={pages?.length === i ? "last-item" : "item"}
+                      onClick={() =>
+                        setFilter({
+                          ...filter,
+                          atualPage: i - 1,
+                        })
+                      }
+                    >
+                      {i}
+                    </p>
+                  );
+                })}
+                <BsChevronCompactRight
+                  onClick={() =>
+                    setFilter({
+                      ...filter,
+                      atualPage:
+                        filter?.atualPage + 1 >= numberOfPages
+                          ? filter?.atualPage
+                          : filter?.atualPage + 1,
+                    })
+                  }
+                />
+                <BsChevronDoubleRight
+                  onClick={() =>
+                    setFilter({
+                      ...filter,
+                      atualPage: numberOfPages - 1,
+                    })
+                  }
+                />
+              </SelectPage>
+            </FooterContainer>
+          </>
+        ) : (
+          <LoaderContainer>
+            <Loader />
+          </LoaderContainer>
+        )}
+      </Container>
     </>
   );
 };

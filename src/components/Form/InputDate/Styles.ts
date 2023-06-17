@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SelectContainer = styled.div`
+export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -13,15 +13,11 @@ export const SelectContainer = styled.div`
     font-size: 13px;
   }
 
-  select {
-    padding-left: 5px;
+  input {
     margin: 0px 10px;
+    padding-left: 5px;
     border: 1px solid #cccccc;
     border-radius: 3px;
-    height: 21px;
-  }
-
-  .select-disable {
-    background-color: #f0f0f0f0;
+    height: 20px;
   }
 `;
