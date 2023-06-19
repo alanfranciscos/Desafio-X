@@ -14,7 +14,7 @@ import {
 import { CLIENTS_API, SALES_API } from "../../../services/api";
 import { useEffect, useState } from "react";
 import { RegisterOrEditSaleProps } from "./types";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { ModalStatus } from "../../Client/RegisterOrEdit/Components/ModalStatus";
 import { Loader } from "../../Loader";
 
