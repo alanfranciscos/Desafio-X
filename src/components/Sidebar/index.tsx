@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, Item } from "./style";
-import { useLocation, useNavigate } from "react-router";
 import { RegisterOrEditClient } from "../Client/RegisterOrEdit";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const SideBar = ({
   sideBarIsOpen,
