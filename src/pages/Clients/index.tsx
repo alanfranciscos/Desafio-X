@@ -74,33 +74,6 @@ export const Clients = () => {
     }
   });
 
-  // const data = [
-  //   {
-  //     nome: "Comércio de Livros LTDA",
-  //     cnpj: "85.681.832/0001-73",
-  //     email: "comerciodelivros@email.com",
-  //     telefone: "(35) 99487-1548",
-  //   },
-  //   {
-  //     nome: "Aomércio de Livros LTDA",
-  //     cnpj: "85.681.832/0001-73",
-  //     email: "comerciodelivros@email.com",
-  //     telefone: "(35) 99487-1548",
-  //   },
-  //   {
-  //     nome: "Comércio de Livros LTDA",
-  //     cnpj: "85.681.832/0001-73",
-  //     email: "comerciodelivros@email.com",
-  //     telefone: "(35) 99487-1548",
-  //   },
-  //   {
-  //     nome: "Comércio de Livros LTDA",
-  //     cnpj: "85.681.832/0001-73",
-  //     email: "comerciodelivros@email.com",
-  //     telefone: "(35) 99487-1548",
-  //   },
-  // ];
-
   return (
     <Container>
       {/* modals */}
