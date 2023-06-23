@@ -18,6 +18,7 @@ import {
 import { Button } from "./components/Button";
 import { ModalClient } from "../Client/ModalTable";
 import { Loader } from "../Loader";
+import { v4 as uuidv4 } from "uuid";
 
 type FilterPropsType = {
   atualPage: number;
@@ -47,6 +48,8 @@ export const Table = ({
   const [arrowDirection, setArrowDirection] = useState(
     new Array(...dataKeys)?.fill("Down", 0, dataKeys?.length)
   );
+
+  const uuid = uuidv4();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [coordinatesClick, setCoordinatesClick] = useState({
@@ -116,7 +119,7 @@ export const Table = ({
           <>
             <TableContainer>
               <thead className="thead">
-                <tr>
+                <tr key={uuid}>
                   {dataKeys?.map((value, index) => (
                     <th
                       key={index}
@@ -149,12 +152,14 @@ export const Table = ({
                   <th>Ações</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody key={uuid}>
                 {data?.map((item, index) => {
                   return (
                     <tr key={index}>
                       {dataKeys.map((value) => (
-                        <td>{item?.[value.toLowerCase()]}</td>
+                        <td key={item?.[value.toLowerCase()]}>
+                          {item?.[value.toLowerCase()]}
+                        </td>
                       ))}
                       <Button
                         openModal={(event: any) => {
@@ -203,6 +208,7 @@ export const Table = ({
                 {pages?.map((i) => {
                   return (
                     <p
+                      key={uuid}
                       className={pages?.length === i ? "last-item" : "item"}
                       onClick={() =>
                         setFilter({
