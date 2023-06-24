@@ -1,4 +1,4 @@
-import { Loader } from "../../Loader";
+import { Loader } from "../../StatusRequest/Loader";
 import { Container } from "./styles";
 
 export const MapStatus = ({

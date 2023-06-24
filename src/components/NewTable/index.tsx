@@ -17,7 +17,7 @@ import {
 } from "react-icons/bs";
 import { Button } from "./components/Button";
 import { ModalClient } from "../Client/ModalTable";
-import { Loader } from "../Loader";
+import { Loader } from "../StatusRequest/Loader";
 import { v4 as uuidv4 } from "uuid";
 
 type FilterPropsType = {

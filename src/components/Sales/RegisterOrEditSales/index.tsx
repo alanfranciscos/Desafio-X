@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { RegisterOrEditSaleProps } from "./types";
 import { useNavigate } from "react-router-dom";
 import { ModalStatus } from "../../Client/RegisterOrEdit/Components/ModalStatus";
-import { Loader } from "../../Loader";
+import { StatusRequest } from "../../StatusRequest";
 
 export const RegisterOrEditSales = ({
   modalIsOpen,
@@ -27,12 +27,22 @@ export const RegisterOrEditSales = ({
 }: RegisterOrEditSaleProps) => {
   const [status, setStatus] = useState<undefined | boolean>(undefined);
 
-  const { data: dataClientsNames } = useQuery(["clients-names"], async () => {
+  const {
+    data: dataClientsNames,
+    isLoading: loadingClients,
+    isFetching: isFetchingClientsNames,
+    isError: isErrorClient,
+  } = useQuery(["clients-names"], async () => {
     const { data } = await CLIENTS_API.getClientsNames();
     return data;
   });
 
-  const { data: dataStatus } = useQuery(["sales-status"], async () => {
+  const {
+    data: dataStatus,
+    isLoading: loadingStatus,
+    isFetching: isFetchingStatus,
+    isError: isErrorStatus,
+  } = useQuery(["sales-status"], async () => {
     const { data } = await SALES_API.getPossibleStatus();
     return data;
   });
@@ -91,9 +101,24 @@ export const RegisterOrEditSales = ({
             <ModalHeader>
               <h3>{title}</h3>
             </ModalHeader>
-            {placeHolderIsLoading ? (
+            {placeHolderIsLoading ||
+            loadingClients ||
+            loadingStatus ||
+            isFetchingClientsNames ||
+            isFetchingStatus ||
+            isErrorStatus ||
+            isErrorClient ? (
               <LoaderContainer>
-                <Loader />
+                <StatusRequest
+                  error={isErrorClient || isErrorStatus}
+                  loading={
+                    placeHolderIsLoading ||
+                    loadingClients ||
+                    loadingStatus ||
+                    isFetchingClientsNames ||
+                    isFetchingStatus
+                  }
+                />
               </LoaderContainer>
             ) : (
               <>

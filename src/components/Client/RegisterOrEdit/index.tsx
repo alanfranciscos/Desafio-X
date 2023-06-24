@@ -20,7 +20,7 @@ import { SelectInput } from "../../Form/SelectInput";
 import { MapStatus } from "../../Map/MapStauts";
 import { Input } from "../../Form/Input";
 import { Map } from "../../Map";
-import { Loader } from "../../Loader";
+import { Loader } from "../../StatusRequest/Loader";
 
 export const RegisterOrEditClient = ({
   modalIsOpen,
