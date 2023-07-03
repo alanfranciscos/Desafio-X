@@ -67,6 +67,7 @@ export const ModalClient = ({
             location: [data?.location?.x, data?.location?.y],
           }}
           placeHolderIsLoading={isLoading || isFetching}
+          error={isError}
         />
       );
     }

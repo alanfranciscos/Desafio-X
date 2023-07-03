@@ -17,9 +17,7 @@ type returnDataProps = {
 };
 
 export const Sales = () => {
-  const [modalIsOpen, setModalIsOpen] = useState({
-    registerClient: false,
-  });
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const [chartData, setChartData] = useState({
     data: [{}],
@@ -83,8 +81,8 @@ export const Sales = () => {
   const Modals = () => {
     return (
       <RegisterOrEditSales
-        modalIsOpen={true}
-        setModalIsOpen={() => null}
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
         title="Cadastrar Venda"
       />
     );
@@ -107,11 +105,7 @@ export const Sales = () => {
         </SearchContainer>
         <button
           className="register"
-          onClick={() =>
-            setModalIsOpen({
-              registerClient: !modalIsOpen?.registerClient,
-            })
-          }
+          onClick={() => setModalIsOpen(!modalIsOpen)}
         >
           <BsPlusLg />
           &nbsp; Cadastrar venda

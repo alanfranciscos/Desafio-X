@@ -208,7 +208,7 @@ export const Table = ({
                 {pages?.map((i) => {
                   return (
                     <p
-                      key={uuid}
+                      key={i}
                       className={pages?.length === i ? "last-item" : "item"}
                       onClick={() =>
                         setFilter({

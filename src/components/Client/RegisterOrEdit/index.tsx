@@ -28,6 +28,7 @@ export const RegisterOrEditClient = ({
   title,
   placeholder,
   placeHolderIsLoading,
+  error,
 }: {
   modalIsOpen: boolean;
   setModalIsOpen: Function;
@@ -41,6 +42,7 @@ export const RegisterOrEditClient = ({
     location: LatLngTuple | null;
   };
   placeHolderIsLoading: boolean;
+  error: boolean;
 }) => {
   const navigate = useNavigate();
 
@@ -124,7 +126,7 @@ export const RegisterOrEditClient = ({
       formInputs?.phone.length &&
       locationsIsSetted
     ) {
-      CLIENTS_API.create({
+      await CLIENTS_API.create({
         nome: formInputs?.name,
         cnpj: formInputs?.cnpj,
         estado: inputUF,
@@ -162,7 +164,7 @@ export const RegisterOrEditClient = ({
       formInputs?.phone &&
       locationsIsSetted
     ) {
-      CLIENTS_API.edit(cnpjToNumbers(placeholder.cnpj), {
+      await CLIENTS_API.edit(cnpjToNumbers(placeholder.cnpj), {
         nome: formInputs?.name,
         cnpj: formInputs?.cnpj,
         estado: inputUF,
@@ -366,4 +368,5 @@ RegisterOrEditClient.defaultProps = {
     location: null,
   },
   placeHolderIsLoading: false,
+  error: false,
 };

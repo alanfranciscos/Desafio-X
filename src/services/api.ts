@@ -40,8 +40,8 @@ export const IBGE_API = {
 type SaleProps = {
   data: string;
   status: string;
-  valor: string;
-  cliente: ClientProps;
+  valor: number;
+  cliente: string;
 };
 
 export const SALES_API = {
@@ -59,5 +59,6 @@ export const SALES_API = {
     api.get(
       `/sales/getPerId?page=${page}&search=${search}&sortColumn=${sortColumn}&sortOrder=${sortOrder}`
     ),
-  create: (data: SaleProps) => api.put("/sales", data),
+  create: (data: SaleProps) => api.post("/sales", data),
+  edit: (id: string, data: SaleProps) => api.put(`/sales/${id}`, data),
 };
