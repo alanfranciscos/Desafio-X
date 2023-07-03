@@ -25,6 +25,7 @@ export const RegisterOrEditSales = ({
   placeholder,
   placeHolderIsLoading,
   saleId,
+  errorEdit,
 }: RegisterOrEditSaleProps) => {
   const [status, setStatus] = useState<undefined | boolean>(undefined);
   const [loading, setLoading] = useState(false);
@@ -268,4 +269,5 @@ RegisterOrEditSales.defaultProps = {
     valueSale: "R$ 0,00",
   },
   placeHolderIsLoading: false,
+  errorEdit: false,
 };

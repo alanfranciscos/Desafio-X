@@ -19,6 +19,7 @@ import { Button } from "./components/Button";
 import { ModalClient } from "../Client/ModalTable";
 import { Loader } from "../StatusRequest/Loader";
 import { v4 as uuidv4 } from "uuid";
+import { ModalSale } from "../Sales/ModalTable";
 
 type FilterPropsType = {
   atualPage: number;
@@ -99,7 +100,13 @@ export const Table = ({
 
   const selectModal = () => {
     if (id === "id") {
-      return null;
+      return (
+        <ModalSale
+          coordinates={coordinatesClick}
+          closeModal={() => setModalIsOpen(false)}
+          id={itemSelected}
+        />
+      );
     }
     return (
       <ModalClient

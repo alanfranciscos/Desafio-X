@@ -59,6 +59,8 @@ export const SALES_API = {
     api.get(
       `/sales/getPerId?page=${page}&search=${search}&sortColumn=${sortColumn}&sortOrder=${sortOrder}`
     ),
+  getPerId: (id: string) => api.get(`sales/${id}`),
   create: (data: SaleProps) => api.post("/sales", data),
   edit: (id: string, data: SaleProps) => api.put(`/sales/${id}`, data),
+  delete: (id: string) => api.delete(`sales/${id}`),
 };

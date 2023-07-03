@@ -10,4 +10,5 @@ export type RegisterOrEditSaleProps = {
     valueSale: number | null;
   };
   placeHolderIsLoading: boolean;
+  errorEdit: boolean;
 };
