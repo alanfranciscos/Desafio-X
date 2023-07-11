@@ -37,42 +37,45 @@ export const Clients = () => {
   const [inputSearch, setInputSearch] = useState("");
   const [idSearch, setIdSerach] = useState("");
 
-  useQuery(["clients", tableFilter, idSearch], async () => {
-    if (!idSearch) {
-      const { data } = await CLIENTS_API.get(
-        tableFilter?.atualPage,
-        tableFilter?.sorted.toLowerCase(),
-        tableFilter?.sortOrder
-      );
+  const { isLoading, isFetching, isError } = useQuery(
+    ["clients", tableFilter, idSearch],
+    async () => {
+      if (!idSearch) {
+        const { data } = await CLIENTS_API.get(
+          tableFilter?.atualPage,
+          tableFilter?.sorted.toLowerCase(),
+          tableFilter?.sortOrder
+        );
 
-      data?.content?.forEach((element: returnDataProps) => {
-        delete element?.location;
-        delete element?.estado;
-      });
+        data?.content?.forEach((element: returnDataProps) => {
+          delete element?.location;
+          delete element?.estado;
+        });
 
-      setChartData({
-        ...chartData,
-        data: data?.content,
-        totalPages: data?.totalPages,
-        totalElements: data?.totalElements,
-      });
-      return data;
-    } else {
-      const { data } = await CLIENTS_API.getPerCNPJ(cnpjToNumbers(idSearch));
+        setChartData({
+          ...chartData,
+          data: data?.content,
+          totalPages: data?.totalPages,
+          totalElements: data?.totalElements,
+        });
+        return data;
+      } else {
+        const { data } = await CLIENTS_API.getPerCNPJ(cnpjToNumbers(idSearch));
 
-      delete data.location;
-      delete data.estado;
-      const newData = [data];
+        delete data.location;
+        delete data.estado;
+        const newData = [data];
 
-      setChartData({
-        ...chartData,
-        data: newData,
-        totalPages: 0,
-        totalElements: 1,
-      });
-      return data;
+        setChartData({
+          ...chartData,
+          data: newData,
+          totalPages: 0,
+          totalElements: 1,
+        });
+        return data;
+      }
     }
-  });
+  );
 
   return (
     <Container>
@@ -108,6 +111,8 @@ export const Clients = () => {
         </button>
       </InputContainer>
       <Table
+        error={isError}
+        loading={isLoading || isFetching}
         data={chartData?.data}
         numberOfPages={chartData?.totalPages}
         totalElements={chartData?.totalElements}

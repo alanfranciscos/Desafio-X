@@ -17,7 +17,9 @@ import {
 } from "react-icons/bs";
 import { Button } from "./components/Button";
 import { ModalClient } from "../Client/ModalTable";
-import { Loader } from "../Loader";
+import { v4 as uuidv4 } from "uuid";
+import { ModalSale } from "../Sales/ModalTable";
+import { StatusRequest } from "../StatusRequest";
 
 type FilterPropsType = {
   atualPage: number;
@@ -33,6 +35,8 @@ type TablePropsType = {
   numberOfPages: number;
   totalElements: number;
   id: string;
+  error: boolean;
+  loading: boolean;
 };
 
 export const Table = ({
@@ -43,10 +47,14 @@ export const Table = ({
   numberOfPages,
   totalElements,
   id,
+  error,
+  loading,
 }: TablePropsType) => {
   const [arrowDirection, setArrowDirection] = useState(
     new Array(...dataKeys)?.fill("Down", 0, dataKeys?.length)
   );
+
+  const uuid = uuidv4();
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [coordinatesClick, setCoordinatesClick] = useState({
@@ -96,7 +104,13 @@ export const Table = ({
 
   const selectModal = () => {
     if (id === "id") {
-      return null;
+      return (
+        <ModalSale
+          coordinates={coordinatesClick}
+          closeModal={() => setModalIsOpen(false)}
+          id={itemSelected}
+        />
+      );
     }
     return (
       <ModalClient
@@ -116,7 +130,7 @@ export const Table = ({
           <>
             <TableContainer>
               <thead className="thead">
-                <tr>
+                <tr key={uuid}>
                   {dataKeys?.map((value, index) => (
                     <th
                       key={index}
@@ -149,12 +163,14 @@ export const Table = ({
                   <th>Ações</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody key={uuid}>
                 {data?.map((item, index) => {
                   return (
                     <tr key={index}>
                       {dataKeys.map((value) => (
-                        <td>{item?.[value.toLowerCase()]}</td>
+                        <td key={item?.[value.toLowerCase()]}>
+                          {item?.[value.toLowerCase()]}
+                        </td>
                       ))}
                       <Button
                         openModal={(event: any) => {
@@ -203,6 +219,7 @@ export const Table = ({
                 {pages?.map((i) => {
                   return (
                     <p
+                      key={i}
                       className={pages?.length === i ? "last-item" : "item"}
                       onClick={() =>
                         setFilter({
@@ -239,7 +256,7 @@ export const Table = ({
           </>
         ) : (
           <LoaderContainer>
-            <Loader />
+            <StatusRequest error={error} loading={loading} />
           </LoaderContainer>
         )}
       </Container>

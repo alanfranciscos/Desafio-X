@@ -4,18 +4,17 @@ import { Container, ModalContent } from "./styles";
 
 import { FaPen } from "react-icons/fa";
 import { IoMdTrash } from "react-icons/io";
-import { CLIENTS_API } from "../../../services/api";
+import { SALES_API } from "../../../services/api";
 import { useQuery } from "react-query";
-import { cnpjToNumbers } from "../../../utils/cnpj";
-import { DeleteClient } from "../Delete";
-import { RegisterOrEditClient } from "../RegisterOrEdit";
+import { RegisterOrEditSales } from "../RegisterOrEditSales";
+import { DeleteSale } from "../Delete";
 
 type CoordinatesType = {
   x: number;
   y: number;
 };
 
-export const ModalClient = ({
+export const ModalSale = ({
   closeModal,
   coordinates,
   id,
@@ -33,7 +32,7 @@ export const ModalClient = ({
   const { data, isLoading, isFetching, isError } = useQuery(
     ["clients", id],
     async () => {
-      const { data } = await CLIENTS_API.getPerCNPJ(cnpjToNumbers(id));
+      const { data } = await SALES_API.getPerId(id);
       return data;
     }
   );
@@ -48,36 +47,35 @@ export const ModalClient = ({
 
   const [deletIsOpen, setDeletIsOpen] = useState(false);
 
-  const editClient = () => {
+  const editSale = () => {
     if (editIsOpen) {
       return (
-        <RegisterOrEditClient
+        <RegisterOrEditSales
           modalIsOpen
           setModalIsOpen={(value: boolean) => {
             setEditIsOpen(value);
             closeModal();
           }}
-          title="Editar Cliente"
+          title="Editar Venda"
           placeholder={{
-            cnpj: data?.cnpj,
-            email: data?.email,
-            name: data?.nome,
-            phone: data?.telefone,
-            state: data?.estado,
-            location: [data?.location?.x, data?.location?.y],
+            client: data?.cliente?.cnpj,
+            saleDate: data?.data,
+            situation: data?.status,
+            valueSale: data?.valor,
           }}
+          saleId={id}
           placeHolderIsLoading={isLoading || isFetching}
-          error={isError}
+          errorEdit={isError}
         />
       );
     }
     return null;
   };
 
-  const deleteClient = () => {
+  const deleteSale = () => {
     if (deletIsOpen) {
       return (
-        <DeleteClient
+        <DeleteSale
           modalIsOpen
           setModalIsOpen={(value: boolean) => {
             setDeletIsOpen(value);
@@ -99,8 +97,8 @@ export const ModalClient = ({
         }
       }}
     >
-      {deleteClient()}
-      {editClient()}
+      {deleteSale()}
+      {editSale()}
       {!editIsOpen && !deletIsOpen && (
         <ModalContent
           id="modal-content"

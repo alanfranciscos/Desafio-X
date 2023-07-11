@@ -16,7 +16,8 @@ import { useEffect, useState } from "react";
 import { RegisterOrEditSaleProps } from "./types";
 import { useNavigate } from "react-router-dom";
 import { ModalStatus } from "../../Client/RegisterOrEdit/Components/ModalStatus";
-import { Loader } from "../../Loader";
+import { StatusRequest } from "../../StatusRequest";
+import { cnpjToNumbers } from "../../../utils/cnpj";
 
 export const RegisterOrEditSales = ({
   modalIsOpen,
@@ -24,22 +25,84 @@ export const RegisterOrEditSales = ({
   title,
   placeholder,
   placeHolderIsLoading,
+  saleId,
+  errorEdit,
 }: RegisterOrEditSaleProps) => {
   const [status, setStatus] = useState<undefined | boolean>(undefined);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const { data: dataClientsNames } = useQuery(["clients-names"], async () => {
+  const {
+    data: dataClientsNames,
+    isLoading: loadingClients,
+    isFetching: isFetchingClientsNames,
+    isError: isErrorClient,
+  } = useQuery(["clients-names"], async () => {
     const { data } = await CLIENTS_API.getClientsNames();
     return data;
   });
 
-  const { data: dataStatus } = useQuery(["sales-status"], async () => {
+  const {
+    data: dataStatus,
+    isLoading: loadingStatus,
+    isFetching: isFetchingStatus,
+    isError: isErrorStatus,
+  } = useQuery(["sales-status"], async () => {
     const { data } = await SALES_API.getPossibleStatus();
     return data;
   });
 
-  const editSale = async () => {};
+  const getClientDetails = async (cnpj: string) => {
+    return (await CLIENTS_API.getPerCNPJ(cnpjToNumbers(cnpj))).data;
+  };
 
-  const createSale = async () => {};
+  const editSale = async () => {
+    if (
+      formInputs?.client?.length &&
+      formInputs?.saleDate &&
+      formInputs?.situation &&
+      formInputs?.valueSale
+    ) {
+      await SALES_API.edit(saleId, {
+        cliente: (await getClientDetails(formInputs?.client)) as any,
+        data: formInputs?.saleDate,
+        status: formInputs?.situation,
+        valor: formInputs?.valueSale,
+      })
+        .then(function () {
+          setStatus(true);
+        })
+        .catch(function () {
+          setStatus(false);
+        });
+    } else {
+      setStatus(false);
+    }
+  };
+
+  const createSale = async () => {
+    if (
+      formInputs?.client?.length &&
+      formInputs?.saleDate &&
+      formInputs?.situation &&
+      formInputs?.valueSale
+    ) {
+      await SALES_API.create({
+        cliente: (await getClientDetails(formInputs?.client)) as any,
+        data: formInputs?.saleDate,
+        status: formInputs?.situation,
+        valor: formInputs?.valueSale,
+      })
+        .then(function () {
+          setStatus(true);
+        })
+        .catch(function () {
+          setStatus(false);
+        });
+    } else {
+      setStatus(false);
+    }
+  };
 
   const navigate = useNavigate();
 
@@ -60,25 +123,34 @@ export const RegisterOrEditSales = ({
     setModalIsOpen(false);
   };
 
-  const handleMouseCursor = (curosr: string) => {
-    document.body.style.cursor = curosr;
-    const button = document?.getElementById("button-confirm");
-    if (button !== null) {
-      button.style.cursor = curosr === "default" ? "pointer" : curosr;
-    }
-  };
-
   const [modal, setModal] = useState(document?.getElementById("modal"));
 
   useEffect(() => {
     setModal(document?.getElementById("modal"));
   }, [modalIsOpen, placeholder?.client]);
 
-  console.log(formInputs);
+  useEffect(() => {
+    setLoading(
+      placeHolderIsLoading ||
+        loadingClients ||
+        loadingStatus ||
+        isFetchingClientsNames ||
+        isFetchingStatus
+    );
+    setError(isErrorClient || isErrorStatus);
+  }, [
+    placeHolderIsLoading,
+    loadingClients,
+    loadingStatus,
+    isFetchingClientsNames,
+    isFetchingStatus,
+    isErrorStatus,
+    isErrorClient,
+  ]);
 
   return (
     <>
-      {modalIsOpen ? (
+      {modalIsOpen && (
         <Container
           id="modal"
           onClick={(event) => {
@@ -91,9 +163,9 @@ export const RegisterOrEditSales = ({
             <ModalHeader>
               <h3>{title}</h3>
             </ModalHeader>
-            {placeHolderIsLoading ? (
+            {loading || error ? (
               <LoaderContainer>
-                <Loader />
+                <StatusRequest error={error} loading={loading} />
               </LoaderContainer>
             ) : (
               <>
@@ -163,13 +235,10 @@ export const RegisterOrEditSales = ({
                       className="button-confirm"
                       id="button-confirm"
                       onClick={async () => {
-                        handleMouseCursor("wait");
                         if (placeholder?.client) {
                           await editSale();
-                          handleMouseCursor("default");
                         } else {
                           await createSale();
-                          handleMouseCursor("default");
                         }
                       }}
                     >
@@ -191,12 +260,13 @@ export const RegisterOrEditSales = ({
             )}
           </ModalContent>
         </Container>
-      ) : null}
+      )}
     </>
   );
 };
 
 RegisterOrEditSales.defaultProps = {
+  saleId: null,
   placeholder: {
     client: null,
     saleDate: null,
@@ -204,4 +274,5 @@ RegisterOrEditSales.defaultProps = {
     valueSale: "R$ 0,00",
   },
   placeHolderIsLoading: false,
+  errorEdit: false,
 };

@@ -1,5 +1,6 @@
 export type RegisterOrEditSaleProps = {
   modalIsOpen: boolean;
+  saleId: string;
   setModalIsOpen: Function;
   title: string;
   placeholder: {
@@ -9,4 +10,5 @@ export type RegisterOrEditSaleProps = {
     valueSale: number | null;
   };
   placeHolderIsLoading: boolean;
+  errorEdit: boolean;
 };

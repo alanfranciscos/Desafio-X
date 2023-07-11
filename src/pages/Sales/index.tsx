@@ -17,9 +17,7 @@ type returnDataProps = {
 };
 
 export const Sales = () => {
-  const [modalIsOpen, setModalIsOpen] = useState({
-    registerClient: false,
-  });
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const [chartData, setChartData] = useState({
     data: [{}],
@@ -36,55 +34,58 @@ export const Sales = () => {
   const [inputSearch, setInputSearch] = useState("");
   const [idSearch, setIdSerach] = useState("");
 
-  useQuery(["clients", tableFilter, idSearch], async () => {
-    if (!idSearch) {
-      const { data } = await SALES_API.get(
-        tableFilter?.atualPage,
-        tableFilter?.sorted.toLowerCase(),
-        tableFilter?.sortOrder
-      );
+  const { isLoading, isFetching, isError } = useQuery(
+    ["clients", tableFilter, idSearch],
+    async () => {
+      if (!idSearch) {
+        const { data } = await SALES_API.get(
+          tableFilter?.atualPage,
+          tableFilter?.sorted.toLowerCase(),
+          tableFilter?.sortOrder
+        );
 
-      data?.content?.forEach((element: returnDataProps) => {
-        element.cliente = element?.cliente?.nome;
-        const status = element.status.replace("_", " ");
-        element.status =
-          status?.charAt(0).toUpperCase() + status?.slice(1).toLowerCase();
-      });
+        data?.content?.forEach((element: returnDataProps) => {
+          element.cliente = element?.cliente?.nome;
+          const status = element.status.replace("_", " ");
+          element.status =
+            status?.charAt(0).toUpperCase() + status?.slice(1).toLowerCase();
+        });
 
-      setChartData({
-        ...chartData,
-        data: data?.content,
-        totalPages: data?.totalPages,
-        totalElements: data?.totalElements,
-      });
-    } else {
-      const { data } = await SALES_API.getPerClient(
-        tableFilter?.atualPage,
-        idSearch,
-        tableFilter?.sorted.toLowerCase(),
-        tableFilter?.sortOrder
-      );
+        setChartData({
+          ...chartData,
+          data: data?.content,
+          totalPages: data?.totalPages,
+          totalElements: data?.totalElements,
+        });
+      } else {
+        const { data } = await SALES_API.getPerClient(
+          tableFilter?.atualPage,
+          idSearch,
+          tableFilter?.sorted.toLowerCase(),
+          tableFilter?.sortOrder
+        );
 
-      data?.content?.forEach((element: returnDataProps) => {
-        element.cliente = element?.cliente?.nome;
-        const status = element.status.replace("_", " ");
-        element.status =
-          status?.charAt(0).toUpperCase() + status?.slice(1).toLowerCase();
-      });
-      setChartData({
-        ...chartData,
-        data: data?.content,
-        totalPages: data?.totalPages,
-        totalElements: data?.totalElements,
-      });
+        data?.content?.forEach((element: returnDataProps) => {
+          element.cliente = element?.cliente?.nome;
+          const status = element.status.replace("_", " ");
+          element.status =
+            status?.charAt(0).toUpperCase() + status?.slice(1).toLowerCase();
+        });
+        setChartData({
+          ...chartData,
+          data: data?.content,
+          totalPages: data?.totalPages,
+          totalElements: data?.totalElements,
+        });
+      }
     }
-  });
+  );
 
   const Modals = () => {
     return (
       <RegisterOrEditSales
-        modalIsOpen={true}
-        setModalIsOpen={() => null}
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
         title="Cadastrar Venda"
       />
     );
@@ -107,17 +108,15 @@ export const Sales = () => {
         </SearchContainer>
         <button
           className="register"
-          onClick={() =>
-            setModalIsOpen({
-              registerClient: !modalIsOpen?.registerClient,
-            })
-          }
+          onClick={() => setModalIsOpen(!modalIsOpen)}
         >
           <BsPlusLg />
           &nbsp; Cadastrar venda
         </button>
       </InputContainer>
       <Table
+        error={isError}
+        loading={isFetching || isLoading}
         data={chartData?.data}
         numberOfPages={chartData?.totalPages}
         totalElements={chartData?.totalElements}

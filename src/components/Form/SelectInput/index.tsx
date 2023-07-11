@@ -18,7 +18,11 @@ export const SelectInput = ({
       <>
         <label>{label}</label>
         {data?.length ? (
-          <select name={label} onChange={(e) => getValue(e.target.value)}>
+          <select
+            name={label}
+            onChange={(e) => getValue(e.target.value)}
+            key={label + "-select"}
+          >
             <option selected={false} value="">
               Selecione um item
             </option>
@@ -26,6 +30,7 @@ export const SelectInput = ({
               <option
                 selected={valueSelected === item?.value}
                 value={item?.value}
+                key={item?.value}
               >
                 {item?.label}
               </option>
