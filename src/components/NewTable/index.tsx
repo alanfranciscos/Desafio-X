@@ -17,9 +17,9 @@ import {
 } from "react-icons/bs";
 import { Button } from "./components/Button";
 import { ModalClient } from "../Client/ModalTable";
-import { Loader } from "../StatusRequest/Loader";
 import { v4 as uuidv4 } from "uuid";
 import { ModalSale } from "../Sales/ModalTable";
+import { StatusRequest } from "../StatusRequest";
 
 type FilterPropsType = {
   atualPage: number;
@@ -35,6 +35,8 @@ type TablePropsType = {
   numberOfPages: number;
   totalElements: number;
   id: string;
+  error: boolean;
+  loading: boolean;
 };
 
 export const Table = ({
@@ -45,6 +47,8 @@ export const Table = ({
   numberOfPages,
   totalElements,
   id,
+  error,
+  loading,
 }: TablePropsType) => {
   const [arrowDirection, setArrowDirection] = useState(
     new Array(...dataKeys)?.fill("Down", 0, dataKeys?.length)
@@ -252,7 +256,7 @@ export const Table = ({
           </>
         ) : (
           <LoaderContainer>
-            <Loader />
+            <StatusRequest error={error} loading={loading} />
           </LoaderContainer>
         )}
       </Container>

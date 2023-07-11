@@ -17,6 +17,7 @@ import { RegisterOrEditSaleProps } from "./types";
 import { useNavigate } from "react-router-dom";
 import { ModalStatus } from "../../Client/RegisterOrEdit/Components/ModalStatus";
 import { StatusRequest } from "../../StatusRequest";
+import { cnpjToNumbers } from "../../../utils/cnpj";
 
 export const RegisterOrEditSales = ({
   modalIsOpen,
@@ -51,6 +52,10 @@ export const RegisterOrEditSales = ({
     return data;
   });
 
+  const getClientDetails = async (cnpj: string) => {
+    return (await CLIENTS_API.getPerCNPJ(cnpjToNumbers(cnpj))).data;
+  };
+
   const editSale = async () => {
     if (
       formInputs?.client?.length &&
@@ -59,7 +64,7 @@ export const RegisterOrEditSales = ({
       formInputs?.valueSale
     ) {
       await SALES_API.edit(saleId, {
-        cliente: formInputs?.client,
+        cliente: (await getClientDetails(formInputs?.client)) as any,
         data: formInputs?.saleDate,
         status: formInputs?.situation,
         valor: formInputs?.valueSale,
@@ -83,7 +88,7 @@ export const RegisterOrEditSales = ({
       formInputs?.valueSale
     ) {
       await SALES_API.create({
-        cliente: formInputs?.client,
+        cliente: (await getClientDetails(formInputs?.client)) as any,
         data: formInputs?.saleDate,
         status: formInputs?.situation,
         valor: formInputs?.valueSale,

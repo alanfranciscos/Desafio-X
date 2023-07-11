@@ -63,6 +63,7 @@ export const ModalSale = ({
             situation: data?.status,
             valueSale: data?.valor,
           }}
+          saleId={id}
           placeHolderIsLoading={isLoading || isFetching}
           errorEdit={isError}
         />

@@ -1,3 +1,4 @@
+import { EmptyData } from "./EmptyData";
 import { Loader } from "./Loader";
 import { Error } from "./error";
 import { StatusRequestProps } from "./types";
@@ -9,5 +10,5 @@ export const StatusRequest = ({ loading, error }: StatusRequestProps) => {
   if (error) {
     return <Error />;
   }
-  return null;
+  return <EmptyData />;
 };
