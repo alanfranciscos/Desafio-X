@@ -11,6 +11,8 @@ export const Container = styled.div`
 
     text-decoration: underline #023e8a;
   }
+
+  padding-bottom: 30px;
 `;
 
 export const ContainerCards = styled.div`

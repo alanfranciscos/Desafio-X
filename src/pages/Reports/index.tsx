@@ -3,6 +3,8 @@ import { Card } from "./components/Card";
 import { Container, ContainerCards } from "./styles";
 import Tabs from "./components/Tabs";
 import { Tab } from "./components/Tabs/Tab";
+import { ClientLocationMap } from "./components/ClientLocationMap";
+import { BeelingPerMoth } from "./components/BillingPerMonth";
 
 export const Reports = () => {
   return (
@@ -33,10 +35,10 @@ export const Reports = () => {
 
       <Tabs>
         <Tab title="Localização de Clientes">
-          <p>mapa</p>
+          <ClientLocationMap />
         </Tab>
         <Tab title="Faturamento por mês">
-          <p>GRAFICO</p>
+          <BeelingPerMoth />
         </Tab>
       </Tabs>
     </Container>

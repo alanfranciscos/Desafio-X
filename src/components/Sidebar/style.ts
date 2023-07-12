@@ -63,7 +63,7 @@ export const Container = styled.aside<ContainerProps>`
   position: fixed;
   height: 100%;
   background-color: #023e8a;
-  z-index: 1 !important;
+  z-index: 1000 !important;
   border-top: #ffffff 3px solid;
   overflow: hidden;
 
