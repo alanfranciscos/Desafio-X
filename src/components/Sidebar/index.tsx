@@ -79,7 +79,12 @@ export const SideBar = ({
       <h2 data-testid="sidebar-title">RELATÓRIOS</h2>
       <ul data-testid="sidebar-list">
         <li>
-          <Item>Relatórios</Item>
+          <Item
+            selected={location.pathname === "/relatorios"}
+            onClick={() => handlePage("/relatorios")}
+          >
+            Relatórios
+          </Item>
         </li>
       </ul>
     </Container>
