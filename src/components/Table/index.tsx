@@ -16,28 +16,10 @@ import {
   BsChevronDoubleRight,
 } from "react-icons/bs";
 import { Button } from "./components/Button";
-import { ModalClient } from "../Client/ModalTable";
 import { v4 as uuidv4 } from "uuid";
-import { ModalSale } from "../Sales/ModalTable";
 import { StatusRequest } from "../StatusRequest";
-
-type FilterPropsType = {
-  atualPage: number;
-  sorted: string;
-  sortOrder: string;
-};
-
-type TablePropsType = {
-  data: any[];
-  dataKeys: String[];
-  filter: FilterPropsType;
-  setFilter: Function;
-  numberOfPages: number;
-  totalElements: number;
-  id: string;
-  error: boolean;
-  loading: boolean;
-};
+import { TablePropsType } from "./types";
+import { Modal } from "./components/Modal";
 
 export const Table = ({
   data,
@@ -49,6 +31,8 @@ export const Table = ({
   id,
   error,
   loading,
+  actionButton,
+  setItemSelected,
 }: TablePropsType) => {
   const [arrowDirection, setArrowDirection] = useState(
     new Array(...dataKeys)?.fill("Down", 0, dataKeys?.length)
@@ -63,8 +47,6 @@ export const Table = ({
   });
 
   const [pages, setPages] = useState([0]);
-
-  const [itemSelected, setItemSelected] = useState("");
 
   useEffect(() => {
     const pages = [];
@@ -102,29 +84,16 @@ export const Table = ({
     return "asc";
   };
 
-  const selectModal = () => {
-    if (id === "id") {
-      return (
-        <ModalSale
-          coordinates={coordinatesClick}
-          closeModal={() => setModalIsOpen(false)}
-          id={itemSelected}
-        />
-      );
-    }
-    return (
-      <ModalClient
-        coordinates={coordinatesClick}
-        closeModal={() => setModalIsOpen(false)}
-        id={itemSelected}
-      />
-    );
-  };
-
   return (
     <>
       <Container id="container">
-        {modalIsOpen ? selectModal() : null}
+        {modalIsOpen ? (
+          <Modal
+            coordinates={coordinatesClick}
+            closeModal={() => setModalIsOpen(false)}
+            actionButton={actionButton}
+          />
+        ) : null}
         <TableTitle>Clientes cadastrados</TableTitle>
         {data?.length && dataKeys?.length && totalElements !== -1 ? (
           <>
@@ -160,7 +129,7 @@ export const Table = ({
                       )}
                     </th>
                   ))}
-                  <th>Ações</th>
+                  {actionButton ? <th>Ações</th> : null}
                 </tr>
               </thead>
               <tbody key={uuid}>
@@ -172,19 +141,21 @@ export const Table = ({
                           {item?.[value.toLowerCase()]}
                         </td>
                       ))}
-                      <Button
-                        openModal={(event: any) => {
-                          setCoordinatesClick({
-                            x: event?.clientX,
-                            y: event?.clientY,
-                          });
-                          setModalIsOpen(true);
-                          setItemSelected(item[id]);
-                        }}
-                      >
-                        Ações
-                        <IoIosArrowDown />
-                      </Button>
+                      {actionButton ? (
+                        <Button
+                          openModal={(event: any) => {
+                            setCoordinatesClick({
+                              x: event?.clientX,
+                              y: event?.clientY,
+                            });
+                            setModalIsOpen(true);
+                            setItemSelected(item[id]);
+                          }}
+                        >
+                          Ações
+                          <IoIosArrowDown />
+                        </Button>
+                      ) : null}
                     </tr>
                   );
                 })}
@@ -262,4 +233,9 @@ export const Table = ({
       </Container>
     </>
   );
+};
+
+Table.defaultProps = {
+  actionButton: null,
+  setItemSelected: () => null,
 };

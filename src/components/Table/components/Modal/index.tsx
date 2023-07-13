@@ -4,38 +4,29 @@ import { Container, ModalContent } from "./styles";
 
 import { FaPen } from "react-icons/fa";
 import { IoMdTrash } from "react-icons/io";
-import { SALES_API } from "../../../services/api";
-import { useQuery } from "react-query";
-import { RegisterOrEditSales } from "../RegisterOrEditSales";
-import { DeleteSale } from "../Delete";
 
 type CoordinatesType = {
   x: number;
   y: number;
 };
 
-export const ModalSale = ({
+export const Modal = ({
   closeModal,
   coordinates,
-  id,
+  actionButton,
 }: {
   closeModal: Function;
   coordinates: CoordinatesType;
-  id: string;
+  actionButton: {
+    edit: Function;
+    delete: Function;
+  } | null;
 }) => {
   const [modal, setModal] = useState(document?.getElementById("modal"));
 
   useEffect(() => {
     setModal(document?.getElementById("modal-options"));
   }, []);
-
-  const { data, isLoading, isFetching, isError } = useQuery(
-    ["clients", id],
-    async () => {
-      const { data } = await SALES_API.getPerId(id);
-      return data;
-    }
-  );
 
   const verifyWidthOfModal = () => {
     const modalWidth = document?.querySelector("#modal-content")?.clientWidth;
@@ -44,49 +35,7 @@ export const ModalSale = ({
   };
 
   const [editIsOpen, setEditIsOpen] = useState(false);
-
   const [deletIsOpen, setDeletIsOpen] = useState(false);
-
-  const editSale = () => {
-    if (editIsOpen) {
-      return (
-        <RegisterOrEditSales
-          modalIsOpen
-          setModalIsOpen={(value: boolean) => {
-            setEditIsOpen(value);
-            closeModal();
-          }}
-          title="Editar Venda"
-          placeholder={{
-            client: data?.cliente?.cnpj,
-            saleDate: data?.data,
-            situation: data?.status,
-            valueSale: data?.valor,
-          }}
-          saleId={id}
-          placeHolderIsLoading={isLoading || isFetching}
-          errorEdit={isError}
-        />
-      );
-    }
-    return null;
-  };
-
-  const deleteSale = () => {
-    if (deletIsOpen) {
-      return (
-        <DeleteSale
-          modalIsOpen
-          setModalIsOpen={(value: boolean) => {
-            setDeletIsOpen(value);
-            closeModal();
-          }}
-          id={id}
-        />
-      );
-    }
-    return null;
-  };
 
   return (
     <Container
@@ -97,9 +46,7 @@ export const ModalSale = ({
         }
       }}
     >
-      {deleteSale()}
-      {editSale()}
-      {!editIsOpen && !deletIsOpen && (
+      {!editIsOpen && !deletIsOpen ? (
         <ModalContent
           id="modal-content"
           style={{
@@ -110,6 +57,7 @@ export const ModalSale = ({
         >
           <button
             onClick={() => {
+              actionButton?.edit();
               setEditIsOpen(true);
             }}
           >
@@ -118,6 +66,7 @@ export const ModalSale = ({
           </button>
           <button
             onClick={() => {
+              actionButton?.delete();
               setDeletIsOpen(true);
             }}
           >
@@ -125,6 +74,12 @@ export const ModalSale = ({
             <span>Excluir</span>
           </button>
         </ModalContent>
+      ) : (
+        <>
+          {setEditIsOpen(false)}
+          {setDeletIsOpen(false)}
+          {closeModal()}
+        </>
       )}
     </Container>
   );

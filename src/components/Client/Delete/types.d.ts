@@ -1,5 +1,5 @@
 export type DeleteClientProps = {
   modalIsOpen: boolean;
   setModalIsOpen: Function;
-  id: string;
+  id: string | null;
 };

@@ -56,12 +56,21 @@ export const RegisterOrEditSales = ({
     return (await CLIENTS_API.getPerCNPJ(cnpjToNumbers(cnpj))).data;
   };
 
+  const handleMouseCursor = (curosr: string) => {
+    document.body.style.cursor = curosr;
+    const button = document?.getElementById("button-confirm");
+    if (button !== null) {
+      button.style.cursor = curosr === "default" ? "pointer" : curosr;
+    }
+  };
+
   const editSale = async () => {
     if (
       formInputs?.client?.length &&
       formInputs?.saleDate &&
       formInputs?.situation &&
-      formInputs?.valueSale
+      formInputs?.valueSale &&
+      saleId
     ) {
       await SALES_API.edit(saleId, {
         cliente: (await getClientDetails(formInputs?.client)) as any,
@@ -235,11 +244,13 @@ export const RegisterOrEditSales = ({
                       className="button-confirm"
                       id="button-confirm"
                       onClick={async () => {
+                        handleMouseCursor("wait");
                         if (placeholder?.client) {
                           await editSale();
                         } else {
                           await createSale();
                         }
+                        handleMouseCursor("default");
                       }}
                     >
                       Salvar

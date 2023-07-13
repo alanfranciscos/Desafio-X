@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
-import { Table } from "../../components/NewTable";
+import { Table } from "../../components/Table";
 import { Container, InputContainer, SearchContainer } from "./styles";
 
 import { AiOutlineSearch } from "react-icons/ai";
@@ -8,6 +8,8 @@ import { BsPlusLg } from "react-icons/bs";
 import { CLIENTS_API } from "../../services/api";
 import { cnpjToNumbers } from "../../utils/cnpj";
 import { RegisterOrEditClient } from "../../components/Client/RegisterOrEdit";
+import { EditClient } from "./components/editClient";
+import { DeleteClient } from "./components/deleteClient";
 
 type returnDataProps = {
   location?: object;
@@ -77,6 +79,11 @@ export const Clients = () => {
     }
   );
 
+  const [idSelected, setIdSelected] = useState(null);
+
+  const [editItemIsOpen, setEditItemIsOpen] = useState(false);
+  const [deleteItemIsOpen, setDeleteItemIsOpen] = useState(false);
+
   return (
     <Container>
       {/* modals */}
@@ -84,6 +91,18 @@ export const Clients = () => {
         modalIsOpen={modalIsOpen?.registerClient}
         setModalIsOpen={setModalIsOpen}
         title="Cadastrar Cliente"
+      />
+
+      <EditClient
+        editIsOpen={editItemIsOpen}
+        setEditIsOpen={setEditItemIsOpen}
+        idSelected={idSelected}
+      />
+
+      <DeleteClient
+        deleteIsOpen={deleteItemIsOpen}
+        setDeleteIsOpen={setDeleteItemIsOpen}
+        idSelected={idSelected}
       />
       {/* end modals */}
 
@@ -120,6 +139,11 @@ export const Clients = () => {
         filter={tableFilter}
         setFilter={setTableFilter}
         id="cnpj"
+        setItemSelected={setIdSelected}
+        actionButton={{
+          delete: () => setDeleteItemIsOpen(true),
+          edit: () => setEditItemIsOpen(true),
+        }}
       />
     </Container>
   );

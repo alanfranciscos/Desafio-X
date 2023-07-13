@@ -12,7 +12,7 @@ import { CLIENTS_API } from "../../../services/api";
 import { useNavigate } from "react-router-dom";
 import { cnpjToNumbers } from "../../../utils/cnpj";
 
-export const DeleteClient = ({
+export const DeleteClientModal = ({
   modalIsOpen,
   setModalIsOpen,
   id,
@@ -26,6 +26,14 @@ export const DeleteClient = ({
 
   const deleteClient = async (id: string) => {
     CLIENTS_API.delete(cnpjToNumbers(id)).then(() => navigate(0));
+  };
+
+  const handleMouseCursor = (curosr: string) => {
+    document.body.style.cursor = curosr;
+    const button = document?.getElementById("button-confirm");
+    if (button !== null) {
+      button.style.cursor = curosr === "default" ? "pointer" : curosr;
+    }
   };
 
   return (
@@ -57,7 +65,11 @@ export const DeleteClient = ({
             </button>
             <button
               onClick={async () => {
-                await deleteClient(id);
+                handleMouseCursor("wait");
+                if (id) {
+                  await deleteClient(id);
+                }
+                handleMouseCursor("default");
               }}
               className="button-confirm"
             >

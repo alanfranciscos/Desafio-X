@@ -1,5 +1,5 @@
 export type DeleteSalesProps = {
   modalIsOpen: boolean;
   setModalIsOpen: Function;
-  id: string;
+  id: string | null;
 };

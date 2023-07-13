@@ -328,11 +328,10 @@ export const RegisterOrEditClient = ({
                         handleMouseCursor("wait");
                         if (placeholder?.cnpj) {
                           await editClient();
-                          handleMouseCursor("default");
                         } else {
                           await createClient();
-                          handleMouseCursor("default");
                         }
+                        handleMouseCursor("default");
                       }}
                     >
                       Salvar

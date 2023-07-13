@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Table } from "../../components/NewTable";
+import { Table } from "../../components/Table";
 import { Container, InputContainer, SearchContainer } from "./styles";
 
 import { AiOutlineSearch } from "react-icons/ai";
@@ -7,6 +7,8 @@ import { BsPlusLg } from "react-icons/bs";
 import { RegisterOrEditSales } from "../../components/Sales/RegisterOrEditSales";
 import { useQuery } from "react-query";
 import { SALES_API } from "../../services/api";
+import { EditSale } from "./components/EditSale";
+import { DeleteSale } from "./components/DeleteSale";
 
 type returnDataProps = {
   cliente: any;
@@ -81,13 +83,31 @@ export const Sales = () => {
     }
   );
 
+  const [idSelected, setIdSelected] = useState(null);
+  const [editIsOpen, setEditIsOpen] = useState(false);
+  const [deleteIsOpen, setDeleteIsOpen] = useState(false);
+
   const Modals = () => {
     return (
-      <RegisterOrEditSales
-        modalIsOpen={modalIsOpen}
-        setModalIsOpen={setModalIsOpen}
-        title="Cadastrar Venda"
-      />
+      <>
+        <RegisterOrEditSales
+          modalIsOpen={modalIsOpen}
+          setModalIsOpen={setModalIsOpen}
+          title="Cadastrar Venda"
+        />
+
+        <EditSale
+          editIsOpen={editIsOpen}
+          setEditIsOpen={setEditIsOpen}
+          idSelected={idSelected}
+        />
+
+        <DeleteSale
+          deleteIsOpen={deleteIsOpen}
+          setDeleteIsOpen={setDeleteIsOpen}
+          idSelected={idSelected}
+        />
+      </>
     );
   };
 
@@ -124,6 +144,11 @@ export const Sales = () => {
         filter={tableFilter}
         setFilter={setTableFilter}
         id="id"
+        setItemSelected={setIdSelected}
+        actionButton={{
+          delete: () => setDeleteIsOpen(true),
+          edit: () => setEditIsOpen(true),
+        }}
       />
     </Container>
   );

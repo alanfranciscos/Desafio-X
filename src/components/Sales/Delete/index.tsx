@@ -11,7 +11,7 @@ import { DeleteSalesProps } from "./types";
 import { useNavigate } from "react-router-dom";
 import { SALES_API } from "../../../services/api";
 
-export const DeleteSale = ({
+export const DeleteSaleModal = ({
   modalIsOpen,
   setModalIsOpen,
   id,
@@ -53,7 +53,9 @@ export const DeleteSale = ({
             </button>
             <button
               onClick={async () => {
-                await deleteClient(id);
+                if (id) {
+                  await deleteClient(id);
+                }
               }}
               className="button-confirm"
             >

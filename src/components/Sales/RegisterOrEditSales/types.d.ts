@@ -1,6 +1,6 @@
 export type RegisterOrEditSaleProps = {
   modalIsOpen: boolean;
-  saleId: string;
+  saleId: string | null;
   setModalIsOpen: Function;
   title: string;
   placeholder: {
