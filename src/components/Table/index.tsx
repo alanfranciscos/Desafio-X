@@ -33,6 +33,7 @@ export const Table = ({
   loading,
   actionButton,
   setItemSelected,
+  titleTable,
 }: TablePropsType) => {
   const [arrowDirection, setArrowDirection] = useState(
     new Array(...dataKeys)?.fill("Down", 0, dataKeys?.length)
@@ -49,12 +50,26 @@ export const Table = ({
   const [pages, setPages] = useState([0]);
 
   useEffect(() => {
-    const pages = [];
-    for (let i = 0; i < numberOfPages; i++) {
-      pages.push(i + 1);
+    if (numberOfPages) {
+      const pages = [];
+      for (let i = 0; i < numberOfPages; i++) {
+        pages.push(i + 1);
+      }
+      setPages(pages);
     }
-    setPages(pages);
   }, [numberOfPages]);
+
+  const verifyIfHasArrow = (index: number) => {
+    if (filter) {
+      if (arrowDirection[index] === "Down") {
+        return <IoIosArrowDown />;
+      } else {
+        return <IoIosArrowUp />;
+      }
+    }
+
+    return null;
+  };
 
   const handleArrowDirection = (index: number, value: String) => {
     let i = 0;
@@ -94,7 +109,7 @@ export const Table = ({
             actionButton={actionButton}
           />
         ) : null}
-        <TableTitle>Clientes cadastrados</TableTitle>
+        <TableTitle>{titleTable}</TableTitle>
         {data?.length && dataKeys?.length && totalElements !== -1 ? (
           <>
             <TableContainer>
@@ -122,11 +137,7 @@ export const Table = ({
                       }}
                     >
                       {value}
-                      {arrowDirection[index] === "Down" ? (
-                        <IoIosArrowDown />
-                      ) : (
-                        <IoIosArrowUp />
-                      )}
+                      {verifyIfHasArrow(index)}
                     </th>
                   ))}
                   {actionButton ? <th>Ações</th> : null}
@@ -138,7 +149,14 @@ export const Table = ({
                     <tr key={index}>
                       {dataKeys.map((value) => (
                         <td key={item?.[value.toLowerCase()]}>
-                          {item?.[value.toLowerCase()]}
+                          {
+                            item?.[
+                              value
+                                .toLowerCase()
+                                .normalize("NFD")
+                                .replace(/[^a-zA-Z\s]/g, "")
+                            ]
+                          }
                         </td>
                       ))}
                       {actionButton ? (
@@ -149,7 +167,9 @@ export const Table = ({
                               y: event?.clientY,
                             });
                             setModalIsOpen(true);
-                            setItemSelected(item[id]);
+                            if (id) {
+                              setItemSelected(item[id]);
+                            }
                           }}
                         >
                           Ações
@@ -161,69 +181,71 @@ export const Table = ({
                 })}
               </tbody>
             </TableContainer>
-            <FooterContainer>
-              <p>{`Exibindo de ${(filter?.atualPage + 1) * 10 - 9} a ${
-                (filter?.atualPage + 1) * 10 > totalElements
-                  ? totalElements
-                  : (filter?.atualPage + 1) * 10
-              } de ${totalElements} registros`}</p>
-              <SelectPage>
-                <BsChevronDoubleLeft
-                  onClick={() =>
-                    setFilter({
-                      ...filter,
-                      atualPage: 0,
-                    })
-                  }
-                />
-                <BsChevronCompactLeft
-                  onClick={() =>
-                    setFilter({
-                      ...filter,
-                      atualPage:
-                        filter?.atualPage - 1 < 0
-                          ? filter?.atualPage
-                          : filter?.atualPage - 1,
-                    })
-                  }
-                />
-                {pages?.map((i) => {
-                  return (
-                    <p
-                      key={i}
-                      className={pages?.length === i ? "last-item" : "item"}
-                      onClick={() =>
-                        setFilter({
-                          ...filter,
-                          atualPage: i - 1,
-                        })
-                      }
-                    >
-                      {i}
-                    </p>
-                  );
-                })}
-                <BsChevronCompactRight
-                  onClick={() =>
-                    setFilter({
-                      ...filter,
-                      atualPage:
-                        filter?.atualPage + 1 >= numberOfPages
-                          ? filter?.atualPage
-                          : filter?.atualPage + 1,
-                    })
-                  }
-                />
-                <BsChevronDoubleRight
-                  onClick={() =>
-                    setFilter({
-                      ...filter,
-                      atualPage: numberOfPages - 1,
-                    })
-                  }
-                />
-              </SelectPage>
-            </FooterContainer>
+            {totalElements && numberOfPages && filter ? (
+              <FooterContainer>
+                <p>{`Exibindo de ${(filter?.atualPage + 1) * 10 - 9} a ${
+                  (filter?.atualPage + 1) * 10 > totalElements
+                    ? totalElements
+                    : (filter?.atualPage + 1) * 10
+                } de ${totalElements} registros`}</p>
+                <SelectPage>
+                  <BsChevronDoubleLeft
+                    onClick={() =>
+                      setFilter({
+                        ...filter,
+                        atualPage: 0,
+                      })
+                    }
+                  />
+                  <BsChevronCompactLeft
+                    onClick={() =>
+                      setFilter({
+                        ...filter,
+                        atualPage:
+                          filter?.atualPage - 1 < 0
+                            ? filter?.atualPage
+                            : filter?.atualPage - 1,
+                      })
+                    }
+                  />
+                  {pages?.map((i) => {
+                    return (
+                      <p
+                        key={i}
+                        className={pages?.length === i ? "last-item" : "item"}
+                        onClick={() =>
+                          setFilter({
+                            ...filter,
+                            atualPage: i - 1,
+                          })
+                        }
+                      >
+                        {i}
+                      </p>
+                    );
+                  })}
+                  <BsChevronCompactRight
+                    onClick={() =>
+                      setFilter({
+                        ...filter,
+                        atualPage:
+                          filter?.atualPage + 1 >= numberOfPages
+                            ? filter?.atualPage
+                            : filter?.atualPage + 1,
+                      })
+                    }
+                  />
+                  <BsChevronDoubleRight
+                    onClick={() =>
+                      setFilter({
+                        ...filter,
+                        atualPage: numberOfPages - 1,
+                      })
+                    }
+                  />
+                </SelectPage>
+              </FooterContainer>
+            ) : null}
           </>
         ) : (
           <LoaderContainer>
@@ -238,4 +260,10 @@ export const Table = ({
 Table.defaultProps = {
   actionButton: null,
   setItemSelected: () => null,
+  id: null,
+  numberOfPages: null,
+  totalElements: null,
+  titleTable: null,
+  setFilter: () => null,
+  filter: null,
 };

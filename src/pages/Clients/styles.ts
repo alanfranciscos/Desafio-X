@@ -77,3 +77,7 @@ export const SearchContainer = styled.div`
     }
   }
 `;
+
+export const ContentContainer = styled.div`
+  margin-top: 20px;
+`;

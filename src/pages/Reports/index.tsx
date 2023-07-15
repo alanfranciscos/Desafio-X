@@ -5,8 +5,19 @@ import Tabs from "./components/Tabs";
 import { Tab } from "./components/Tabs/Tab";
 import { ClientLocationMap } from "./components/ClientLocationMap";
 import { BeelingPerMoth } from "./components/BillingPerMonth";
+import { REPORTS_API } from "../../services/api";
+import { useQuery } from "react-query";
+import { formatCurrencyNumber } from "../../utils/formatCurrencyNumber";
 
 export const Reports = () => {
+  const { data, isError, isLoading, isFetching } = useQuery(
+    ["Reports - cards"],
+    async () => {
+      const { data } = await REPORTS_API.getCards();
+      return data;
+    }
+  );
+
   return (
     <Container>
       <h1>Relatórios</h1>
@@ -14,22 +25,38 @@ export const Reports = () => {
         <Card
           title="vendas no ano"
           icon={<TbCurrencyDollar />}
-          value={"R$ 500.000,00"}
+          value={formatCurrencyNumber(data?.soma_das_vendas_anual?.valor)}
+          loading={isFetching || isLoading}
+          error={isError}
         />
         <Card
           title="CLIENTE COM MAIS VENDAS NO MÊS"
           icon={<TbCurrencyDollar />}
-          value={"LIVRARIA SEU LIVRO"}
+          value={data?.cliente_com_maior_vendas_mensal?.valor}
+          loading={isFetching || isLoading}
+          error={isError}
         />
         <Card
           title="CLIENTE COM MAIOR FATURAMENTO (MÊS)"
           icon={<TbCurrencyDollar />}
-          value={"SEU BAR (R$ 5.000,00)"}
+          value={` ${
+            data?.cliente_com_maior_faturamento_mensal?.cliente
+          } (${formatCurrencyNumber(
+            data?.cliente_com_maior_faturamento_mensal?.valor
+          )})`}
+          loading={isFetching || isLoading}
+          error={isError}
         />
         <Card
           title="CLIENTE COM MAIOR FATURAMENTO (ANO)"
           icon={<TbCurrencyDollar />}
-          value={"SEU BAR (R$ 50.000,00)"}
+          value={` ${
+            data?.cliente_com_maior_faturamento_anual?.cliente
+          } (${formatCurrencyNumber(
+            data?.cliente_com_maior_faturamento_anual?.valor
+          )})`}
+          loading={isFetching || isLoading}
+          error={isError}
         />
       </ContainerCards>
 

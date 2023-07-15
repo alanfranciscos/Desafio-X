@@ -103,8 +103,8 @@ export const Map = ({
 Map.defaultProps = {
   width: "100%",
   height: "100%",
-  zoom: 6,
-  center: [0, 0],
+  zoom: 4,
+  center: [-14.239209931938646, -50.261992558398134],
   setPosition: null,
   listItens: false,
 };

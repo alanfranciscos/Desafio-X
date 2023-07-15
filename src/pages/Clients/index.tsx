@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useQuery } from "react-query";
 import { Table } from "../../components/Table";
-import { Container, InputContainer, SearchContainer } from "./styles";
+import {
+  Container,
+  ContentContainer,
+  InputContainer,
+  SearchContainer,
+} from "./styles";
 
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsPlusLg } from "react-icons/bs";
@@ -129,22 +134,25 @@ export const Clients = () => {
           &nbsp; Cadastrar cliente
         </button>
       </InputContainer>
-      <Table
-        error={isError}
-        loading={isLoading || isFetching}
-        data={chartData?.data}
-        numberOfPages={chartData?.totalPages}
-        totalElements={chartData?.totalElements}
-        dataKeys={["Nome", "CNPJ", "Email", "Telefone"]}
-        filter={tableFilter}
-        setFilter={setTableFilter}
-        id="cnpj"
-        setItemSelected={setIdSelected}
-        actionButton={{
-          delete: () => setDeleteItemIsOpen(true),
-          edit: () => setEditItemIsOpen(true),
-        }}
-      />
+      <ContentContainer>
+        <Table
+          error={isError}
+          loading={isLoading || isFetching}
+          data={chartData?.data}
+          numberOfPages={chartData?.totalPages}
+          totalElements={chartData?.totalElements}
+          dataKeys={["Nome", "CNPJ", "Email", "Telefone"]}
+          filter={tableFilter}
+          setFilter={setTableFilter}
+          id="cnpj"
+          setItemSelected={setIdSelected}
+          actionButton={{
+            delete: () => setDeleteItemIsOpen(true),
+            edit: () => setEditItemIsOpen(true),
+          }}
+          titleTable="Clientes cadastrados"
+        />
+      </ContentContainer>
     </Container>
   );
 };

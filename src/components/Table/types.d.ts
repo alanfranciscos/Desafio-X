@@ -1,11 +1,17 @@
+type FilterPropsType = {
+  atualPage: number;
+  sorted: string;
+  sortOrder: string;
+};
+
 export type TablePropsType = {
   data: any[];
   dataKeys: String[];
-  filter: FilterPropsType;
+  filter: FilterPropsType | null;
   setFilter: Function;
-  numberOfPages: number;
-  totalElements: number;
-  id: string;
+  numberOfPages: number | null;
+  totalElements: number | null;
+  id: string | null;
   error: boolean;
   loading: boolean;
   actionButton: {
@@ -13,4 +19,5 @@ export type TablePropsType = {
     delete: Function;
   } | null;
   setItemSelected: Function;
+  titleTable: string | null;
 };

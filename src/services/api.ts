@@ -64,3 +64,10 @@ export const SALES_API = {
   edit: (id: string, data: SaleProps) => api.put(`/sales/${id}`, data),
   delete: (id: string) => api.delete(`sales/${id}`),
 };
+
+export const REPORTS_API = {
+  getSalesPerMonth: () => api.get("/reports/sales"),
+  getSalesPerMonthDownloader: () => api.get("/reports/sales/download-csv"),
+  getCards: () => api.get("/reports/cards"),
+  getClients: () => api.get("/reports/clients"),
+};

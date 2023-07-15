@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  margin: 10px;
+  margin: 30px 30px 0px 30px;
   h1 {
     margin-bottom: 10px;
     text-align: left;

@@ -88,7 +88,8 @@ export const RegisterOrEditClient = ({
           label: value.nome,
         };
       });
-    }
+    },
+    { enabled: modalIsOpen }
   );
 
   const {
