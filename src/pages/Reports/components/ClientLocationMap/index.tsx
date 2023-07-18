@@ -12,12 +12,14 @@ export const ClientLocationMap = () => {
     }
   );
 
-  console.log(data);
-
   return (
     <Container>
       <Content>
-        <Map listItens />
+        <Map
+          listItens={data}
+          error={isError}
+          loading={isLoading || isFetching}
+        />
       </Content>
     </Container>
   );

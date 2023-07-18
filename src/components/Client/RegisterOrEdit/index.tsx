@@ -296,9 +296,16 @@ export const RegisterOrEditClient = ({
                               : [0, 0]
                           }
                           zoom={6}
-                          setPosition={(value: LatLngTuple) =>
-                            setInputLocation(value)
+                          setPosition={(value: LatLngTuple) => {
+                            setInputLocation(value);
+                          }}
+                          loading={
+                            isFetchingMetaData ||
+                            isFetchingMetaData ||
+                            isLoading ||
+                            isLoadingMetaData
                           }
+                          error={error}
                         />
                       </>
                     ) : (
