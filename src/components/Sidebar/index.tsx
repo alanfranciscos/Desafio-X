@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Container, Item } from "./style";
 import { RegisterOrEditClient } from "../Client/RegisterOrEdit";
 import { useLocation, useNavigate } from "react-router-dom";
+import { RegisterOrEditSales } from "../Sales/RegisterOrEditSales";
 
 export const SideBar = ({
   sideBarIsOpen,
@@ -13,19 +14,8 @@ export const SideBar = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [modalIsOpen, setModalIsOpen] = useState({
-    registerClient: false,
-  });
-
-  const newClient = () => {
-    return (
-      <RegisterOrEditClient
-        modalIsOpen={modalIsOpen?.registerClient}
-        setModalIsOpen={setModalIsOpen}
-        title="Cadastrar Cliente"
-      />
-    );
-  };
+  const [modalCreateSaleIsOpen, setModalCreateSaleIsOpen] = useState(false);
+  const [modalCreateClientIsOpen, setModalCreateClientIsOpen] = useState(false);
 
   const handlePage = (path: string) => {
     navigate(path);
@@ -34,7 +24,17 @@ export const SideBar = ({
 
   return (
     <Container notClosed={sideBarIsOpen} data-testid="sidebar">
-      {newClient()}
+      <RegisterOrEditClient
+        modalIsOpen={modalCreateClientIsOpen}
+        setModalIsOpen={setModalCreateClientIsOpen}
+        title="Cadastrar Cliente"
+      />
+
+      <RegisterOrEditSales
+        modalIsOpen={modalCreateSaleIsOpen}
+        setModalIsOpen={setModalCreateSaleIsOpen}
+        title="Cadastrar Venda"
+      />
       <h2 data-testid="sidebar-title">GESTÃO DE CLIENTES</h2>
       <ul data-testid="sidebar-list">
         <li>
@@ -49,12 +49,11 @@ export const SideBar = ({
         </li>
         <li>
           <Item
-            selected={modalIsOpen?.registerClient}
-            onClick={() =>
-              setModalIsOpen({
-                registerClient: !modalIsOpen?.registerClient,
-              })
-            }
+            selected={modalCreateClientIsOpen}
+            onClick={() => {
+              setModalCreateClientIsOpen(!modalCreateClientIsOpen);
+              setsideBarIsOpen(false);
+            }}
           >
             Cadastrar cliente
           </Item>
@@ -72,7 +71,15 @@ export const SideBar = ({
           </Item>
         </li>
         <li>
-          <Item>Cadastrar venda</Item>
+          <Item
+            selected={modalCreateSaleIsOpen}
+            onClick={() => {
+              setModalCreateSaleIsOpen(!modalCreateSaleIsOpen);
+              setsideBarIsOpen(false);
+            }}
+          >
+            Cadastrar venda
+          </Item>
         </li>
       </ul>
 

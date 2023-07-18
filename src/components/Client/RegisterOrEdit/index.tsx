@@ -20,7 +20,7 @@ import { SelectInput } from "../../Form/SelectInput";
 import { MapStatus } from "../../Map/MapStauts";
 import { Input } from "../../Form/Input";
 import { Map } from "../../Map";
-import { Loader } from "../../StatusRequest/Loader";
+import { StatusRequest } from "../../StatusRequest";
 
 export const RegisterOrEditClient = ({
   modalIsOpen,
@@ -207,9 +207,19 @@ export const RegisterOrEditClient = ({
             <ModalHeader>
               <h3>{title}</h3>
             </ModalHeader>
-            {placeHolderIsLoading ? (
+            {isError ||
+            isErrorMetaData ||
+            error ||
+            placeHolderIsLoading ||
+            isLoading ||
+            isLoadingMetaData ? (
               <LoaderContainer>
-                <Loader />
+                <StatusRequest
+                  error={error || isErrorMetaData || isError}
+                  loading={
+                    isLoading || isLoadingMetaData || placeHolderIsLoading
+                  }
+                />
               </LoaderContainer>
             ) : (
               <>

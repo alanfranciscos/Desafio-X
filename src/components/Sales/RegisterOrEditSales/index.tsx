@@ -172,9 +172,9 @@ export const RegisterOrEditSales = ({
             <ModalHeader>
               <h3>{title}</h3>
             </ModalHeader>
-            {loading || error ? (
+            {loading || error || errorEdit ? (
               <LoaderContainer>
-                <StatusRequest error={error} loading={loading} />
+                <StatusRequest error={error || errorEdit} loading={loading} />
               </LoaderContainer>
             ) : (
               <>
