@@ -116,6 +116,15 @@ export const Sales = () => {
     );
   };
 
+  const sendRequestClient = () => {
+    setTableFilter({
+      atualPage: 0,
+      sorted: "Nome",
+      sortOrder: "asc",
+    });
+    setIdSerach(inputSearch);
+  };
+
   return (
     <Container>
       {Modals()}
@@ -126,8 +135,9 @@ export const Sales = () => {
           <input
             placeholder="Digite o nome do cliente que deseja pesquisar"
             onChange={(event) => setInputSearch(event?.target?.value)}
+            onKeyDown={(event) => event.key === "Enter" && sendRequestClient()}
           ></input>
-          <button onClick={() => setIdSerach(inputSearch)}>
+          <button onClick={() => sendRequestClient()}>
             <AiOutlineSearch />
           </button>
         </SearchContainer>

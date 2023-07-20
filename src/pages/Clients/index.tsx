@@ -89,6 +89,15 @@ export const Clients = () => {
   const [editItemIsOpen, setEditItemIsOpen] = useState(false);
   const [deleteItemIsOpen, setDeleteItemIsOpen] = useState(false);
 
+  const sendRequestClient = () => {
+    setIdSerach(inputSearch);
+    setTableFilter({
+      atualPage: 0,
+      sorted: "Nome",
+      sortOrder: "asc",
+    });
+  };
+
   return (
     <Container>
       {/* modals */}
@@ -117,8 +126,9 @@ export const Clients = () => {
           <input
             placeholder="Digite o nome ou CNPJ do cliente que deseja pesquisar"
             onChange={(event) => setInputSearch(event?.target?.value)}
+            onKeyDown={(event) => event.key === "Enter" && sendRequestClient()}
           ></input>
-          <button onClick={() => setIdSerach(inputSearch)}>
+          <button onClick={() => sendRequestClient()}>
             <AiOutlineSearch />
           </button>
         </SearchContainer>
