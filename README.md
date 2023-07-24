@@ -23,6 +23,8 @@
 # Mas e o backend?
 
 O backend pode ser encontrado [neste link](https://github.com/alanfranciscos/Desafio-X-Api)
+---
+É necessário criar o arquivo de env, para isso, adicione a url do backend no arquivo para que tenha comunicação.
 
 # Futuras features
 
