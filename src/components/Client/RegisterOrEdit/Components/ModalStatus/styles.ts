@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ export const Container = styled.div`
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.1); /* Black w/ opacity */
-`;
+`
 
 export const ModalContent = styled.div`
   display: flex;
@@ -66,4 +66,4 @@ export const ModalContent = styled.div`
   .sucsess-button {
     background: #407bff;
   }
-`;
+`

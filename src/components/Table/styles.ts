@@ -1,23 +1,23 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
   height: 100%;
-`;
+`
 
 export const TableTitle = styled.h2`
   text-align: left;
   font: normal normal bold 20px SF Pro Display;
   letter-spacing: 0px;
   color: #535353;
-`;
+`
 
 export const LoaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 200px;
-`;
+`
 
 export const TableContainer = styled.table`
   border-collapse: collapse;
@@ -55,7 +55,7 @@ export const TableContainer = styled.table`
   tr th {
     cursor: pointer;
   }
-`;
+`
 
 export const FooterContainer = styled.div`
   width: 100%;
@@ -78,7 +78,7 @@ export const FooterContainer = styled.div`
   svg {
     cursor: pointer;
   }
-`;
+`
 
 export const SelectPage = styled.div`
   display: flex;
@@ -96,4 +96,4 @@ export const SelectPage = styled.div`
   .last-item {
     margin-right: 0px;
   }
-`;
+`

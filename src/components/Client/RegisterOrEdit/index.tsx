@@ -1,5 +1,11 @@
-import { useState, useEffect } from "react";
+import React from 'react'
+import { useState, useEffect } from 'react'
 
+import { LatLngTuple } from 'leaflet'
+import { useQuery } from 'react-query'
+import { useNavigate } from 'react-router-dom'
+
+import { ModalStatus } from './Components/ModalStatus'
 import {
   ConfirmationContainer,
   Container,
@@ -8,19 +14,16 @@ import {
   LoaderContainer,
   MapContainer,
   ModalContent,
-  ModalHeader,
-} from "./styles";
-import { useQuery } from "react-query";
-import { LatLngTuple } from "leaflet";
-import { ModalStatus } from "./Components/ModalStatus";
-import { useNavigate } from "react-router-dom";
-import { CLIENTS_API, IBGE_API } from "../../../services/api";
-import { cnpjToNumbers } from "../../../utils/cnpj";
-import { SelectInput } from "../../Form/SelectInput";
-import { MapStatus } from "../../Map/MapStauts";
-import { Input } from "../../Form/Input";
-import { Map } from "../../Map";
-import { StatusRequest } from "../../StatusRequest";
+  ModalHeader
+} from './styles'
+import { RegisterOrEditClientTypes } from './types'
+import { CLIENTS_API, IBGE_API } from '../../../services/api'
+import { cnpjToNumbers } from '../../../utils/cnpj'
+import { Input } from '../../Form/Input'
+import { SelectInput } from '../../Form/SelectInput'
+import { Map } from '../../Map'
+import { MapStatus } from '../../Map/MapStauts'
+import { StatusRequest } from '../../StatusRequest'
 
 export const RegisterOrEditClient = ({
   modalIsOpen,
@@ -28,96 +31,82 @@ export const RegisterOrEditClient = ({
   title,
   placeholder,
   placeHolderIsLoading,
-  error,
-}: {
-  modalIsOpen: boolean;
-  setModalIsOpen: Function;
-  title: string;
-  placeholder: {
-    name: string;
-    cnpj: string;
-    phone: string;
-    email: string;
-    state: string;
-    location: LatLngTuple | null;
-  };
-  placeHolderIsLoading: boolean;
-  error: boolean;
-}) => {
-  const navigate = useNavigate();
+  error
+}: RegisterOrEditClientTypes) => {
+  const navigate = useNavigate()
 
   const [formInputs, setFormInputs] = useState({
     name: placeholder?.name,
     cnpj: placeholder?.cnpj,
     phone: placeholder?.phone,
-    email: placeholder?.email,
-  });
-  const [location, setInputLocation] = useState([0, 0] as LatLngTuple);
-  const [inputUF, setInputUF] = useState(placeholder?.state);
-  const [locationsIsSetted, setLocationsIsSetted] = useState(false);
-  const [status, setStatus] = useState<undefined | boolean>(undefined);
+    email: placeholder?.email
+  })
+  const [location, setInputLocation] = useState([0, 0] as LatLngTuple)
+  const [inputUF, setInputUF] = useState(placeholder?.state)
+  const [locationsIsSetted, setLocationsIsSetted] = useState(false)
+  const [status, setStatus] = useState<undefined | boolean>(undefined)
 
   const reestoreFilters = () => {
     setFormInputs({
-      name: "",
-      cnpj: "",
-      phone: "",
-      email: "",
-    });
-    setInputLocation([0, 0]);
-    setInputUF("");
-    setLocationsIsSetted(false);
-    setStatus(undefined);
-    setModalIsOpen(false);
-  };
+      name: '',
+      cnpj: '',
+      phone: '',
+      email: ''
+    })
+    setInputLocation([0, 0])
+    setInputUF('')
+    setLocationsIsSetted(false)
+    setStatus(undefined)
+    setModalIsOpen(false)
+  }
 
   const { data, isLoading, isFetching, isError } = useQuery(
-    ["ibge - states"],
+    ['ibge - states'],
     async () => {
-      const { data } = await IBGE_API.getStates();
+      const { data } = await IBGE_API.getStates()
 
       const sortedData = data?.sort((a: any, b: any) => {
-        if (a?.nome < b?.nome) return -1;
-        if (a?.nome > b?.nome) return 1;
-        return 0;
-      });
+        if (a?.nome < b?.nome) return -1
+        if (a?.nome > b?.nome) return 1
+        return 0
+      })
 
       return sortedData.map((value: any) => {
         return {
           value: value.id,
-          label: value.nome,
-        };
-      });
+          label: value.nome
+        }
+      })
     },
     { enabled: modalIsOpen }
-  );
+  )
 
   const {
     data: metaData,
     isLoading: isLoadingMetaData,
     isFetching: isFetchingMetaData,
-    isError: isErrorMetaData,
+    isError: isErrorMetaData
   } = useQuery(
-    ["ibge - coordinates", inputUF],
+    ['ibge - coordinates', inputUF],
     async () => {
-      const { data } = await IBGE_API.getMetadata(inputUF);
+      const { data } = await IBGE_API.getMetadata(inputUF)
 
-      const coordinates = data?.[0]?.centroide;
+      const coordinates = data?.[0]?.centroide
       setInputLocation([
         coordinates?.latitude,
-        coordinates?.longitude,
-      ] as LatLngTuple);
+        coordinates?.longitude
+      ] as LatLngTuple)
 
-      setLocationsIsSetted(true);
+      setLocationsIsSetted(true)
 
       return [coordinates?.latitude, coordinates?.longitude] as
         | LatLngTuple
-        | undefined;
+        | undefined
     },
     {
-      enabled: !!inputUF,
+      enabled: !!inputUF
     }
-  );
+  )
 
   const createClient = async () => {
     if (
@@ -135,27 +124,27 @@ export const RegisterOrEditClient = ({
         email: formInputs?.email,
         location: {
           x: location?.[0],
-          y: location?.[1],
-        },
+          y: location?.[1]
+        }
       })
         .then(function () {
-          setStatus(true);
+          setStatus(true)
         })
         .catch(function () {
-          setStatus(false);
-        });
+          setStatus(false)
+        })
     } else {
-      setStatus(false);
+      setStatus(false)
     }
-  };
+  }
 
   const handleMouseCursor = (curosr: string) => {
-    document.body.style.cursor = curosr;
-    const button = document?.getElementById("button-confirm");
+    document.body.style.cursor = curosr
+    const button = document?.getElementById('button-confirm')
     if (button !== null) {
-      button.style.cursor = curosr === "default" ? "pointer" : curosr;
+      button.style.cursor = curosr === 'default' ? 'pointer' : curosr
     }
-  };
+  }
 
   const editClient = async () => {
     if (
@@ -173,24 +162,24 @@ export const RegisterOrEditClient = ({
         email: formInputs?.email,
         location: {
           x: location?.[0],
-          y: location?.[1],
-        },
+          y: location?.[1]
+        }
       })
         .then(function () {
-          setStatus(true);
+          setStatus(true)
         })
         .catch(function () {
-          setStatus(false);
-        });
+          setStatus(false)
+        })
     }
-  };
+  }
 
-  const [modal, setModal] = useState(document?.getElementById("modal"));
+  const [modal, setModal] = useState(document?.getElementById('modal'))
 
   useEffect(() => {
-    setModal(document?.getElementById("modal"));
-    setInputUF(placeholder?.state);
-  }, [modalIsOpen, placeholder?.state]);
+    setModal(document?.getElementById('modal'))
+    setInputUF(placeholder?.state)
+  }, [modalIsOpen, placeholder?.state])
 
   return (
     <>
@@ -199,7 +188,7 @@ export const RegisterOrEditClient = ({
           id="modal"
           onClick={(event) => {
             if (event.target === modal && modal) {
-              setModalIsOpen(false);
+              setModalIsOpen(false)
             }
           }}
         >
@@ -231,7 +220,7 @@ export const RegisterOrEditClient = ({
                     content={(value: string) =>
                       setFormInputs({
                         ...formInputs,
-                        name: value,
+                        name: value
                       })
                     }
                     value={formInputs.name}
@@ -244,7 +233,7 @@ export const RegisterOrEditClient = ({
                       content={(value: string) =>
                         setFormInputs({
                           ...formInputs,
-                          cnpj: value,
+                          cnpj: value
                         })
                       }
                       value={formInputs?.cnpj}
@@ -256,7 +245,7 @@ export const RegisterOrEditClient = ({
                       content={(value: string) =>
                         setFormInputs({
                           ...formInputs,
-                          phone: value,
+                          phone: value
                         })
                       }
                       value={formInputs?.phone}
@@ -276,13 +265,13 @@ export const RegisterOrEditClient = ({
                       content={(value: string) =>
                         setFormInputs({
                           ...formInputs,
-                          email: value,
+                          email: value
                         })
                       }
                       value={formInputs?.email}
                     />
                   </InputGroup>
-                  {inputUF !== "" ? (
+                  {inputUF !== '' ? (
                     <span>Arraste o ponteiro para a localização desejada</span>
                   ) : (
                     <span>Selecione um inputUF</span>
@@ -292,7 +281,7 @@ export const RegisterOrEditClient = ({
                     locationsIsSetted &&
                     !isFetchingMetaData &&
                     status === undefined &&
-                    inputUF !== "" ? (
+                    inputUF !== '' ? (
                       <>
                         <Map
                           width="100%"
@@ -307,7 +296,7 @@ export const RegisterOrEditClient = ({
                           }
                           zoom={6}
                           setPosition={(value: LatLngTuple) => {
-                            setInputLocation(value);
+                            setInputLocation(value)
                           }}
                           loading={
                             isFetchingMetaData ||
@@ -334,7 +323,7 @@ export const RegisterOrEditClient = ({
                     <button
                       className="button-cancel"
                       onClick={() => {
-                        setModalIsOpen(false);
+                        setModalIsOpen(false)
                       }}
                     >
                       Cancelar
@@ -343,13 +332,13 @@ export const RegisterOrEditClient = ({
                       className="button-confirm"
                       id="button-confirm"
                       onClick={async () => {
-                        handleMouseCursor("wait");
+                        handleMouseCursor('wait')
                         if (placeholder?.cnpj) {
-                          await editClient();
+                          await editClient()
                         } else {
-                          await createClient();
+                          await createClient()
                         }
-                        handleMouseCursor("default");
+                        handleMouseCursor('default')
                       }}
                     >
                       Salvar
@@ -361,8 +350,8 @@ export const RegisterOrEditClient = ({
                     status={status}
                     setStatus={setStatus}
                     confirm={function () {
-                      reestoreFilters();
-                      navigate(0);
+                      reestoreFilters()
+                      navigate(0)
                     }}
                   />
                 ) : null}
@@ -372,18 +361,18 @@ export const RegisterOrEditClient = ({
         </Container>
       ) : null}
     </>
-  );
-};
+  )
+}
 
 RegisterOrEditClient.defaultProps = {
   placeholder: {
-    name: "",
-    cnpj: "",
-    phone: "",
-    email: "",
-    state: "",
-    location: null,
+    name: '',
+    cnpj: '',
+    phone: '',
+    email: '',
+    state: '',
+    location: null
   },
   placeHolderIsLoading: false,
-  error: false,
-};
+  error: false
+}

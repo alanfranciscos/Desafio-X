@@ -1,25 +1,27 @@
-import { useEffect, useState } from "react";
+import React from 'react'
+import { useEffect, useState } from 'react'
+
+import {
+  BsChevronCompactLeft,
+  BsChevronCompactRight,
+  BsChevronDoubleLeft,
+  BsChevronDoubleRight
+} from 'react-icons/bs'
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io'
+import { v4 as uuidv4 } from 'uuid'
+
+import { Button } from './components/Button'
+import { Modal } from './components/Modal'
 import {
   Container,
   FooterContainer,
   LoaderContainer,
   SelectPage,
   TableContainer,
-  TableTitle,
-} from "./styles";
-
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import {
-  BsChevronCompactLeft,
-  BsChevronCompactRight,
-  BsChevronDoubleLeft,
-  BsChevronDoubleRight,
-} from "react-icons/bs";
-import { Button } from "./components/Button";
-import { v4 as uuidv4 } from "uuid";
-import { StatusRequest } from "../StatusRequest";
-import { TablePropsType } from "./types";
-import { Modal } from "./components/Modal";
+  TableTitle
+} from './styles'
+import { TablePropsType } from './types'
+import { StatusRequest } from '../StatusRequest'
 
 export const Table = ({
   data,
@@ -33,71 +35,71 @@ export const Table = ({
   loading,
   actionButton,
   setItemSelected,
-  titleTable,
+  titleTable
 }: TablePropsType) => {
   const [arrowDirection, setArrowDirection] = useState(
-    new Array(...dataKeys)?.fill("Down", 0, dataKeys?.length)
-  );
+    new Array(...dataKeys)?.fill('Down', 0, dataKeys?.length)
+  )
 
-  const uuid = uuidv4();
+  const uuid = uuidv4()
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false)
   const [coordinatesClick, setCoordinatesClick] = useState({
     x: 0,
-    y: 0,
-  });
+    y: 0
+  })
 
-  const [pages, setPages] = useState([0]);
+  const [pages, setPages] = useState([0])
 
   useEffect(() => {
     if (numberOfPages) {
-      const pages = [];
+      const pages = []
       for (let i = 0; i < numberOfPages; i++) {
-        pages.push(i + 1);
+        pages.push(i + 1)
       }
-      setPages(pages);
+      setPages(pages)
     }
-  }, [numberOfPages]);
+  }, [numberOfPages])
 
   const verifyIfHasArrow = (index: number) => {
     if (filter) {
-      if (arrowDirection[index] === "Down") {
-        return <IoIosArrowDown />;
+      if (arrowDirection[index] === 'Down') {
+        return <IoIosArrowDown />
       } else {
-        return <IoIosArrowUp />;
+        return <IoIosArrowUp />
       }
     }
 
-    return null;
-  };
+    return null
+  }
 
-  const handleArrowDirection = (index: number, value: String) => {
-    let i = 0;
-    const aux = [];
+  const handleArrowDirection = (index: number) => {
+    let i = 0
+    const aux = []
     while (i < arrowDirection?.length) {
       if (i === index) {
-        let direction = null;
-        if (arrowDirection[i] === "Up") {
-          direction = "Down";
-          aux.push(direction);
+        let direction = null
+        if (arrowDirection[i] === 'Up') {
+          direction = 'Down'
+          aux.push(direction)
         } else {
-          direction = "Up";
-          aux.push(direction);
+          direction = 'Up'
+          aux.push(direction)
         }
       } else {
-        aux.push("Down");
+        aux.push('Down')
       }
-      i = i + 1;
+      i = i + 1
     }
-    setArrowDirection(aux);
-  };
+    setArrowDirection(aux)
+  }
 
   const handleSortOrder = () => {
-    if (filter?.sortOrder === "asc") {
-      return "desc";
+    if (filter?.sortOrder === 'asc') {
+      return 'desc'
     }
-    return "asc";
-  };
+    return 'asc'
+  }
 
   return (
     <>
@@ -123,16 +125,16 @@ export const Table = ({
                           setFilter((prevState: any) => ({
                             ...prevState,
                             sorted: value,
-                            sortOrder: handleSortOrder(),
-                          }));
-                          handleArrowDirection(index, value);
+                            sortOrder: handleSortOrder()
+                          }))
+                          handleArrowDirection(index)
                         } else {
                           setFilter((prevState: any) => ({
                             ...prevState,
-                            sortOrder: "asc",
-                            sorted: value,
-                          }));
-                          handleArrowDirection(index, value);
+                            sortOrder: 'asc',
+                            sorted: value
+                          }))
+                          handleArrowDirection(index)
                         }
                       }}
                     >
@@ -153,8 +155,8 @@ export const Table = ({
                             item?.[
                               value
                                 .toLowerCase()
-                                .normalize("NFD")
-                                .replace(/[^a-zA-Z\s]/g, "")
+                                .normalize('NFD')
+                                .replace(/[^a-zA-Z\s]/g, '')
                             ]
                           }
                         </td>
@@ -164,11 +166,11 @@ export const Table = ({
                           openModal={(event: any) => {
                             setCoordinatesClick({
                               x: event?.clientX,
-                              y: event?.clientY,
-                            });
-                            setModalIsOpen(true);
+                              y: event?.clientY
+                            })
+                            setModalIsOpen(true)
                             if (id) {
-                              setItemSelected(item[id]);
+                              setItemSelected(item[id])
                             }
                           }}
                         >
@@ -177,7 +179,7 @@ export const Table = ({
                         </Button>
                       ) : null}
                     </tr>
-                  );
+                  )
                 })}
               </tbody>
             </TableContainer>
@@ -193,7 +195,7 @@ export const Table = ({
                     onClick={() =>
                       setFilter({
                         ...filter,
-                        atualPage: 0,
+                        atualPage: 0
                       })
                     }
                   />
@@ -204,7 +206,7 @@ export const Table = ({
                         atualPage:
                           filter?.atualPage - 1 < 0
                             ? filter?.atualPage
-                            : filter?.atualPage - 1,
+                            : filter?.atualPage - 1
                       })
                     }
                   />
@@ -212,17 +214,17 @@ export const Table = ({
                     return (
                       <p
                         key={i}
-                        className={pages?.length === i ? "last-item" : "item"}
+                        className={pages?.length === i ? 'last-item' : 'item'}
                         onClick={() =>
                           setFilter({
                             ...filter,
-                            atualPage: i - 1,
+                            atualPage: i - 1
                           })
                         }
                       >
                         {i}
                       </p>
-                    );
+                    )
                   })}
                   <BsChevronCompactRight
                     onClick={() =>
@@ -231,7 +233,7 @@ export const Table = ({
                         atualPage:
                           filter?.atualPage + 1 >= numberOfPages
                             ? filter?.atualPage
-                            : filter?.atualPage + 1,
+                            : filter?.atualPage + 1
                       })
                     }
                   />
@@ -239,7 +241,7 @@ export const Table = ({
                     onClick={() =>
                       setFilter({
                         ...filter,
-                        atualPage: numberOfPages - 1,
+                        atualPage: numberOfPages - 1
                       })
                     }
                   />
@@ -254,8 +256,8 @@ export const Table = ({
         )}
       </Container>
     </>
-  );
-};
+  )
+}
 
 Table.defaultProps = {
   actionButton: null,
@@ -265,5 +267,5 @@ Table.defaultProps = {
   totalElements: null,
   titleTable: null,
   setFilter: () => null,
-  filter: null,
-};
+  filter: null
+}

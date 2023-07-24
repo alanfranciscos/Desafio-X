@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ export const Container = styled.div`
   height: 100%;
   overflow: auto; /* Enable scroll if needed */
   z-index: 1; /* Sit on top */
-`;
+`
 
 export const ModalContent = styled.div`
   position: fixed;
@@ -41,4 +41,4 @@ export const ModalContent = styled.div`
   span {
     color: #707070;
   }
-`;
+`

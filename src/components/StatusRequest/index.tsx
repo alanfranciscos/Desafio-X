@@ -1,14 +1,16 @@
-import { EmptyData } from "./EmptyData";
-import { Loader } from "./Loader";
-import { Error } from "./error";
-import { StatusRequestProps } from "./types";
+import React from 'react'
+
+import { EmptyData } from './EmptyData'
+import { Error } from './error'
+import { Loader } from './Loader'
+import { StatusRequestProps } from './types'
 
 export const StatusRequest = ({ loading, error }: StatusRequestProps) => {
   if (loading) {
-    return <Loader />;
+    return <Loader />
   }
   if (error) {
-    return <Error />;
+    return <Error />
   }
-  return <EmptyData />;
-};
+  return <EmptyData />
+}

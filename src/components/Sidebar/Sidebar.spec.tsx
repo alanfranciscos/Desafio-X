@@ -1,42 +1,45 @@
-import { render, screen } from "@testing-library/react";
-import { SideBar } from ".";
+import React from 'react'
 
-describe("Sidebar test", () => {
-  it("should render the Sidebar correctly", () => {
-    render(<SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />);
+import { render, screen } from '@testing-library/react'
 
-    expect(screen.getByTestId("sidebar")).toBeInTheDocument();
-  });
+import { SideBar } from '.'
 
-  it("should render all titles", () => {
-    render(<SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />);
+describe('Sidebar test', () => {
+  it('should render the Sidebar correctly', () => {
+    render(<SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />)
 
-    const titles = screen.getAllByTestId("sidebar-title");
-    expect(titles).toHaveLength(3);
+    expect(screen.getByTestId('sidebar')).toBeInTheDocument()
+  })
 
-    expect(titles[0].textContent).toEqual("GESTÃO DE CLIENTES");
-    expect(titles[1].textContent).toEqual("GESTÃO DE VENDAS");
-    expect(titles[2].textContent).toEqual("RELATÓRIOS");
-  });
+  it('should render all titles', () => {
+    render(<SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />)
 
-  it("should render all options", () => {
-    render(<SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />);
+    const titles = screen.getAllByTestId('sidebar-title')
+    expect(titles).toHaveLength(3)
 
-    const lists = screen.getAllByTestId("sidebar-list");
-    expect(lists).toHaveLength(3);
+    expect(titles[0].textContent).toEqual('GESTÃO DE CLIENTES')
+    expect(titles[1].textContent).toEqual('GESTÃO DE VENDAS')
+    expect(titles[2].textContent).toEqual('RELATÓRIOS')
+  })
 
-    let options = lists[0].getElementsByTagName("button");
-    expect(options).toHaveLength(2);
-    expect(options[0].textContent).toEqual("Lista de clientes");
-    expect(options[1].textContent).toEqual("Cadastrar cliente");
+  it('should render all options', () => {
+    render(<SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />)
 
-    options = lists[1].getElementsByTagName("button");
-    expect(options).toHaveLength(2);
-    expect(options[0].textContent).toEqual("Lista de vendas");
-    expect(options[1].textContent).toEqual("Cadastrar venda");
+    const lists = screen.getAllByTestId('sidebar-list')
+    expect(lists).toHaveLength(3)
 
-    options = lists[2].getElementsByTagName("button");
-    expect(options).toHaveLength(1);
-    expect(options[0].textContent).toEqual("Relatórios");
-  });
-});
+    let options = lists[0].getElementsByTagName('button')
+    expect(options).toHaveLength(2)
+    expect(options[0].textContent).toEqual('Lista de clientes')
+    expect(options[1].textContent).toEqual('Cadastrar cliente')
+
+    options = lists[1].getElementsByTagName('button')
+    expect(options).toHaveLength(2)
+    expect(options[0].textContent).toEqual('Lista de vendas')
+    expect(options[1].textContent).toEqual('Cadastrar venda')
+
+    options = lists[2].getElementsByTagName('button')
+    expect(options).toHaveLength(1)
+    expect(options[0].textContent).toEqual('Relatórios')
+  })
+})

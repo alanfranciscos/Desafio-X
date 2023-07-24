@@ -1,10 +1,13 @@
-import { useState } from "react";
-import { Header } from "../Header";
-import { SideBar } from "../Sidebar";
-import { Container, Content, PageContainer } from "./styles";
+import React from 'react'
+import { useState } from 'react'
 
-export const Layout = ({ children }: { children: any }) => {
-  const [sideBarIsOpen, setsideBarIsOpen] = useState(undefined);
+import { Container, Content, PageContainer } from './styles'
+import { LayoutTypes } from './types'
+import { Header } from '../Header'
+import { SideBar } from '../Sidebar'
+
+export const Layout = ({ children }: LayoutTypes) => {
+  const [sideBarIsOpen, setsideBarIsOpen] = useState(undefined)
 
   return (
     <Container data-testid="layout">
@@ -17,5 +20,5 @@ export const Layout = ({ children }: { children: any }) => {
         <Content data-testid="layout-content-content">{children}</Content>
       </PageContainer>
     </Container>
-  );
-};
+  )
+}

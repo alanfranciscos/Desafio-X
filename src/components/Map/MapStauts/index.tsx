@@ -1,30 +1,16 @@
-import { Loader } from "../../StatusRequest/Loader";
-import { Container } from "./styles";
+import React from 'react'
 
-export const MapStatus = ({
-  error,
-  loading,
-}: {
-  error: boolean;
-  loading: boolean;
-}) => {
-  if (error) {
-    return (
-      <Container>
-        <span>Ocorreu um erro!!</span>
-      </Container>
-    );
-  }
-  if (loading) {
-    return (
-      <Container>
-        <Loader />
-      </Container>
-    );
+import { Container } from './styles'
+import { MapStatusProps } from './types'
+import { StatusRequest } from '../../StatusRequest'
+
+export const MapStatus = ({ error, loading }: MapStatusProps) => {
+  if (error || loading) {
+    return <StatusRequest error={error} loading={loading} />
   }
   return (
     <Container>
       <span>Selecione uma opção para habilitar o mapa</span>
     </Container>
-  );
-};
+  )
+}

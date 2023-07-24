@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   display: flex;
@@ -44,4 +44,4 @@ export const Container = styled.div`
       color: #5c4444;
     }
   }
-`;
+`

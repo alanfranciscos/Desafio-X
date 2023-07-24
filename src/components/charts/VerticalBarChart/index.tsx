@@ -1,7 +1,10 @@
-import { BarChart, XAxis, Tooltip, ResponsiveContainer, Bar } from "recharts";
-import { VerticalBarChartProps } from "./types";
-import { Container } from "./styles";
-import { StatusRequest } from "../../StatusRequest";
+import React from 'react'
+
+import { BarChart, XAxis, Tooltip, ResponsiveContainer, Bar } from 'recharts'
+
+import { Container } from './styles'
+import { VerticalBarChartProps } from './types'
+import { StatusRequest } from '../../StatusRequest'
 
 export const VerticalBarChart = ({
   width,
@@ -11,10 +14,10 @@ export const VerticalBarChart = ({
   formatterAxis,
   tooltipFormatter,
   isError,
-  isLoading,
+  isLoading
 }: VerticalBarChartProps) => {
   if (isError || isLoading || !data.length) {
-    return <StatusRequest error={isError} loading={isLoading} />;
+    return <StatusRequest error={isError} loading={isLoading} />
   }
 
   return (
@@ -30,16 +33,16 @@ export const VerticalBarChart = ({
         </BarChart>
       </ResponsiveContainer>
     </Container>
-  );
-};
+  )
+}
 
 VerticalBarChart.defaultProps = {
   width: 600,
   height: 400,
   formatterAxis: {
-    xAxis: (value: any) => value,
+    xAxis: (value: any) => value
   },
   tooltipFormatter: {
-    value: (value: any) => value,
-  },
-};
+    value: (value: any) => value
+  }
+}

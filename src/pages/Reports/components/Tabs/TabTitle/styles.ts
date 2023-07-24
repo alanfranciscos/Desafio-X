@@ -1,13 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 type TitleProps = {
-  tabIsSelected?: boolean;
-};
+  tabIsSelected?: boolean
+}
 
 export const Title = styled.li<TitleProps>`
   z-index: ${({ tabIsSelected }) => (tabIsSelected ? 2 : 1)};
   background-color: ${({ tabIsSelected }) =>
-    tabIsSelected ? "#ffffff" : "none"};
+    tabIsSelected ? '#ffffff' : 'none'};
   border-radius: 2px 2px 0 0;
   opacity: 1;
   width: max-content;
@@ -18,4 +18,4 @@ export const Title = styled.li<TitleProps>`
     background-color: transparent;
     cursor: pointer;
   }
-`;
+`

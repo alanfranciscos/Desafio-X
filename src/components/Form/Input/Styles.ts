@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const InputContainer = styled.div`
   display: flex;
@@ -29,7 +29,7 @@ export const InputContainer = styled.div`
   }
 
   /* Firefox */
-  input[type="number"] {
+  input[type='number'] {
     -moz-appearance: textfield;
   }
-`;
+`

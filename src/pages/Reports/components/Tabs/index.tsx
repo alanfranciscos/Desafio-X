@@ -1,13 +1,11 @@
-import React, { ReactElement, useState } from "react";
-import TabTitle from "./TabTitle";
-import { Content, TabsContainer, TitleContainer } from "./styles";
+import React, { useState } from 'react'
 
-type Props = {
-  children: ReactElement[];
-};
+import { Content, TabsContainer, TitleContainer } from './styles'
+import TabTitle from './TabTitle'
+import { TabsProps } from './types'
 
-const Tabs: React.FC<Props> = ({ children }) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+const Tabs = ({ children }: TabsProps) => {
+  const [selectedTab, setSelectedTab] = useState(0)
 
   return (
     <TabsContainer>
@@ -24,7 +22,7 @@ const Tabs: React.FC<Props> = ({ children }) => {
       </TitleContainer>
       <Content>{children[selectedTab]}</Content>
     </TabsContainer>
-  );
-};
+  )
+}
 
-export default Tabs;
+export default Tabs

@@ -1,13 +1,7 @@
-import { InputContainer } from "./Styles";
+import React from 'react'
 
-interface InputProps {
-  title: string;
-  placeholder: any;
-  content: Function;
-  isRequired: boolean;
-  value: any;
-  type: string;
-}
+import { InputContainer } from './Styles'
+import { InputPropsType } from './types'
 
 export const Input = ({
   title,
@@ -15,8 +9,8 @@ export const Input = ({
   content,
   isRequired,
   value,
-  type,
-}: InputProps) => {
+  type
+}: InputPropsType) => {
   return (
     <InputContainer>
       <label>{!isRequired ? title : `${title} *`}</label>
@@ -29,9 +23,9 @@ export const Input = ({
         name={`input-${title}`}
       ></input>
     </InputContainer>
-  );
-};
+  )
+}
 
 Input.defaultProps = {
-  type: "Text",
-};
+  type: 'Text'
+}

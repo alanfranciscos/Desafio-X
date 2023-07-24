@@ -1,48 +1,51 @@
-import { screen, render, fireEvent } from "@testing-library/react";
-import { Header } from ".";
+import React from 'react'
 
-describe("Header test", () => {
-  it("should render the header correctly", () => {
-    render(<Header setsideBarIsOpen={() => null} />);
-    expect(screen.getByTestId("header")).toBeInTheDocument();
-  });
+import { screen, render, fireEvent } from '@testing-library/react'
 
-  it("should render the logo", () => {
-    render(<Header setsideBarIsOpen={() => null} />);
-    expect(screen.getByTestId("header-logo")).toBeInTheDocument();
-  });
+import { Header } from '.'
 
-  it("should render the user container", () => {
-    render(<Header setsideBarIsOpen={() => null} />);
-    expect(screen.getByTestId("header-user")).toBeInTheDocument();
-  });
+describe('Header test', () => {
+  it('should render the header correctly', () => {
+    render(<Header setsideBarIsOpen={() => null} />)
+    expect(screen.getByTestId('header')).toBeInTheDocument()
+  })
 
-  it("should render the user components", () => {
-    render(<Header setsideBarIsOpen={() => null} />);
+  it('should render the logo', () => {
+    render(<Header setsideBarIsOpen={() => null} />)
+    expect(screen.getByTestId('header-logo')).toBeInTheDocument()
+  })
 
-    const userIcon = screen.getByTestId("header-user-person-icon");
-    const userInfo = screen.getByTestId("header-user-info");
-    const logoutIcon = screen.getByTestId("header-user-logout-icon");
+  it('should render the user container', () => {
+    render(<Header setsideBarIsOpen={() => null} />)
+    expect(screen.getByTestId('header-user')).toBeInTheDocument()
+  })
 
-    expect(userIcon).toBeInTheDocument();
-    expect(userInfo).toBeInTheDocument();
-    expect(logoutIcon).toBeInTheDocument();
-  });
+  it('should render the user components', () => {
+    render(<Header setsideBarIsOpen={() => null} />)
 
-  it("should handle sidebar open variable", () => {
-    let sidebarIsOpen = false;
+    const userIcon = screen.getByTestId('header-user-person-icon')
+    const userInfo = screen.getByTestId('header-user-info')
+    const logoutIcon = screen.getByTestId('header-user-logout-icon')
+
+    expect(userIcon).toBeInTheDocument()
+    expect(userInfo).toBeInTheDocument()
+    expect(logoutIcon).toBeInTheDocument()
+  })
+
+  it('should handle sidebar open variable', () => {
+    let sidebarIsOpen = false
 
     const handleSideBarIsOpen = () => {
-      sidebarIsOpen = !sidebarIsOpen;
-    };
+      sidebarIsOpen = !sidebarIsOpen
+    }
 
-    render(<Header setsideBarIsOpen={handleSideBarIsOpen} />);
+    render(<Header setsideBarIsOpen={handleSideBarIsOpen} />)
 
-    expect(sidebarIsOpen).toBe(false);
+    expect(sidebarIsOpen).toBe(false)
 
-    const logo = screen.getByTestId("header-logo");
-    fireEvent.click(logo);
+    const logo = screen.getByTestId('header-logo')
+    fireEvent.click(logo)
 
-    expect(sidebarIsOpen).toBe(true);
-  });
-});
+    expect(sidebarIsOpen).toBe(true)
+  })
+})

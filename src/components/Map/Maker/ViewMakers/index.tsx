@@ -1,10 +1,9 @@
-import { Maker } from "..";
+import React from 'react'
 
-export const ViewMakers = ({
-  listItens,
-}: {
-  listItens: Array<ClientProps>;
-}) => {
+import { ViewMakersProps } from './types'
+import { Maker } from '..'
+
+export const ViewMakers = ({ listItens }: ViewMakersProps) => {
   return (
     <>
       {listItens?.map((element) => (
@@ -15,5 +14,5 @@ export const ViewMakers = ({
         />
       ))}
     </>
-  );
-};
+  )
+}

@@ -1,7 +1,9 @@
-import { useQuery } from "react-query";
-import { Input } from "../../Form/Input";
-import { InputDate } from "../../Form/InputDate";
-import { SelectInput } from "../../Form/SelectInput";
+import React from 'react'
+import { useEffect, useState } from 'react'
+
+import { useQuery } from 'react-query'
+import { useNavigate } from 'react-router-dom'
+
 import {
   ConfirmationContainer,
   Container,
@@ -9,15 +11,16 @@ import {
   InputGroup,
   LoaderContainer,
   ModalContent,
-  ModalHeader,
-} from "./styles";
-import { CLIENTS_API, SALES_API } from "../../../services/api";
-import { useEffect, useState } from "react";
-import { RegisterOrEditSaleProps } from "./types";
-import { useNavigate } from "react-router-dom";
-import { ModalStatus } from "../../Client/RegisterOrEdit/Components/ModalStatus";
-import { StatusRequest } from "../../StatusRequest";
-import { cnpjToNumbers } from "../../../utils/cnpj";
+  ModalHeader
+} from './styles'
+import { RegisterOrEditSaleProps } from './types'
+import { CLIENTS_API, SALES_API } from '../../../services/api'
+import { cnpjToNumbers } from '../../../utils/cnpj'
+import { ModalStatus } from '../../Client/RegisterOrEdit/Components/ModalStatus'
+import { Input } from '../../Form/Input'
+import { InputDate } from '../../Form/InputDate'
+import { SelectInput } from '../../Form/SelectInput'
+import { StatusRequest } from '../../StatusRequest'
 
 export const RegisterOrEditSales = ({
   modalIsOpen,
@@ -26,43 +29,43 @@ export const RegisterOrEditSales = ({
   placeholder,
   placeHolderIsLoading,
   saleId,
-  errorEdit,
+  errorEdit
 }: RegisterOrEditSaleProps) => {
-  const [status, setStatus] = useState<undefined | boolean>(undefined);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [status, setStatus] = useState<undefined | boolean>(undefined)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
 
   const {
     data: dataClientsNames,
     isLoading: loadingClients,
     isFetching: isFetchingClientsNames,
-    isError: isErrorClient,
-  } = useQuery(["clients-names"], async () => {
-    const { data } = await CLIENTS_API.getClientsNames();
-    return data;
-  });
+    isError: isErrorClient
+  } = useQuery(['clients-names'], async () => {
+    const { data } = await CLIENTS_API.getClientsNames()
+    return data
+  })
 
   const {
     data: dataStatus,
     isLoading: loadingStatus,
     isFetching: isFetchingStatus,
-    isError: isErrorStatus,
-  } = useQuery(["sales-status"], async () => {
-    const { data } = await SALES_API.getPossibleStatus();
-    return data;
-  });
+    isError: isErrorStatus
+  } = useQuery(['sales-status'], async () => {
+    const { data } = await SALES_API.getPossibleStatus()
+    return data
+  })
 
   const getClientDetails = async (cnpj: string) => {
-    return (await CLIENTS_API.getPerCNPJ(cnpjToNumbers(cnpj))).data;
-  };
+    return (await CLIENTS_API.getPerCNPJ(cnpjToNumbers(cnpj))).data
+  }
 
   const handleMouseCursor = (curosr: string) => {
-    document.body.style.cursor = curosr;
-    const button = document?.getElementById("button-confirm");
+    document.body.style.cursor = curosr
+    const button = document?.getElementById('button-confirm')
     if (button !== null) {
-      button.style.cursor = curosr === "default" ? "pointer" : curosr;
+      button.style.cursor = curosr === 'default' ? 'pointer' : curosr
     }
-  };
+  }
 
   const editSale = async () => {
     if (
@@ -76,18 +79,18 @@ export const RegisterOrEditSales = ({
         cliente: (await getClientDetails(formInputs?.client)) as any,
         data: formInputs?.saleDate,
         status: formInputs?.situation,
-        valor: formInputs?.valueSale,
+        valor: formInputs?.valueSale
       })
         .then(function () {
-          setStatus(true);
+          setStatus(true)
         })
         .catch(function () {
-          setStatus(false);
-        });
+          setStatus(false)
+        })
     } else {
-      setStatus(false);
+      setStatus(false)
     }
-  };
+  }
 
   const createSale = async () => {
     if (
@@ -100,43 +103,43 @@ export const RegisterOrEditSales = ({
         cliente: (await getClientDetails(formInputs?.client)) as any,
         data: formInputs?.saleDate,
         status: formInputs?.situation,
-        valor: formInputs?.valueSale,
+        valor: formInputs?.valueSale
       })
         .then(function () {
-          setStatus(true);
+          setStatus(true)
         })
         .catch(function () {
-          setStatus(false);
-        });
+          setStatus(false)
+        })
     } else {
-      setStatus(false);
+      setStatus(false)
     }
-  };
+  }
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const [formInputs, setFormInputs] = useState({
     client: placeholder?.client,
     saleDate: placeholder?.saleDate,
     situation: placeholder?.situation,
-    valueSale: placeholder?.valueSale,
-  });
+    valueSale: placeholder?.valueSale
+  })
 
   const reestoreFilters = () => {
     setFormInputs({
       client: placeholder?.client,
       saleDate: placeholder?.saleDate,
       situation: placeholder?.situation,
-      valueSale: placeholder?.valueSale,
-    });
-    setModalIsOpen(false);
-  };
+      valueSale: placeholder?.valueSale
+    })
+    setModalIsOpen(false)
+  }
 
-  const [modal, setModal] = useState(document?.getElementById("modal"));
+  const [modal, setModal] = useState(document?.getElementById('modal'))
 
   useEffect(() => {
-    setModal(document?.getElementById("modal"));
-  }, [modalIsOpen, placeholder?.client]);
+    setModal(document?.getElementById('modal'))
+  }, [modalIsOpen, placeholder?.client])
 
   useEffect(() => {
     setLoading(
@@ -145,8 +148,8 @@ export const RegisterOrEditSales = ({
         loadingStatus ||
         isFetchingClientsNames ||
         isFetchingStatus
-    );
-    setError(isErrorClient || isErrorStatus);
+    )
+    setError(isErrorClient || isErrorStatus)
   }, [
     placeHolderIsLoading,
     loadingClients,
@@ -154,8 +157,8 @@ export const RegisterOrEditSales = ({
     isFetchingClientsNames,
     isFetchingStatus,
     isErrorStatus,
-    isErrorClient,
-  ]);
+    isErrorClient
+  ])
 
   return (
     <>
@@ -164,7 +167,7 @@ export const RegisterOrEditSales = ({
           id="modal"
           onClick={(event) => {
             if (event.target === modal && modal) {
-              setModalIsOpen(false);
+              setModalIsOpen(false)
             }
           }}
         >
@@ -184,7 +187,7 @@ export const RegisterOrEditSales = ({
                     getValue={(value: string) =>
                       setFormInputs({
                         ...formInputs,
-                        client: value,
+                        client: value
                       })
                     }
                     label="Cliente *"
@@ -197,7 +200,7 @@ export const RegisterOrEditSales = ({
                       getValue={(value: string) =>
                         setFormInputs({
                           ...formInputs,
-                          saleDate: value,
+                          saleDate: value
                         })
                       }
                       value={formInputs?.saleDate}
@@ -207,7 +210,7 @@ export const RegisterOrEditSales = ({
                       getValue={(value: string) =>
                         setFormInputs({
                           ...formInputs,
-                          situation: value,
+                          situation: value
                         })
                       }
                       label="Situação *"
@@ -222,20 +225,20 @@ export const RegisterOrEditSales = ({
                       content={(value: number) =>
                         setFormInputs({
                           ...formInputs,
-                          valueSale: value,
+                          valueSale: value
                         })
                       }
                       value={formInputs?.valueSale}
                       type="number"
                     />
-                    <div style={{ width: "100%" }} />
+                    <div style={{ width: '100%' }} />
                   </InputGroup>
 
                   <ConfirmationContainer>
                     <button
                       className="button-cancel"
                       onClick={() => {
-                        setModalIsOpen(false);
+                        setModalIsOpen(false)
                       }}
                     >
                       Cancelar
@@ -244,13 +247,13 @@ export const RegisterOrEditSales = ({
                       className="button-confirm"
                       id="button-confirm"
                       onClick={async () => {
-                        handleMouseCursor("wait");
+                        handleMouseCursor('wait')
                         if (placeholder?.client) {
-                          await editSale();
+                          await editSale()
                         } else {
-                          await createSale();
+                          await createSale()
                         }
-                        handleMouseCursor("default");
+                        handleMouseCursor('default')
                       }}
                     >
                       Salvar
@@ -262,8 +265,8 @@ export const RegisterOrEditSales = ({
                     status={status}
                     setStatus={setStatus}
                     confirm={function () {
-                      reestoreFilters();
-                      navigate(0);
+                      reestoreFilters()
+                      navigate(0)
                     }}
                   />
                 ) : null}
@@ -273,8 +276,8 @@ export const RegisterOrEditSales = ({
         </Container>
       )}
     </>
-  );
-};
+  )
+}
 
 RegisterOrEditSales.defaultProps = {
   saleId: null,
@@ -282,8 +285,8 @@ RegisterOrEditSales.defaultProps = {
     client: null,
     saleDate: null,
     situation: null,
-    valueSale: "R$ 0,00",
+    valueSale: 'R$ 0,00'
   },
   placeHolderIsLoading: false,
-  errorEdit: false,
-};
+  errorEdit: false
+}

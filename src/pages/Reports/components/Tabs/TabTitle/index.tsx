@@ -1,24 +1,19 @@
-import React from "react";
-import { Title } from "./styles";
+import React from 'react'
 
-type Props = {
-  title: string;
-  index: number;
-  tabIsSelected: boolean;
-  setSelectedTab: (index: number) => void;
-};
+import { Title } from './styles'
+import { TabTitleProps } from './types'
 
-const TabTitle: React.FC<Props> = ({
+const TabTitle = ({
   title,
   setSelectedTab,
   index,
-  tabIsSelected,
-}) => {
+  tabIsSelected
+}: TabTitleProps) => {
   return (
     <Title tabIsSelected={tabIsSelected}>
       <button onClick={() => setSelectedTab(index)}>{title}</button>
     </Title>
-  );
-};
+  )
+}
 
-export default TabTitle;
+export default TabTitle

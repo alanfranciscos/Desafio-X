@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   margin: 30px 30px 0px 30px;
@@ -13,10 +13,10 @@ export const Container = styled.div`
   }
 
   padding-bottom: 30px;
-`;
+`
 
 export const ContainerCards = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-`;
+`

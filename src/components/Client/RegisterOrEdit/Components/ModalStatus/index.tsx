@@ -1,15 +1,15 @@
-import { Container, ModalContent } from "./styles";
-import { GiConfirmed, GiCancel } from "react-icons/gi";
+import React from 'react'
+
+import { GiConfirmed, GiCancel } from 'react-icons/gi'
+
+import { Container, ModalContent } from './styles'
+import { ModalStatusType } from './types'
 
 export const ModalStatus = ({
   status,
   setStatus,
-  confirm,
-}: {
-  status: boolean | undefined;
-  setStatus: Function;
-  confirm: Function;
-}) => {
+  confirm
+}: ModalStatusType) => {
   if (status === false) {
     return (
       <Container>
@@ -23,7 +23,7 @@ export const ModalStatus = ({
           </button>
         </ModalContent>
       </Container>
-    );
+    )
   }
   if (status === true) {
     return (
@@ -36,7 +36,7 @@ export const ModalStatus = ({
           </button>
         </ModalContent>
       </Container>
-    );
+    )
   }
-  return null;
-};
+  return null
+}

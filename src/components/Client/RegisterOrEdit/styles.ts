@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Form = styled.div`
   display: flex;
@@ -13,13 +13,13 @@ export const Form = styled.div`
     color: #444444;
     font-size: 13px;
   }
-`;
+`
 
 export const InputGroup = styled.div`
   margin-top: 10px;
   display: flex;
   width: 100%;
-`;
+`
 
 export const Container = styled.div`
   display: flex;
@@ -32,14 +32,14 @@ export const Container = styled.div`
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-`;
+`
 
 export const LoaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 200px;
-`;
+`
 
 export const ModalContent = styled.div`
   background-color: #fefefe;
@@ -48,7 +48,7 @@ export const ModalContent = styled.div`
   width: 500px;
   border-radius: 6px;
   overflow: hidden;
-`;
+`
 
 export const ModalHeader = styled.div`
   display: flex;
@@ -62,13 +62,13 @@ export const ModalHeader = styled.div`
     letter-spacing: 0px;
     color: #ffffff;
   }
-`;
+`
 
 export const MapContainer = styled.div`
   width: 95%;
   height: 200px;
   margin-top: 10px;
-`;
+`
 
 export const ConfirmationContainer = styled.div`
   width: 95%;
@@ -94,4 +94,4 @@ export const ConfirmationContainer = styled.div`
     border-radius: 3px;
     color: #ffffff;
   }
-`;
+`

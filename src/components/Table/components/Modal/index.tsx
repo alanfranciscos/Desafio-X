@@ -1,48 +1,38 @@
-import { useEffect, useState } from "react";
+import React from 'react'
+import { useEffect, useState } from 'react'
 
-import { Container, ModalContent } from "./styles";
+import { FaPen } from 'react-icons/fa'
+import { IoMdTrash } from 'react-icons/io'
 
-import { FaPen } from "react-icons/fa";
-import { IoMdTrash } from "react-icons/io";
-
-type CoordinatesType = {
-  x: number;
-  y: number;
-};
+import { Container, ModalContent } from './styles'
+import { ModalTypes } from './types'
 
 export const Modal = ({
   closeModal,
   coordinates,
-  actionButton,
-}: {
-  closeModal: Function;
-  coordinates: CoordinatesType;
-  actionButton: {
-    edit: Function;
-    delete: Function;
-  } | null;
-}) => {
-  const [modal, setModal] = useState(document?.getElementById("modal"));
+  actionButton
+}: ModalTypes) => {
+  const [modal, setModal] = useState(document?.getElementById('modal'))
 
   useEffect(() => {
-    setModal(document?.getElementById("modal-options"));
-  }, []);
+    setModal(document?.getElementById('modal-options'))
+  }, [])
 
   const verifyWidthOfModal = () => {
-    const modalWidth = document?.querySelector("#modal-content")?.clientWidth;
-    if (modalWidth === undefined || modalWidth === null) return -15;
-    return modalWidth;
-  };
+    const modalWidth = document?.querySelector('#modal-content')?.clientWidth
+    if (modalWidth === undefined || modalWidth === null) return -15
+    return modalWidth
+  }
 
-  const [editIsOpen, setEditIsOpen] = useState(false);
-  const [deletIsOpen, setDeletIsOpen] = useState(false);
+  const [editIsOpen, setEditIsOpen] = useState(false)
+  const [deletIsOpen, setDeletIsOpen] = useState(false)
 
   return (
     <Container
       id="modal-options"
       onClick={(event) => {
         if (event.target === modal && modal) {
-          closeModal();
+          closeModal()
         }
       }}
     >
@@ -50,15 +40,15 @@ export const Modal = ({
         <ModalContent
           id="modal-content"
           style={{
-            opacity: verifyWidthOfModal() === -15 ? "0" : "1",
+            opacity: verifyWidthOfModal() === -15 ? '0' : '1',
             top: coordinates?.y,
-            left: coordinates?.x - verifyWidthOfModal(),
+            left: coordinates?.x - verifyWidthOfModal()
           }}
         >
           <button
             onClick={() => {
-              actionButton?.edit();
-              setEditIsOpen(true);
+              actionButton?.edit()
+              setEditIsOpen(true)
             }}
           >
             <FaPen />
@@ -66,8 +56,8 @@ export const Modal = ({
           </button>
           <button
             onClick={() => {
-              actionButton?.delete();
-              setDeletIsOpen(true);
+              actionButton?.delete()
+              setDeletIsOpen(true)
             }}
           >
             <IoMdTrash />
@@ -82,5 +72,5 @@ export const Modal = ({
         </>
       )}
     </Container>
-  );
-};
+  )
+}

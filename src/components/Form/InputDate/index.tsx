@@ -1,11 +1,13 @@
-import { InputContainer } from "./Styles";
-import { InputDateProps } from "./types";
+import React from 'react'
+
+import { InputContainer } from './Styles'
+import { InputDateProps } from './types'
 
 export const InputDate = ({
   isRequired,
   title,
   getValue,
-  value,
+  value
 }: InputDateProps) => {
   return (
     <InputContainer>
@@ -16,8 +18,8 @@ export const InputDate = ({
         value={value}
       />
     </InputContainer>
-  );
-};
+  )
+}
 InputDate.defaultProps = {
-  isRequired: false,
-};
+  isRequired: false
+}

@@ -1,18 +1,14 @@
-import React from "react";
+import React from 'react'
 
-import { SelectContainer } from "./styles";
+import { SelectContainer } from './styles'
+import { SelectInputTypes } from './types'
 
 export const SelectInput = ({
   data,
   getValue,
   label,
-  valueSelected,
-}: {
-  data: any;
-  getValue: Function;
-  label: string;
-  valueSelected: string | null;
-}) => {
+  valueSelected
+}: SelectInputTypes) => {
   return (
     <SelectContainer>
       <>
@@ -21,7 +17,7 @@ export const SelectInput = ({
           <select
             name={label}
             onChange={(e) => getValue(e.target.value)}
-            key={label + "-select"}
+            key={label + '-select'}
           >
             <option selected={false} value="">
               Selecione um item
@@ -45,5 +41,5 @@ export const SelectInput = ({
         )}
       </>
     </SelectContainer>
-  );
-};
+  )
+}

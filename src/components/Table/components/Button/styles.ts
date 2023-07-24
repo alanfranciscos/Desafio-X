@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const ButtonContainer = styled.button`
   display: flex;
@@ -17,4 +17,4 @@ export const ButtonContainer = styled.button`
   svg {
     margin-left: 5px;
   }
-`;
+`

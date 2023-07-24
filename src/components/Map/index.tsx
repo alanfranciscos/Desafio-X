@@ -1,9 +1,12 @@
-import { MapContainer, TileLayer, WMSTileLayer } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import { LatLngTuple } from "leaflet";
-import { ViewMakers } from "./Maker/ViewMakers";
-import { CreateMaker } from "./Maker/CreateMaker";
-import { StatusRequest } from "../StatusRequest";
+import React from 'react'
+
+import { MapContainer, TileLayer, WMSTileLayer } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+
+import { CreateMaker } from './Maker/CreateMaker'
+import { ViewMakers } from './Maker/ViewMakers'
+import { LatLngTupleType, MapProps } from './types'
+import { StatusRequest } from '../StatusRequest'
 
 export const Map = ({
   width,
@@ -13,10 +16,10 @@ export const Map = ({
   setPosition,
   listItens,
   error,
-  loading,
+  loading
 }: MapProps) => {
   if (error || loading) {
-    return <StatusRequest loading={loading} error={error} />;
+    return <StatusRequest loading={loading} error={error} />
   }
 
   return (
@@ -46,20 +49,20 @@ export const Map = ({
       ) : (
         <CreateMaker
           location={center}
-          setLocation={(value: LatLngTuple) => {
-            setPosition(value);
+          setLocation={(value: LatLngTupleType) => {
+            setPosition(value)
           }}
         />
       )}
     </MapContainer>
-  );
-};
+  )
+}
 
 Map.defaultProps = {
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%',
   zoom: 4,
-  center: [-14.239209931938646, -50.261992558398134] as LatLngTuple,
+  center: [-14.239209931938646, -50.261992558398134] as LatLngTupleType,
   setPosition: null,
-  listItens: null,
-};
+  listItens: null
+}

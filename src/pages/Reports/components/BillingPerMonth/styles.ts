@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   width: 100%;
@@ -8,7 +8,7 @@ export const Container = styled.div`
   justify-content: space-around;
   /* align-items: center; */
   padding: 20px 0;
-`;
+`
 
 export const Content = styled.div`
   display: flex;
@@ -23,11 +23,11 @@ export const Content = styled.div`
 
     width: 100%;
   }
-`;
+`
 
 type ButtonContainerProps = {
-  disabled: boolean;
-};
+  disabled: boolean
+}
 
 export const ButtonContainer = styled.div<ButtonContainerProps>`
   width: 200px;
@@ -39,9 +39,9 @@ export const ButtonContainer = styled.div<ButtonContainerProps>`
   button {
     white-space: nowrap;
     color: #ffffff;
-    background-color: ${({ disabled }) => (disabled ? "#7C9BB0" : "#1f78b4")};
+    background-color: ${({ disabled }) => (disabled ? '#7C9BB0' : '#1f78b4')};
     padding: 5px 10px;
 
     cursor: pointer;
   }
-`;
+`

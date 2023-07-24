@@ -1,16 +1,19 @@
-import { useQuery } from "react-query";
-import { Map } from "../../../../components/Map";
-import { REPORTS_API } from "../../../../services/api";
-import { Container, Content } from "./styles";
+import React from 'react'
+
+import { useQuery } from 'react-query'
+
+import { Container, Content } from './styles'
+import { Map } from '../../../../components/Map'
+import { REPORTS_API } from '../../../../services/api'
 
 export const ClientLocationMap = () => {
   const { data, isError, isLoading, isFetching } = useQuery(
-    ["Reports - clients"],
+    ['Reports - clients'],
     async () => {
-      const { data } = await REPORTS_API.getClients();
-      return data;
+      const { data } = await REPORTS_API.getClients()
+      return data
     }
-  );
+  )
 
   return (
     <Container>
@@ -22,5 +25,5 @@ export const ClientLocationMap = () => {
         />
       </Content>
     </Container>
-  );
-};
+  )
+}

@@ -1,22 +1,25 @@
-import { TbCurrencyDollar } from "react-icons/tb";
-import { Card } from "./components/Card";
-import { Container, ContainerCards } from "./styles";
-import Tabs from "./components/Tabs";
-import { Tab } from "./components/Tabs/Tab";
-import { ClientLocationMap } from "./components/ClientLocationMap";
-import { BeelingPerMoth } from "./components/BillingPerMonth";
-import { REPORTS_API } from "../../services/api";
-import { useQuery } from "react-query";
-import { formatCurrencyNumber } from "../../utils/formatCurrencyNumber";
+import React from 'react'
+
+import { TbCurrencyDollar } from 'react-icons/tb'
+import { useQuery } from 'react-query'
+
+import { BeelingPerMoth } from './components/BillingPerMonth'
+import { Card } from './components/Card'
+import { ClientLocationMap } from './components/ClientLocationMap'
+import Tabs from './components/Tabs'
+import { Tab } from './components/Tabs/Tab'
+import { Container, ContainerCards } from './styles'
+import { REPORTS_API } from '../../services/api'
+import { formatCurrencyNumber } from '../../utils/formatCurrencyNumber'
 
 export const Reports = () => {
   const { data, isError, isLoading, isFetching } = useQuery(
-    ["Reports - cards"],
+    ['Reports - cards'],
     async () => {
-      const { data } = await REPORTS_API.getCards();
-      return data;
+      const { data } = await REPORTS_API.getCards()
+      return data
     }
-  );
+  )
 
   return (
     <Container>
@@ -69,5 +72,5 @@ export const Reports = () => {
         </Tab>
       </Tabs>
     </Container>
-  );
-};
+  )
+}

@@ -1,13 +1,10 @@
-import { ButtonContainer } from "./styles";
+import React from 'react'
 
-export const Button = ({
-  children,
-  openModal,
-}: {
-  children: any;
-  openModal: Function;
-}) => {
+import { ButtonContainer } from './styles'
+import { ButtonTypes } from './types'
+
+export const Button = ({ children, openModal }: ButtonTypes) => {
   return (
     <ButtonContainer onClick={(e) => openModal(e)}>{children}</ButtonContainer>
-  );
-};
+  )
+}

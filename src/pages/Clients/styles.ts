@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   margin: 25px 64px 0px 102px;
@@ -12,7 +12,7 @@ export const Container = styled.div`
 
     text-decoration: underline #023e8a;
   }
-`;
+`
 
 export const InputContainer = styled.div`
   display: flex;
@@ -42,7 +42,7 @@ export const InputContainer = styled.div`
       height: 20px;
     }
   }
-`;
+`
 
 export const SearchContainer = styled.div`
   display: flex;
@@ -76,8 +76,8 @@ export const SearchContainer = styled.div`
       color: #ffffff;
     }
   }
-`;
+`
 
 export const ContentContainer = styled.div`
   margin-top: 20px;
-`;
+`

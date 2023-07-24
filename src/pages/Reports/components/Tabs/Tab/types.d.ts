@@ -1,4 +1,4 @@
 export type TabProps = {
-  title: string;
-  children: ReactElement;
-};
+  title: string
+  children: ReactElement
+}

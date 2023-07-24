@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const SelectContainer = styled.div`
   display: flex;
@@ -24,4 +24,4 @@ export const SelectContainer = styled.div`
   .select-disable {
     background-color: #f0f0f0f0;
   }
-`;
+`

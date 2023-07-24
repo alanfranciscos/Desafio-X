@@ -1,47 +1,49 @@
-import { useState, useEffect } from "react";
+import React from 'react'
+import { useState, useEffect } from 'react'
+
+import { useNavigate } from 'react-router-dom'
 
 import {
   ButtonContainer,
   Container,
   Content,
   Modal,
-  TitleContainer,
-} from "./styles";
-import { DeleteClientProps } from "./types";
-import { CLIENTS_API } from "../../../services/api";
-import { useNavigate } from "react-router-dom";
-import { cnpjToNumbers } from "../../../utils/cnpj";
+  TitleContainer
+} from './styles'
+import { DeleteClientProps } from './types'
+import { CLIENTS_API } from '../../../services/api'
+import { cnpjToNumbers } from '../../../utils/cnpj'
 
 export const DeleteClientModal = ({
   modalIsOpen,
   setModalIsOpen,
-  id,
+  id
 }: DeleteClientProps) => {
-  const navigate = useNavigate();
-  const [modal, setModal] = useState(document?.getElementById("modal"));
+  const navigate = useNavigate()
+  const [modal, setModal] = useState(document?.getElementById('modal'))
 
   useEffect(() => {
-    setModal(document?.getElementById("modal"));
-  }, [modalIsOpen]);
+    setModal(document?.getElementById('modal'))
+  }, [modalIsOpen])
 
   const deleteClient = async (id: string) => {
-    CLIENTS_API.delete(cnpjToNumbers(id)).then(() => navigate(0));
-  };
+    CLIENTS_API.delete(cnpjToNumbers(id)).then(() => navigate(0))
+  }
 
   const handleMouseCursor = (curosr: string) => {
-    document.body.style.cursor = curosr;
-    const button = document?.getElementById("button-confirm");
+    document.body.style.cursor = curosr
+    const button = document?.getElementById('button-confirm')
     if (button !== null) {
-      button.style.cursor = curosr === "default" ? "pointer" : curosr;
+      button.style.cursor = curosr === 'default' ? 'pointer' : curosr
     }
-  };
+  }
 
   return (
     <Modal
       id="modal"
       onClick={(event) => {
         if (event.target === modal && modal) {
-          setModalIsOpen(false);
+          setModalIsOpen(false)
         }
       }}
     >
@@ -58,18 +60,18 @@ export const DeleteClientModal = ({
             <button
               className="button-cancel"
               onClick={() => {
-                setModalIsOpen(false);
+                setModalIsOpen(false)
               }}
             >
               Cancelar
             </button>
             <button
               onClick={async () => {
-                handleMouseCursor("wait");
+                handleMouseCursor('wait')
                 if (id) {
-                  await deleteClient(id);
+                  await deleteClient(id)
                 }
-                handleMouseCursor("default");
+                handleMouseCursor('default')
               }}
               className="button-confirm"
             >
@@ -79,5 +81,5 @@ export const DeleteClientModal = ({
         </Content>
       </Container>
     </Modal>
-  );
-};
+  )
+}

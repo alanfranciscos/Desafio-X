@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   border-radius: 5px;
@@ -15,4 +15,4 @@ export const Container = styled.div`
     color: #444444;
     font-size: 13px;
   }
-`;
+`

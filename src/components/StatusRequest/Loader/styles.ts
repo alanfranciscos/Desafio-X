@@ -1,9 +1,9 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components'
 const isRotating = keyframes`
  to {
       transform: rotate(1turn);
     }
-`;
+`
 
 export const Container = styled.div`
   align-items: center;
@@ -11,7 +11,7 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-`;
+`
 
 export const Content = styled.div`
   animation: ${isRotating} 1s infinite;
@@ -20,4 +20,4 @@ export const Content = styled.div`
   border-top-color: #023e8a;
   height: 50px;
   width: 50px;
-`;
+`

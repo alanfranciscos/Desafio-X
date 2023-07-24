@@ -1,4 +1,4 @@
 export type StatusRequestProps = {
-  loading: boolean;
-  error: boolean;
-};
+  loading: boolean
+  error: boolean
+}

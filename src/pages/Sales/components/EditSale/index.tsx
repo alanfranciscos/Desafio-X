@@ -1,24 +1,24 @@
-import { useQuery } from "react-query";
-import { Container } from "./styles";
-import { RegisterOrEditSales } from "../../../../components/Sales/RegisterOrEditSales";
-import { SALES_API } from "../../../../services/api";
+import React from 'react'
+
+import { useQuery } from 'react-query'
+
+import { Container } from './styles'
+import { EditSaleProps } from './types'
+import { RegisterOrEditSales } from '../../../../components/Sales/RegisterOrEditSales'
+import { SALES_API } from '../../../../services/api'
 
 export const EditSale = ({
   idSelected,
   editIsOpen,
-  setEditIsOpen,
-}: {
-  idSelected: string | null;
-  editIsOpen: boolean;
-  setEditIsOpen: Function;
-}) => {
+  setEditIsOpen
+}: EditSaleProps) => {
   const { data, isLoading, isFetching, isError } = useQuery(
-    ["clients", idSelected],
+    ['clients', idSelected],
     async () => {
-      const { data } = await SALES_API.getPerId(idSelected);
-      return data;
+      const { data } = await SALES_API.getPerId(idSelected)
+      return data
     }
-  );
+  )
 
   if (editIsOpen) {
     return (
@@ -26,21 +26,21 @@ export const EditSale = ({
         <RegisterOrEditSales
           modalIsOpen
           setModalIsOpen={(value: boolean) => {
-            setEditIsOpen(value);
+            setEditIsOpen(value)
           }}
           title="Editar Venda"
           placeholder={{
             client: data?.cliente?.cnpj,
             saleDate: data?.data,
             situation: data?.status,
-            valueSale: data?.valor,
+            valueSale: data?.valor
           }}
           saleId={idSelected}
           placeHolderIsLoading={isLoading || isFetching}
           errorEdit={isError}
         />
       </Container>
-    );
+    )
   }
-  return null;
-};
+  return null
+}

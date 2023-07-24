@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Modal = styled.div`
   display: flex;
@@ -11,7 +11,7 @@ export const Modal = styled.div`
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-`;
+`
 
 export const Container = styled.div`
   background-color: #fefefe;
@@ -20,7 +20,7 @@ export const Container = styled.div`
   width: 500px;
   border-radius: 6px;
   overflow: hidden;
-`;
+`
 
 export const TitleContainer = styled.div`
   background: #023e8a;
@@ -30,7 +30,7 @@ export const TitleContainer = styled.div`
     letter-spacing: 0px;
     color: #ffffff;
   }
-`;
+`
 
 export const Content = styled.div`
   margin: 10px 0;
@@ -39,7 +39,7 @@ export const Content = styled.div`
     width: 100%;
     color: #707070;
   }
-`;
+`
 
 export const ButtonContainer = styled.div`
   display: flex;
@@ -62,4 +62,4 @@ export const ButtonContainer = styled.div`
     background: #407bff;
     color: #ffffff;
   }
-`;
+`

@@ -1,12 +1,12 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { css, keyframes } from 'styled-components'
 
 type ContainerProps = {
-  notClosed?: boolean;
-};
+  notClosed?: boolean
+}
 
 type ButtonProps = {
-  selected?: boolean;
-};
+  selected?: boolean
+}
 
 const open = keyframes`
   from {
@@ -15,7 +15,7 @@ const open = keyframes`
   to {
     width: 15.625rem;
   }
-`;
+`
 
 const close = keyframes`
   from {
@@ -24,7 +24,7 @@ const close = keyframes`
   to {
     width: 0px;
   }
-`;
+`
 
 const hover = keyframes`
   from {
@@ -33,7 +33,7 @@ const hover = keyframes`
   to {
     opacity: 1;
   }
-`;
+`
 
 const dontHover = keyframes`
   from {
@@ -42,7 +42,7 @@ const dontHover = keyframes`
   to {
     opacity: 0.5;
   }
-`;
+`
 
 export const Container = styled.aside<ContainerProps>`
   ${({ notClosed }) =>
@@ -53,7 +53,7 @@ export const Container = styled.aside<ContainerProps>`
         `
       : notClosed
       ? css`
-          animation: ${open} ${notClosed === undefined ? "0s" : "1s"};
+          animation: ${open} ${notClosed === undefined ? '0s' : '1s'};
           animation-fill-mode: forwards;
         `
       : css`
@@ -76,7 +76,7 @@ export const Container = styled.aside<ContainerProps>`
 
     white-space: nowrap;
   }
-`;
+`
 
 export const Item = styled.button<ButtonProps>`
   margin-left: 32px;
@@ -104,4 +104,4 @@ export const Item = styled.button<ButtonProps>`
     opacity: 1;
   }
   white-space: nowrap;
-`;
+`

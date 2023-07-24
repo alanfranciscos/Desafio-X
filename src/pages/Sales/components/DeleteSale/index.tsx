@@ -1,27 +1,26 @@
-import { Container } from "./styles";
-import { DeleteSaleModal } from "../../../../components/Sales/Delete";
+import React from 'react'
+
+import { Container } from './styles'
+import { DeleteSaleProps } from './types'
+import { DeleteSaleModal } from '../../../../components/Sales/Delete'
 
 export const DeleteSale = ({
   idSelected,
   deleteIsOpen,
-  setDeleteIsOpen,
-}: {
-  idSelected: string | null;
-  deleteIsOpen: boolean;
-  setDeleteIsOpen: Function;
-}) => {
+  setDeleteIsOpen
+}: DeleteSaleProps) => {
   if (deleteIsOpen) {
     return (
       <Container>
         <DeleteSaleModal
           modalIsOpen
           setModalIsOpen={(value: boolean) => {
-            setDeleteIsOpen(value);
+            setDeleteIsOpen(value)
           }}
           id={idSelected}
         />
       </Container>
-    );
+    )
   }
-  return null;
-};
+  return null
+}

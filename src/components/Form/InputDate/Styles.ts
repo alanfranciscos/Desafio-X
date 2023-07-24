@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const InputContainer = styled.div`
   display: flex;
@@ -20,4 +20,4 @@ export const InputContainer = styled.div`
     border-radius: 3px;
     height: 20px;
   }
-`;
+`

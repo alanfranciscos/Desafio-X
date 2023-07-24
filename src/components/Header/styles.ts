@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.header`
   display: flex;
@@ -15,7 +15,7 @@ export const Container = styled.header`
     height: 40px;
     cursor: pointer;
   }
-`;
+`
 
 export const UserInfoContainer = styled.div`
   display: flex;
@@ -52,4 +52,4 @@ export const UserInfoContainer = styled.div`
     width: 30px;
     height: 30px;
   }
-`;
+`
