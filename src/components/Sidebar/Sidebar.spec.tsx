@@ -1,18 +1,33 @@
 import React from 'react'
 
 import { render, screen } from '@testing-library/react'
+import { QueryClientProvider } from 'react-query'
+import { BrowserRouter } from 'react-router-dom'
 
 import { SideBar } from '.'
+import { queryClient } from '../../services/queryClient'
 
 describe('Sidebar test', () => {
   it('should render the Sidebar correctly', () => {
-    render(<SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />)
+    render(
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />
+        </QueryClientProvider>
+      </BrowserRouter>
+    )
 
     expect(screen.getByTestId('sidebar')).toBeInTheDocument()
   })
 
   it('should render all titles', () => {
-    render(<SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />)
+    render(
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />
+        </QueryClientProvider>
+      </BrowserRouter>
+    )
 
     const titles = screen.getAllByTestId('sidebar-title')
     expect(titles).toHaveLength(3)
@@ -23,7 +38,13 @@ describe('Sidebar test', () => {
   })
 
   it('should render all options', () => {
-    render(<SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />)
+    render(
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <SideBar sideBarIsOpen={false} setsideBarIsOpen={() => null} />
+        </QueryClientProvider>
+      </BrowserRouter>
+    )
 
     const lists = screen.getAllByTestId('sidebar-list')
     expect(lists).toHaveLength(3)

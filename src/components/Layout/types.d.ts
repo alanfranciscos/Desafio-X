@@ -1,3 +1,3 @@
 import { ReactElement } from 'react'
 
-export type LayoutTypes = { children: ReactElement | null }
+export type LayoutTypes = { children: ReactElement }
